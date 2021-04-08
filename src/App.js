@@ -1,5 +1,6 @@
 import React from 'react';
-import {BrowserRouter, Link, Route, Switch} from "react-router-dom";
+import {BrowserRouter, Route, Switch} from "react-router-dom";
+import Navigation from "./components/common/Navigation";
 import HomePage from "./pages/HomePage";
 import SignupPage from "./pages/member/SignupPage";
 import LoginPage from "./pages/member/LoginPage";
@@ -12,26 +13,14 @@ import LedgerPage from "./pages/accountant/LedgerPage";
 import BalanceSheetPage from "./pages/accountant/BalanceSheetPage";
 import IncomeStatementPage from "./pages/accountant/IncomeStatementPage";
 import NotFoundPage from "./pages/NotFoundPage";
+import ServiceInformation from "./components/common/ServiceInformation";
 
 function App() {
   return (
     <BrowserRouter>
 
       <header>
-        <Link to={"/"}>홈</Link>
-
-        <Link to={"/signup"}>회원가입</Link>
-        <Link to={"/login"}>로그인</Link>
-        <Link to={"/my-page"}>내 정보</Link>
-        <Link to={"/forget"}>비밀번호 분실</Link>
-
-        <Link to={"/account-list"}>계정 목록</Link>
-        <Link to={"/account/:id"}>계정</Link>
-        <Link to={"/transaction"}>거래</Link>
-
-        <Link to={"/ledger"}>복식장부</Link>
-        <Link to={"/balance-sheet"}>재무상태표</Link>
-        <Link to={"/income-statement"}>손익계산서</Link>
+        <Navigation/>
       </header>
 
       <main>
@@ -55,7 +44,9 @@ function App() {
         </Switch>
       </main>
 
-      <footer>footer</footer>
+      <footer>
+        <ServiceInformation/>
+      </footer>
 
     </BrowserRouter>
   );
