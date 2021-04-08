@@ -1,0 +1,24 @@
+.auth-form {
+  text-align: center;
+
+  h3 {
+    margin: 0 0 40px;
+  }
+
+  form {
+    button {
+      width: 100%;
+      border-radius: 100px;
+      padding: 13px;
+      margin-top: 25px;
+      color: dimgray;
+      background-color: lavender;
+    }
+  }
+
+  .links {
+    margin: 40px 0 0;
+    display: flex;
+    justify-content: space-between;
+  }
+}

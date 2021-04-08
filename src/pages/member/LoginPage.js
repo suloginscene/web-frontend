@@ -1,13 +1,12 @@
 import React from 'react';
-import {Link} from "react-router-dom";
+import AuthTemplate from "../../components/auth/AuthTemplate";
+import AuthForm from "../../components/auth/AuthForm";
 
 function LoginPage() {
   return (
-    <>
-      LoginPage
-      <Link to={"/signup"}>회원가입</Link>
-      <Link to={"/forget"}>비밀번호 분실</Link>
-    </>
+    <AuthTemplate>
+      <AuthForm type={"login"}/>
+    </AuthTemplate>
   );
 }
 

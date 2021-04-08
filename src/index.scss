@@ -1,6 +1,5 @@
 body {
   margin: 0;
-  background-color: lightgray;
 
   font-size: 16px;
   font-weight: normal;
@@ -19,20 +18,16 @@ body {
 
   main {
     min-height: calc(100vh - 150px);
-
-    section {
-      background-color: white;
-    }
   }
 
   footer {
-    height: 80px;
+    height: 99px;
   }
 
 
   // element --------------------------------------------------------------------------------
 
-  :focus{
+  :focus {
     outline: none;
   }
 
@@ -47,6 +42,7 @@ body {
   }
 
   input {
+    width: calc(100% - 20px);
     border: none;
     border-bottom: 1px solid dimgray;
     padding: 10px;
@@ -61,6 +57,7 @@ body {
 
   button {
     border: none;
+    border-radius: 1px;
     padding: 0.5rem 0.7rem;
     margin: 0.3rem;
     color: white;
