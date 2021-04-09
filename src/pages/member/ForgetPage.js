@@ -1,11 +1,11 @@
 import React from 'react';
 import AuthTemplate from "../../components/auth/AuthTemplate";
-import AuthForm from "../../components/auth/AuthForm";
+import ForgetForm from "../../containers/ForgetForm";
 
 function ForgetPage() {
   return (
     <AuthTemplate>
-      <AuthForm type={"forget"}/>
+      <ForgetForm/>
     </AuthTemplate>
   );
 }
