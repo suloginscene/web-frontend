@@ -17,11 +17,11 @@ function AuthForm({type, form, onChange, onSubmit}) {
         return (
           <>
             <input
-              name={"email"}
+              name={"username"}
               type={"text"}
               placeholder={"이메일"}
               onChange={onChange}
-              value={form.email}
+              value={form.username}
             />
             <input
               name={"password"}
@@ -36,11 +36,11 @@ function AuthForm({type, form, onChange, onSubmit}) {
         return (
           <>
             <input
-              name={"email"}
+              name={"username"}
               type={"text"}
               placeholder={"이메일"}
               onChange={onChange}
-              value={form.email}
+              value={form.username}
             />
             <input
               name={"password"}
@@ -62,11 +62,11 @@ function AuthForm({type, form, onChange, onSubmit}) {
         return (
           <>
             <input
-              name={"email"}
+              name={"username"}
               type={"text"}
               placeholder={"이메일"}
               onChange={onChange}
-              value={form.email}
+              value={form.username}
             />
           </>
         );
@@ -108,7 +108,7 @@ function AuthForm({type, form, onChange, onSubmit}) {
       <h3>{text}</h3>
       <form onSubmit={onSubmit}>
         {selectInputs()}
-        <button>{text}</button>
+        <button type={"submit"}>{text}</button>
       </form>
       <div className={"links"}>
         {selectLinks()}

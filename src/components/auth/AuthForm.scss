@@ -13,6 +13,12 @@
       margin-top: 25px;
       color: dimgray;
       background-color: lavender;
+      transition: background-color 0.3s, color 0.1s;
+    }
+
+    button:hover {
+      color: white;
+      background-color: mediumpurple;
     }
   }
 
