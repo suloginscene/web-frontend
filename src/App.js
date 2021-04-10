@@ -3,6 +3,7 @@ import {BrowserRouter, Route, Switch} from "react-router-dom";
 import Navigation from "./components/common/Navigation";
 import HomePage from "./pages/HomePage";
 import SignupPage from "./pages/member/SignupPage";
+import VerifyPage from "./pages/member/VerifyPage";
 import LoginPage from "./pages/member/LoginPage";
 import MyPage from "./pages/member/MyPage";
 import ForgetPage from "./pages/member/ForgetPage";
@@ -28,6 +29,7 @@ function App() {
           <Route component={HomePage} path={"/"} exact/>
 
           <Route component={SignupPage} path={"/signup"} exact/>
+          <Route component={VerifyPage} path={"/verify"} exact/>
           <Route component={LoginPage} path={"/login"} exact/>
           <Route component={MyPage} path={"/my-page"} exact/>
           <Route component={ForgetPage} path={"/forget"} exact/>

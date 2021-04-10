@@ -2,14 +2,16 @@ import {useDispatch, useSelector} from "react-redux";
 import {changeField, initializeForm, signup} from "../modules/auth";
 import React, {useEffect} from "react";
 import AuthForm from "../components/auth/AuthForm";
+import {withRouter} from 'react-router-dom';
 
-function SignupForm() {
+function SignupForm({history}) {
   const dispatch = useDispatch();
-  const {form, response, errorResponse} = useSelector(({auth}) => ({
-    form: auth.signup,
-    response: auth.response,
-    errorResponse: auth.errorResponse
-  }));
+  const {form, verificationLink, errorResponse} = useSelector(({auth}) => ({
+      form: auth.signup,
+      verificationLink: auth.verificationLink,
+      errorResponse: auth.errorResponse
+    })
+  );
 
   const onChange = (e) => {
     const {name, value} = e.target;
@@ -31,12 +33,17 @@ function SignupForm() {
   }, [dispatch]);
 
   useEffect(() => {
-    if (response) {
-      alert(response.data.id + ' ' + response.data._links.verify.href);
-    } else if (errorResponse) {
-      alert(errorResponse.status + ' ' + errorResponse.data.error + ' ' + errorResponse.data.errorDescription);
+    if (verificationLink) {
+      history.push('/verify');
     }
-  }, [response, errorResponse]);
+  }, [verificationLink, history]);
+
+  useEffect(() => {
+    if (errorResponse) {
+      // TODO errorResponse.status + ' ' + errorResponse.data.error + ' ' + errorResponse.data.errorDescription);
+      alert("가입신청 실패");
+    }
+  }, [errorResponse]);
 
   return (
     <AuthForm
@@ -48,4 +55,4 @@ function SignupForm() {
   );
 }
 
-export default SignupForm;
+export default withRouter(SignupForm);

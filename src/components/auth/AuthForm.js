@@ -3,8 +3,9 @@ import './AuthForm.scss';
 import {Link} from "react-router-dom";
 
 const textMap = {
-  login: '로그인',
   signup: '회원가입',
+  verify: '인증',
+  login: '로그인',
   forget: '비밀번호 찾기'
 };
 
@@ -13,25 +14,6 @@ function AuthForm({type, form, onChange, onSubmit}) {
 
   function selectInputs() {
     switch (text) {
-      case '로그인':
-        return (
-          <>
-            <input
-              name={"username"}
-              type={"text"}
-              placeholder={"이메일"}
-              onChange={onChange}
-              value={form.username}
-            />
-            <input
-              name={"password"}
-              type={"password"}
-              placeholder={"비밀번호"}
-              onChange={onChange}
-              value={form.password}
-            />
-          </>
-        );
       case '회원가입':
         return (
           <>
@@ -58,6 +40,44 @@ function AuthForm({type, form, onChange, onSubmit}) {
             />
           </>
         );
+      case '인증':
+        return (
+          <>
+            <input
+              name={"id"}
+              type={"text"}
+              value={form.id}
+              hidden={true}
+              readOnly={true}
+            />
+            <input
+              name={"token"}
+              type={"text"}
+              placeholder={"이메일 인증 토큰"}
+              onChange={onChange}
+              value={form.token}
+            />
+          </>
+        );
+      case '로그인':
+        return (
+          <>
+            <input
+              name={"username"}
+              type={"text"}
+              placeholder={"이메일"}
+              onChange={onChange}
+              value={form.username}
+            />
+            <input
+              name={"password"}
+              type={"password"}
+              placeholder={"비밀번호"}
+              onChange={onChange}
+              value={form.password}
+            />
+          </>
+        );
       case '비밀번호 찾기':
         return (
           <>
@@ -77,17 +97,22 @@ function AuthForm({type, form, onChange, onSubmit}) {
 
   function selectLinks() {
     switch (text) {
-      case '로그인':
-        return (
-          <>
-            <Link to={"/signup"}>회원가입</Link>
-            <Link to={"/forget"}>비밀번호 찾기</Link>
-          </>
-        );
       case '회원가입':
         return (
           <>
             <Link to={"/login"}>로그인</Link>
+            <Link to={"/forget"}>비밀번호 찾기</Link>
+          </>
+        );
+      case '인증':
+        return (
+          <>
+          </>
+        );
+      case '로그인':
+        return (
+          <>
+            <Link to={"/signup"}>회원가입</Link>
             <Link to={"/forget"}>비밀번호 찾기</Link>
           </>
         );
