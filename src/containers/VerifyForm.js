@@ -8,7 +8,7 @@ function VerifyForm({history}) {
   const dispatch = useDispatch();
   const {form, verificationLink, verified, errorResponse} = useSelector(({auth}) => ({
     form: auth.verify,
-    verificationLink: auth.verificationLink,
+    verificationLink: auth.links.verify,
     verified: auth.verified,
     errorResponse: auth.errorResponse
   }));
@@ -25,7 +25,7 @@ function VerifyForm({history}) {
       alert("토큰을 다시 확인해주세요.");
       return;
     }
-    dispatch(verify({verificationLink, token}));
+    dispatch(verify(verificationLink, {token}));
   };
 
   useEffect(() => {

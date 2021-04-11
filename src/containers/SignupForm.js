@@ -6,9 +6,10 @@ import {withRouter} from 'react-router-dom';
 
 function SignupForm({history}) {
   const dispatch = useDispatch();
-  const {form, verificationLink, errorResponse} = useSelector(({auth}) => ({
+  const {form, signupLink, verificationLink, errorResponse} = useSelector(({auth}) => ({
       form: auth.signup,
-      verificationLink: auth.verificationLink,
+      signupLink: auth.links.signup,
+      verificationLink: auth.links.verify,
       errorResponse: auth.errorResponse
     })
   );
@@ -25,7 +26,7 @@ function SignupForm({history}) {
       alert("비밀번호를 다시 확인해 주세요.");
       return;
     }
-    dispatch(signup({username, password}));
+    dispatch(signup(signupLink, {username, password}));
   };
 
   useEffect(() => {
