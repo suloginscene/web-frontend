@@ -13,7 +13,7 @@ const [LOGIN, LOGIN_SUCCESS, LOGIN_FAILURE] = createRequestActionTypes("auth/LOG
 export const changeField = createAction(CHANGE_FIELD, ({form, key, value}) => ({form, key, value}));
 export const initializeForm = createAction(INITIALIZE_FORM, (form) => (form));
 export const signup = createAction(SIGNUP, ({username, password}) => ({username, password}));
-export const verify = createAction(VERIFY, ({id, token}) => ({id, token}));
+export const verify = createAction(VERIFY, ({verificationLink, token}) => ({verificationLink, token}));
 export const login = createAction(LOGIN, ({username, password}) => ({username, password}));
 
 const signupSaga = createRequestSaga(SIGNUP, authApi.signup);
@@ -33,7 +33,6 @@ const initialState = {
     passwordConfirm: ''
   },
   verify: {
-    id: '',
     token: ''
   },
   login: {
@@ -43,9 +42,8 @@ const initialState = {
   forget: {
     username: ''
   },
-  // TODO make param
-  id: null,
   verificationLink: null,
+  verified: null,
   jwt: null,
   errorResponse: null
 };
@@ -63,7 +61,6 @@ const auth = handleActions(
     }),
     [SIGNUP_SUCCESS]: (state, {payload: response}) => ({
       ...state,
-      id: response.data.id,
       verificationLink: response.data._links.verify.href,
       errorResponse: null
     }),
@@ -72,8 +69,7 @@ const auth = handleActions(
     }),
     [VERIFY_SUCCESS]: (state, {payload: response}) => ({
       ...state,
-      // TODO setRealJwt
-      jwt: response.data + 'abc.abc.abc',
+      verified: true,
       errorResponse: null
     }),
     [VERIFY_FAILURE]: (state, {payload: errorResponse}) => ({

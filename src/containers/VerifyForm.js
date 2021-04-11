@@ -6,10 +6,10 @@ import {withRouter} from 'react-router-dom';
 
 function VerifyForm({history}) {
   const dispatch = useDispatch();
-  const {form, id, jwt, errorResponse} = useSelector(({auth}) => ({
+  const {form, verificationLink, verified, errorResponse} = useSelector(({auth}) => ({
     form: auth.verify,
-    id: auth.id,
-    jwt: auth.jwt,
+    verificationLink: auth.verificationLink,
+    verified: auth.verified,
     errorResponse: auth.errorResponse
   }));
 
@@ -20,28 +20,23 @@ function VerifyForm({history}) {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    const {id, token} = form;
-    if (!id) {
-      alert("인증할 수 없는 상황입니다.");
-      return;
-    }
+    const {token} = form;
     if (token.length !== 6) {
       alert("토큰을 다시 확인해주세요.");
       return;
     }
-    dispatch(verify({id, token}));
+    dispatch(verify({verificationLink, token}));
   };
 
   useEffect(() => {
-    initializeForm('verify');
-    dispatch(changeField({form: 'verify', key: 'id', value: id}))
-  }, [dispatch, id]);
+    dispatch(initializeForm('verify'));
+  }, [dispatch]);
 
   useEffect(() => {
-    if (jwt) {
-      history.push('/');
+    if (verified) {
+      history.push('/login');
     }
-  }, [jwt, history]);
+  }, [verified, history]);
 
   useEffect(() => {
     if (errorResponse) {

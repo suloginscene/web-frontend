@@ -44,13 +44,6 @@ function AuthForm({type, form, onChange, onSubmit}) {
         return (
           <>
             <input
-              name={"id"}
-              type={"text"}
-              value={form.id}
-              hidden={true}
-              readOnly={true}
-            />
-            <input
               name={"token"}
               type={"text"}
               placeholder={"이메일 인증 토큰"}
