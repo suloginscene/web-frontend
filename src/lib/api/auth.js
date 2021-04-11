@@ -14,3 +14,6 @@ export const login = ({loginLink, username, password}) =>
 
 export const forget = ({forgetLink, username}) =>
   client.post(forgetLink, {username});
+
+export const myInfo = ({myInfoLink, jwt}) =>
+  client.get(myInfoLink, {headers: {'X-AUTH-TOKEN': jwt}});

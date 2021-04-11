@@ -11,6 +11,7 @@ const [SIGNUP, SIGNUP_SUCCESS, SIGNUP_FAILURE] = createRequestActionTypes("auth/
 const [VERIFY, VERIFY_SUCCESS, VERIFY_FAILURE] = createRequestActionTypes("auth/VERIFY");
 const [LOGIN, LOGIN_SUCCESS, LOGIN_FAILURE] = createRequestActionTypes("auth/LOGIN");
 const [FORGET, FORGET_SUCCESS, FORGET_FAILURE] = createRequestActionTypes("auth/FORGET");
+const [MY_INFO, MY_INFO_SUCCESS, MY_INFO_FAILURE] = createRequestActionTypes("auth/MY_INFO");
 
 export const changeField = createAction(CHANGE_FIELD, ({form, key, value}) => ({form, key, value}));
 export const initializeForm = createAction(INITIALIZE_FORM, (form) => (form));
@@ -19,12 +20,14 @@ export const signup = createAction(SIGNUP, (signupLink, {username, password}) =>
 export const verify = createAction(VERIFY, (verificationLink, {token}) => ({verificationLink, token}));
 export const login = createAction(LOGIN, (loginLink, {username, password}) => ({loginLink, username, password}));
 export const forget = createAction(FORGET, (forgetLink, {username}) => ({forgetLink, username}));
+export const myInfo = createAction(MY_INFO, (myInfoLink, {jwt}) => ({myInfoLink, jwt}));
 
 const authIndexSaga = createRequestSaga(AUTH_INDEX, authApi.index);
 const signupSaga = createRequestSaga(SIGNUP, authApi.signup);
 const verifySaga = createRequestSaga(VERIFY, authApi.verify);
 const loginSaga = createRequestSaga(LOGIN, authApi.login);
 const forgetSaga = createRequestSaga(FORGET, authApi.forget);
+const myInfoSaga = createRequestSaga(MY_INFO, authApi.myInfo);
 
 export function* authSaga() {
   yield takeLatest(AUTH_INDEX, authIndexSaga);
@@ -32,6 +35,7 @@ export function* authSaga() {
   yield takeLatest(VERIFY, verifySaga);
   yield takeLatest(LOGIN, loginSaga);
   yield takeLatest(FORGET, forgetSaga);
+  yield takeLatest(MY_INFO, myInfoSaga);
 }
 
 const initialState = {
@@ -40,7 +44,9 @@ const initialState = {
     login: null,
     myInfo: null,
     forget: null,
-    verify: null
+    verify: null,
+    changePassword: null,
+    withdraw: null
   },
   signup: {
     username: '',
@@ -57,9 +63,14 @@ const initialState = {
   forget: {
     username: ''
   },
+  changePassword: {
+    newPassword: '',
+    newPasswordConfirm: '',
+  },
   verified: null,
   jwt: null,
   found: null,
+  email: null,
   errorResponse: null
 };
 
@@ -117,6 +128,17 @@ const auth = handleActions(
       errorResponse: null
     }),
     [FORGET_FAILURE]: (state, {payload: errorResponse}) => ({
+      ...state, errorResponse
+    }),
+    [MY_INFO_SUCCESS]: (state, {payload: response}) => (
+      produce(state, draft => {
+        draft.email = response.data.email;
+        draft.links.changePassword = response.data._links.changePassword.href;
+        draft.links.withdraw = response.data._links.withdraw.href;
+        draft.errorResponse = null;
+      })
+    ),
+    [MY_INFO_FAILURE]: (state, {payload: errorResponse}) => ({
       ...state, errorResponse
     })
   },
