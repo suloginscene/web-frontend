@@ -13,6 +13,7 @@ const [LOGIN, LOGIN_SUCCESS, LOGIN_FAILURE] = createRequestActionTypes("auth/LOG
 const [FORGET, FORGET_SUCCESS, FORGET_FAILURE] = createRequestActionTypes("auth/FORGET");
 const [MY_INFO, MY_INFO_SUCCESS, MY_INFO_FAILURE] = createRequestActionTypes("auth/MY_INFO");
 const [CHANGE_PASSWORD, CHANGE_PASSWORD_SUCCESS, CHANGE_PASSWORD_FAILURE] = createRequestActionTypes("auth/CHANGE_PASSWORD");
+const [WITHDRAW, WITHDRAW_SUCCESS, WITHDRAW_FAILURE] = createRequestActionTypes("auth/WITHDRAW");
 
 export const changeField = createAction(CHANGE_FIELD, ({form, key, value}) => ({form, key, value}));
 export const initializeForm = createAction(INITIALIZE_FORM, (form) => (form));
@@ -25,6 +26,7 @@ export const myInfo = createAction(MY_INFO, (myInfoLink, jwt) => ({myInfoLink, j
 export const changePassword = createAction(CHANGE_PASSWORD, (changePasswordLink, jwt, {newPassword}) => ({
   changePasswordLink, jwt, newPassword
 }));
+export const withdraw = createAction(WITHDRAW, (withdrawLink, jwt) => ({withdrawLink, jwt}));
 
 const authIndexSaga = createRequestSaga(AUTH_INDEX, authApi.index);
 const signupSaga = createRequestSaga(SIGNUP, authApi.signup);
@@ -33,6 +35,7 @@ const loginSaga = createRequestSaga(LOGIN, authApi.login);
 const forgetSaga = createRequestSaga(FORGET, authApi.forget);
 const myInfoSaga = createRequestSaga(MY_INFO, authApi.myInfo);
 const changePasswordSaga = createRequestSaga(CHANGE_PASSWORD, authApi.changePassword);
+const withdrawSaga = createRequestSaga(WITHDRAW, authApi.withdraw);
 
 export function* authSaga() {
   yield takeLatest(AUTH_INDEX, authIndexSaga);
@@ -42,6 +45,7 @@ export function* authSaga() {
   yield takeLatest(FORGET, forgetSaga);
   yield takeLatest(MY_INFO, myInfoSaga);
   yield takeLatest(CHANGE_PASSWORD, changePasswordSaga);
+  yield takeLatest(WITHDRAW, withdrawSaga);
 }
 
 const initialState = {
@@ -73,11 +77,12 @@ const initialState = {
     newPassword: '',
     newPasswordConfirm: '',
   },
-  verified: null,
   jwt: null,
+  verified: null,
   found: null,
   email: null,
   passwordChanged: null,
+  withdrew: null,
   errorResponse: null
 };
 
@@ -90,7 +95,12 @@ const auth = handleActions(
     ),
     [INITIALIZE_FORM]: (state, {payload: form}) => ({
       ...state,
-      [form]: initialState[form]
+      [form]: initialState[form],
+      verified: null,
+      found: null,
+      email: null,
+      passwordChanged: null,
+      withdrew: null,
     }),
     [AUTH_INDEX_SUCCESS]: (state, {payload: response}) => (
       produce(state, draft => {
@@ -150,10 +160,20 @@ const auth = handleActions(
     }),
     [CHANGE_PASSWORD_SUCCESS]: (state, {payload: response}) => ({
       ...state,
+      jwt: null,
       passwordChanged: true,
       errorResponse: null
     }),
     [CHANGE_PASSWORD_FAILURE]: (state, {payload: errorResponse}) => ({
+      ...state, errorResponse
+    }),
+    [WITHDRAW_SUCCESS]: (state, {payload: response}) => ({
+      ...state,
+      jwt: null,
+      withdrew: true,
+      errorResponse: null
+    }),
+    [WITHDRAW_FAILURE]: (state, {payload: errorResponse}) => ({
       ...state, errorResponse
     }),
   },

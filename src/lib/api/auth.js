@@ -20,3 +20,6 @@ export const myInfo = ({myInfoLink, jwt}) =>
 
 export const changePassword = ({changePasswordLink, jwt, newPassword}) =>
   client.put(changePasswordLink, {newPassword}, {headers: {'X-AUTH-TOKEN': jwt}});
+
+export const withdraw = ({withdrawLink, jwt}) =>
+  client.delete(withdrawLink, {headers: {'X-AUTH-TOKEN': jwt}});

@@ -1,17 +1,21 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import MemberInfo from "../components/auth/MemberInfo";
-import {changeField, changePassword, initializeForm, myInfo} from "../modules/auth";
+import {changeField, changePassword, initializeForm, myInfo, withdraw} from "../modules/auth";
+import {withRouter} from "react-router-dom";
 
-function MemberInfoContainer() {
+function MemberInfoContainer({history}) {
   const dispatch = useDispatch();
-  const {jwt, myInfoLink, email, changePasswordLink, form, passwordChanged, errorResponse} = useSelector(({auth}) => ({
+  const {jwt, myInfoLink, email, changePasswordLink, form, passwordChanged, withdrawLink, withdrew, errorResponse}
+    = useSelector(({auth}) => ({
       jwt: auth.jwt,
       myInfoLink: auth.links.myInfo,
       email: auth.email,
       changePasswordLink: auth.links.changePassword,
       form: auth.changePassword,
       passwordChanged: auth.passwordChanged,
+      withdrawLink: auth.links.withdraw,
+      withdrew: auth.withdrew,
       errorResponse: auth.errorResponse
     })
   );
@@ -32,21 +36,30 @@ function MemberInfoContainer() {
   };
 
   const onClickWithdraw = () => {
-    // TODO
-    console.log("withdraw");
+    alert("정말로 탈퇴하시겠습니까?");
+    dispatch(withdraw(withdrawLink, jwt));
   };
 
   useEffect(() => {
     dispatch(initializeForm('changePassword'));
-    dispatch(myInfo(myInfoLink, jwt));
+    if (jwt) {
+      dispatch(myInfo(myInfoLink, jwt));
+    }
   }, [dispatch, jwt, myInfoLink]);
 
   useEffect(() => {
     if (passwordChanged) {
       alert("비밀번호가 변경되었습니다.");
-      dispatch(initializeForm('changePassword'))
+      history.push('/login');
     }
-  }, [dispatch, passwordChanged]);
+  }, [passwordChanged, history]);
+
+  useEffect(() => {
+    if (withdrew) {
+      // TODO clear accountant
+      history.push('/');
+    }
+  }, [withdrew, history]);
 
   useEffect(() => {
     if (errorResponse) {
@@ -65,4 +78,4 @@ function MemberInfoContainer() {
   );
 }
 
-export default MemberInfoContainer;
+export default withRouter(MemberInfoContainer);
