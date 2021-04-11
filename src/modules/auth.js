@@ -33,7 +33,7 @@ export function* authSaga() {
 const initialState = {
   links: {
     signup: null,
-    issueJwt: null,
+    login: null,
     myInfo: null,
     onForgetPassword: null,
     verify: null
@@ -72,7 +72,7 @@ const auth = handleActions(
     [AUTH_INDEX_SUCCESS]: (state, {payload: response}) => (
       produce(state, draft => {
         draft.links.signup = response.data._links.signup.href;
-        draft.links.issueJwt = response.data._links.issueJwt.href;
+        draft.links.login = response.data._links.issueJwt.href;
         draft.links.myInfo = response.data._links.myInfo.href;
         draft.links.onForgetPassword = response.data._links.onForgetPassword.href;
         draft.errorResponse = null;
@@ -100,8 +100,7 @@ const auth = handleActions(
     }),
     [LOGIN_SUCCESS]: (state, {payload: response}) => ({
       ...state,
-      // TODO setRealJwt
-      jwt: 'abc.abc.abc',
+      jwt: response.data,
       errorResponse: null
     }),
     [LOGIN_FAILURE]: (state, {payload: errorResponse}) => ({

@@ -1,11 +1,18 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {changeField, initializeForm} from "../modules/auth";
+import {changeField, initializeForm, login} from "../modules/auth";
 import AuthForm from "../components/auth/AuthForm";
+import {withRouter} from 'react-router-dom';
 
-function LoginForm() {
+function LoginForm({history}) {
   const dispatch = useDispatch();
-  const {form} = useSelector(({auth}) => ({form: auth.login}));
+  const {form, loginLink, jwt, errorResponse} = useSelector(({auth}) => ({
+      form: auth.login,
+      loginLink: auth.links.login,
+      jwt: auth.jwt,
+      errorResponse: auth.errorResponse
+    })
+  );
 
   const onChange = (e) => {
     const {name, value} = e.target;
@@ -14,13 +21,25 @@ function LoginForm() {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    // TODO
-    console.log("should impl");
+    const {username, password} = form;
+    dispatch(login(loginLink, {username, password}));
   };
 
   useEffect(() => {
     dispatch(initializeForm('login'));
   }, [dispatch]);
+
+  useEffect(() => {
+    if (jwt) {
+      history.push('/');
+    }
+  }, [jwt, history]);
+
+  useEffect(() => {
+    if (errorResponse) {
+      alert("로그인 실패");
+    }
+  }, [errorResponse]);
 
   return (
     <AuthForm
@@ -32,4 +51,4 @@ function LoginForm() {
   );
 }
 
-export default LoginForm;
+export default withRouter(LoginForm);
