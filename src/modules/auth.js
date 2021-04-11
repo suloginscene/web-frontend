@@ -12,6 +12,7 @@ const [VERIFY, VERIFY_SUCCESS, VERIFY_FAILURE] = createRequestActionTypes("auth/
 const [LOGIN, LOGIN_SUCCESS, LOGIN_FAILURE] = createRequestActionTypes("auth/LOGIN");
 const [FORGET, FORGET_SUCCESS, FORGET_FAILURE] = createRequestActionTypes("auth/FORGET");
 const [MY_INFO, MY_INFO_SUCCESS, MY_INFO_FAILURE] = createRequestActionTypes("auth/MY_INFO");
+const [CHANGE_PASSWORD, CHANGE_PASSWORD_SUCCESS, CHANGE_PASSWORD_FAILURE] = createRequestActionTypes("auth/CHANGE_PASSWORD");
 
 export const changeField = createAction(CHANGE_FIELD, ({form, key, value}) => ({form, key, value}));
 export const initializeForm = createAction(INITIALIZE_FORM, (form) => (form));
@@ -20,7 +21,10 @@ export const signup = createAction(SIGNUP, (signupLink, {username, password}) =>
 export const verify = createAction(VERIFY, (verificationLink, {token}) => ({verificationLink, token}));
 export const login = createAction(LOGIN, (loginLink, {username, password}) => ({loginLink, username, password}));
 export const forget = createAction(FORGET, (forgetLink, {username}) => ({forgetLink, username}));
-export const myInfo = createAction(MY_INFO, (myInfoLink, {jwt}) => ({myInfoLink, jwt}));
+export const myInfo = createAction(MY_INFO, (myInfoLink, jwt) => ({myInfoLink, jwt}));
+export const changePassword = createAction(CHANGE_PASSWORD, (changePasswordLink, jwt, {newPassword}) => ({
+  changePasswordLink, jwt, newPassword
+}));
 
 const authIndexSaga = createRequestSaga(AUTH_INDEX, authApi.index);
 const signupSaga = createRequestSaga(SIGNUP, authApi.signup);
@@ -28,6 +32,7 @@ const verifySaga = createRequestSaga(VERIFY, authApi.verify);
 const loginSaga = createRequestSaga(LOGIN, authApi.login);
 const forgetSaga = createRequestSaga(FORGET, authApi.forget);
 const myInfoSaga = createRequestSaga(MY_INFO, authApi.myInfo);
+const changePasswordSaga = createRequestSaga(CHANGE_PASSWORD, authApi.changePassword);
 
 export function* authSaga() {
   yield takeLatest(AUTH_INDEX, authIndexSaga);
@@ -36,6 +41,7 @@ export function* authSaga() {
   yield takeLatest(LOGIN, loginSaga);
   yield takeLatest(FORGET, forgetSaga);
   yield takeLatest(MY_INFO, myInfoSaga);
+  yield takeLatest(CHANGE_PASSWORD, changePasswordSaga);
 }
 
 const initialState = {
@@ -71,6 +77,7 @@ const initialState = {
   jwt: null,
   found: null,
   email: null,
+  passwordChanged: null,
   errorResponse: null
 };
 
@@ -140,7 +147,15 @@ const auth = handleActions(
     ),
     [MY_INFO_FAILURE]: (state, {payload: errorResponse}) => ({
       ...state, errorResponse
-    })
+    }),
+    [CHANGE_PASSWORD_SUCCESS]: (state, {payload: response}) => ({
+      ...state,
+      passwordChanged: true,
+      errorResponse: null
+    }),
+    [CHANGE_PASSWORD_FAILURE]: (state, {payload: errorResponse}) => ({
+      ...state, errorResponse
+    }),
   },
   initialState
 );

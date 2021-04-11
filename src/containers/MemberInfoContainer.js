@@ -1,15 +1,17 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import MemberInfo from "../components/auth/MemberInfo";
-import {changeField, initializeForm, myInfo} from "../modules/auth";
+import {changeField, changePassword, initializeForm, myInfo} from "../modules/auth";
 
 function MemberInfoContainer() {
   const dispatch = useDispatch();
-  const {jwt, myInfoLink, email, form, errorResponse} = useSelector(({auth}) => ({
+  const {jwt, myInfoLink, email, changePasswordLink, form, passwordChanged, errorResponse} = useSelector(({auth}) => ({
       jwt: auth.jwt,
       myInfoLink: auth.links.myInfo,
       email: auth.email,
+      changePasswordLink: auth.links.changePassword,
       form: auth.changePassword,
+      passwordChanged: auth.passwordChanged,
       errorResponse: auth.errorResponse
     })
   );
@@ -26,8 +28,7 @@ function MemberInfoContainer() {
       alert("비밀번호를 다시 확인해 주세요.");
       return;
     }
-    // TODO
-    console.log("send");
+    dispatch(changePassword(changePasswordLink, jwt, {newPassword}));
   };
 
   const onClickWithdraw = () => {
@@ -37,14 +38,15 @@ function MemberInfoContainer() {
 
   useEffect(() => {
     dispatch(initializeForm('changePassword'));
-    dispatch(myInfo(myInfoLink, {jwt}));
+    dispatch(myInfo(myInfoLink, jwt));
   }, [dispatch, jwt, myInfoLink]);
 
-  // useEffect(() => {
-  //   if (jwt) {
-  //     history.push('/');
-  //   }
-  // }, [jwt, history]);
+  useEffect(() => {
+    if (passwordChanged) {
+      alert("비밀번호가 변경되었습니다.");
+      dispatch(initializeForm('changePassword'))
+    }
+  }, [dispatch, passwordChanged]);
 
   useEffect(() => {
     if (errorResponse) {

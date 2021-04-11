@@ -17,3 +17,6 @@ export const forget = ({forgetLink, username}) =>
 
 export const myInfo = ({myInfoLink, jwt}) =>
   client.get(myInfoLink, {headers: {'X-AUTH-TOKEN': jwt}});
+
+export const changePassword = ({changePasswordLink, jwt, newPassword}) =>
+  client.put(changePasswordLink, {newPassword}, {headers: {'X-AUTH-TOKEN': jwt}});
