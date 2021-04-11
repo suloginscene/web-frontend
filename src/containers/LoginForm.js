@@ -1,10 +1,12 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {changeField, initializeForm, login} from "../modules/auth";
 import AuthForm from "../components/auth/AuthForm";
 import {withRouter} from 'react-router-dom';
+import {toErrorMessage} from "../lib/error";
 
 function LoginForm({history}) {
+  const [errorMessage, setErrorMessage] = useState(null);
   const dispatch = useDispatch();
   const {form, loginLink, jwt, errorResponse} = useSelector(({auth}) => ({
       form: auth.login,
@@ -37,7 +39,7 @@ function LoginForm({history}) {
 
   useEffect(() => {
     if (errorResponse) {
-      alert("로그인 실패");
+      setErrorMessage(toErrorMessage(errorResponse));
     }
   }, [errorResponse]);
 
@@ -47,6 +49,7 @@ function LoginForm({history}) {
       form={form}
       onChange={onChange}
       onSubmit={onSubmit}
+      errorMessage={errorMessage}
     />
   );
 }

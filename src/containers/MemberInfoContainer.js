@@ -3,6 +3,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import MemberInfo from "../components/auth/MemberInfo";
 import {changeField, changePassword, initializeForm, myInfo, withdraw} from "../modules/auth";
 import {withRouter} from "react-router-dom";
+import {toErrorMessage} from "../lib/error";
 
 function MemberInfoContainer({history}) {
   const dispatch = useDispatch();
@@ -28,6 +29,10 @@ function MemberInfoContainer({history}) {
   const onSubmit = (e) => {
     e.preventDefault();
     const {newPassword, newPasswordConfirm} = form;
+    if (newPassword.length < 8) {
+      alert("비밀번호는 8자 이상이어야 합니다.");
+      return;
+    }
     if (newPassword !== newPasswordConfirm) {
       alert("비밀번호를 다시 확인해 주세요.");
       return;
@@ -36,8 +41,9 @@ function MemberInfoContainer({history}) {
   };
 
   const onClickWithdraw = () => {
-    alert("정말로 탈퇴하시겠습니까?");
-    dispatch(withdraw(withdrawLink, jwt));
+    if (window.confirm("정말로 탈퇴하시겠습니까?")) {
+      dispatch(withdraw(withdrawLink, jwt));
+    }
   };
 
   useEffect(() => {
@@ -63,7 +69,7 @@ function MemberInfoContainer({history}) {
 
   useEffect(() => {
     if (errorResponse) {
-      alert("실패");
+      alert(toErrorMessage(errorResponse));
     }
   }, [errorResponse]);
 

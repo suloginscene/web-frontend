@@ -9,7 +9,7 @@ const textMap = {
   forget: '비밀번호 찾기'
 };
 
-function AuthForm({type, form, onChange, onSubmit}) {
+function AuthForm({type, form, onChange, onSubmit, errorMessage}) {
   const text = textMap[type];
 
   function selectInputs() {
@@ -126,6 +126,7 @@ function AuthForm({type, form, onChange, onSubmit}) {
       <h3>{text}</h3>
       <form onSubmit={onSubmit}>
         {selectInputs()}
+        {errorMessage ? <div className={"error"}>{errorMessage}</div> : <></>}
         <button type={"submit"}>{text}</button>
       </form>
       <div className={"links"}>

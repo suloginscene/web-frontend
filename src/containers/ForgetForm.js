@@ -1,10 +1,12 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {changeField, forget, initializeForm} from "../modules/auth";
 import AuthForm from "../components/auth/AuthForm";
 import {withRouter} from "react-router-dom";
+import {toErrorMessage} from "../lib/error";
 
 function ForgetForm({history}) {
+  const [errorMessage, setErrorMessage] = useState(null);
   const dispatch = useDispatch();
   const {form, forgetLink, found, errorResponse} = useSelector(({auth}) => ({
       form: auth.forget,
@@ -37,7 +39,7 @@ function ForgetForm({history}) {
 
   useEffect(() => {
     if (errorResponse) {
-      alert("실패");
+      setErrorMessage(toErrorMessage(errorResponse));
     }
   }, [errorResponse]);
 
@@ -47,6 +49,7 @@ function ForgetForm({history}) {
       form={form}
       onChange={onChange}
       onSubmit={onSubmit}
+      errorMessage={errorMessage}
     />
   );
 }

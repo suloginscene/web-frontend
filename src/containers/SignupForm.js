@@ -1,10 +1,12 @@
+import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {changeField, initializeForm, signup} from "../modules/auth";
-import React, {useEffect} from "react";
+import {isValidEmail, toErrorMessage} from "../lib/error";
 import AuthForm from "../components/auth/AuthForm";
 import {withRouter} from 'react-router-dom';
 
 function SignupForm({history}) {
+  const [errorMessage, setErrorMessage] = useState(null);
   const dispatch = useDispatch();
   const {form, signupLink, verificationLink, errorResponse} = useSelector(({auth}) => ({
       form: auth.signup,
@@ -22,8 +24,20 @@ function SignupForm({history}) {
   const onSubmit = (e) => {
     e.preventDefault();
     const {username, password, passwordConfirm} = form;
+    if ([username, password, passwordConfirm].includes('')) {
+      setErrorMessage("빈 칸을 모두 입력해 주세요.");
+      return;
+    }
+    if (!isValidEmail(username)) {
+      setErrorMessage("이메일 형식이 올바르지 않습니다.");
+      return;
+    }
+    if (password.length < 8) {
+      setErrorMessage("비밀번호는 8자 이상이어야 합니다.");
+      return;
+    }
     if (password !== passwordConfirm) {
-      alert("비밀번호를 다시 확인해 주세요.");
+      setErrorMessage("비밀번호를 다시 확인해 주세요.");
       return;
     }
     dispatch(signup(signupLink, {username, password}));
@@ -41,8 +55,7 @@ function SignupForm({history}) {
 
   useEffect(() => {
     if (errorResponse) {
-      // TODO errorResponse.status + ' ' + errorResponse.data.error + ' ' + errorResponse.data.errorDescription);
-      alert("가입신청 실패");
+      setErrorMessage(toErrorMessage(errorResponse));
     }
   }, [errorResponse]);
 
@@ -52,6 +65,7 @@ function SignupForm({history}) {
       form={form}
       onChange={onChange}
       onSubmit={onSubmit}
+      errorMessage={errorMessage}
     />
   );
 }

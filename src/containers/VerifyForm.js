@@ -1,10 +1,12 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import AuthForm from "../components/auth/AuthForm";
 import {useDispatch, useSelector} from "react-redux";
 import {changeField, initializeForm, verify} from "../modules/auth";
 import {withRouter} from 'react-router-dom';
+import {toErrorMessage} from "../lib/error";
 
 function VerifyForm({history}) {
+  const [errorMessage, setErrorMessage] = useState(null);
   const dispatch = useDispatch();
   const {form, verificationLink, verified, errorResponse} = useSelector(({auth}) => ({
     form: auth.verify,
@@ -22,7 +24,7 @@ function VerifyForm({history}) {
     e.preventDefault();
     const {token} = form;
     if (token.length !== 6) {
-      alert("토큰을 다시 확인해주세요.");
+      setErrorMessage("토큰을 다시 확인해주세요.");
       return;
     }
     dispatch(verify(verificationLink, {token}));
@@ -40,7 +42,7 @@ function VerifyForm({history}) {
 
   useEffect(() => {
     if (errorResponse) {
-      alert(errorResponse.status + ' ' + errorResponse.data.error + ' ' + errorResponse.data.errorDescription);
+      setErrorMessage(toErrorMessage(errorResponse));
     }
   }, [errorResponse]);
 
@@ -50,6 +52,7 @@ function VerifyForm({history}) {
       form={form}
       onChange={onChange}
       onSubmit={onSubmit}
+      errorMessage={errorMessage}
     />
   );
 }
