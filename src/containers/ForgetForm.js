@@ -1,11 +1,18 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {changeField, initializeForm} from "../modules/auth";
+import {changeField, forget, initializeForm} from "../modules/auth";
 import AuthForm from "../components/auth/AuthForm";
+import {withRouter} from "react-router-dom";
 
-function ForgetForm() {
+function ForgetForm({history}) {
   const dispatch = useDispatch();
-  const {form} = useSelector(({auth}) => ({form: auth.forget}));
+  const {form, forgetLink, found, errorResponse} = useSelector(({auth}) => ({
+      form: auth.forget,
+      forgetLink: auth.links.forget,
+      found: auth.found,
+      errorResponse: auth.errorResponse
+    })
+  );
 
   const onChange = (e) => {
     const {name, value} = e.target;
@@ -14,13 +21,25 @@ function ForgetForm() {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    // TODO
-    console.log("should impl");
+    const {username} = form;
+    dispatch(forget(forgetLink, {username}));
   };
 
   useEffect(() => {
     dispatch(initializeForm('forget'));
   }, [dispatch]);
+
+  useEffect(() => {
+    if (found) {
+      history.push('/login');
+    }
+  }, [found, history]);
+
+  useEffect(() => {
+    if (errorResponse) {
+      alert("실패");
+    }
+  }, [errorResponse]);
 
   return (
     <AuthForm
@@ -32,4 +51,4 @@ function ForgetForm() {
   );
 }
 
-export default ForgetForm;
+export default withRouter(ForgetForm);

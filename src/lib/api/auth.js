@@ -11,3 +11,6 @@ export const verify = ({verificationLink, token}) =>
 
 export const login = ({loginLink, username, password}) =>
   client.post(loginLink, {username, password});
+
+export const forget = ({forgetLink, username}) =>
+  client.post(forgetLink, {username});

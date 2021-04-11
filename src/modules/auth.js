@@ -10,6 +10,7 @@ const [AUTH_INDEX, AUTH_INDEX_SUCCESS, AUTH_INDEX_FAILURE] = createRequestAction
 const [SIGNUP, SIGNUP_SUCCESS, SIGNUP_FAILURE] = createRequestActionTypes("auth/SIGNUP");
 const [VERIFY, VERIFY_SUCCESS, VERIFY_FAILURE] = createRequestActionTypes("auth/VERIFY");
 const [LOGIN, LOGIN_SUCCESS, LOGIN_FAILURE] = createRequestActionTypes("auth/LOGIN");
+const [FORGET, FORGET_SUCCESS, FORGET_FAILURE] = createRequestActionTypes("auth/FORGET");
 
 export const changeField = createAction(CHANGE_FIELD, ({form, key, value}) => ({form, key, value}));
 export const initializeForm = createAction(INITIALIZE_FORM, (form) => (form));
@@ -17,17 +18,20 @@ export const authIndex = createAction(AUTH_INDEX, (indexLink) => ({indexLink}));
 export const signup = createAction(SIGNUP, (signupLink, {username, password}) => ({signupLink, username, password}));
 export const verify = createAction(VERIFY, (verificationLink, {token}) => ({verificationLink, token}));
 export const login = createAction(LOGIN, (loginLink, {username, password}) => ({loginLink, username, password}));
+export const forget = createAction(FORGET, (forgetLink, {username}) => ({forgetLink, username}));
 
 const authIndexSaga = createRequestSaga(AUTH_INDEX, authApi.index);
 const signupSaga = createRequestSaga(SIGNUP, authApi.signup);
 const verifySaga = createRequestSaga(VERIFY, authApi.verify);
 const loginSaga = createRequestSaga(LOGIN, authApi.login);
+const forgetSaga = createRequestSaga(FORGET, authApi.forget);
 
 export function* authSaga() {
   yield takeLatest(AUTH_INDEX, authIndexSaga);
   yield takeLatest(SIGNUP, signupSaga);
   yield takeLatest(VERIFY, verifySaga);
   yield takeLatest(LOGIN, loginSaga);
+  yield takeLatest(FORGET, forgetSaga);
 }
 
 const initialState = {
@@ -35,7 +39,7 @@ const initialState = {
     signup: null,
     login: null,
     myInfo: null,
-    onForgetPassword: null,
+    forget: null,
     verify: null
   },
   signup: {
@@ -55,6 +59,7 @@ const initialState = {
   },
   verified: null,
   jwt: null,
+  found: null,
   errorResponse: null
 };
 
@@ -74,7 +79,7 @@ const auth = handleActions(
         draft.links.signup = response.data._links.signup.href;
         draft.links.login = response.data._links.issueJwt.href;
         draft.links.myInfo = response.data._links.myInfo.href;
-        draft.links.onForgetPassword = response.data._links.onForgetPassword.href;
+        draft.links.forget = response.data._links.onForgetPassword.href;
         draft.errorResponse = null;
       })
     ),
@@ -104,6 +109,14 @@ const auth = handleActions(
       errorResponse: null
     }),
     [LOGIN_FAILURE]: (state, {payload: errorResponse}) => ({
+      ...state, errorResponse
+    }),
+    [FORGET_SUCCESS]: (state, {payload: response}) => ({
+      ...state,
+      found: true,
+      errorResponse: null
+    }),
+    [FORGET_FAILURE]: (state, {payload: errorResponse}) => ({
       ...state, errorResponse
     })
   },
