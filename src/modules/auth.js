@@ -6,6 +6,7 @@ import * as authApi from '../lib/api/auth';
 
 const CHANGE_FIELD = "auth/CHANGE_FIELD";
 const INITIALIZE_FORM = "auth/INITIALIZE_FORM";
+const LOGOUT = "auth/LOGOUT";
 const [AUTH_INDEX, AUTH_INDEX_SUCCESS, AUTH_INDEX_FAILURE] = createRequestActionTypes("auth/AUTH_INDEX");
 const [SIGNUP, SIGNUP_SUCCESS, SIGNUP_FAILURE] = createRequestActionTypes("auth/SIGNUP");
 const [VERIFY, VERIFY_SUCCESS, VERIFY_FAILURE] = createRequestActionTypes("auth/VERIFY");
@@ -17,6 +18,7 @@ const [WITHDRAW, WITHDRAW_SUCCESS, WITHDRAW_FAILURE] = createRequestActionTypes(
 
 export const changeField = createAction(CHANGE_FIELD, ({form, key, value}) => ({form, key, value}));
 export const initializeForm = createAction(INITIALIZE_FORM, (form) => (form));
+export const logout = createAction(LOGOUT);
 export const authIndex = createAction(AUTH_INDEX, (indexLink) => ({indexLink}));
 export const signup = createAction(SIGNUP, (signupLink, {username, password}) => ({signupLink, username, password}));
 export const verify = createAction(VERIFY, (verificationLink, {token}) => ({verificationLink, token}));
@@ -102,6 +104,10 @@ const auth = handleActions(
       passwordChanged: null,
       withdrew: null,
     }),
+    [LOGOUT]: (state) => ({
+      ...state,
+      jwt: null
+    }),
     [AUTH_INDEX_SUCCESS]: (state, {payload: response}) => (
       produce(state, draft => {
         draft.links.signup = response.data._links.signup.href;
@@ -123,7 +129,7 @@ const auth = handleActions(
     [SIGNUP_FAILURE]: (state, {payload: errorResponse}) => ({
       ...state, errorResponse
     }),
-    [VERIFY_SUCCESS]: (state, {payload: response}) => ({
+    [VERIFY_SUCCESS]: (state) => ({
       ...state,
       verified: true,
       errorResponse: null
@@ -139,7 +145,7 @@ const auth = handleActions(
     [LOGIN_FAILURE]: (state, {payload: errorResponse}) => ({
       ...state, errorResponse
     }),
-    [FORGET_SUCCESS]: (state, {payload: response}) => ({
+    [FORGET_SUCCESS]: (state) => ({
       ...state,
       found: true,
       errorResponse: null
@@ -158,7 +164,7 @@ const auth = handleActions(
     [MY_INFO_FAILURE]: (state, {payload: errorResponse}) => ({
       ...state, errorResponse
     }),
-    [CHANGE_PASSWORD_SUCCESS]: (state, {payload: response}) => ({
+    [CHANGE_PASSWORD_SUCCESS]: (state) => ({
       ...state,
       jwt: null,
       passwordChanged: true,
@@ -167,7 +173,7 @@ const auth = handleActions(
     [CHANGE_PASSWORD_FAILURE]: (state, {payload: errorResponse}) => ({
       ...state, errorResponse
     }),
-    [WITHDRAW_SUCCESS]: (state, {payload: response}) => ({
+    [WITHDRAW_SUCCESS]: (state) => ({
       ...state,
       jwt: null,
       withdrew: true,

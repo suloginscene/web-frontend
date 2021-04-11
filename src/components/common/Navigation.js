@@ -2,7 +2,7 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import './Navigation.scss';
 
-function Navigation() {
+function Navigation({onClickLogout}) {
   return (
     <nav className={"navigation"}>
       <Link to={"/"}>홈</Link>
@@ -17,6 +17,8 @@ function Navigation() {
 
       <Link to={"/login"}>로그인</Link>
       <Link to={"/my-page"}>내 정보</Link>
+
+      <span onClick={onClickLogout}>로그아웃</span>
     </nav>
   );
 }

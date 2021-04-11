@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {BrowserRouter, Route, Switch} from "react-router-dom";
-import Navigation from "./components/common/Navigation";
+import NavigationContainer from "./containers/NavigationContainer";
 import HomePage from "./pages/HomePage";
 import SignupPage from "./pages/member/SignupPage";
 import VerifyPage from "./pages/member/VerifyPage";
@@ -29,7 +29,7 @@ function App() {
     <BrowserRouter>
 
       <header>
-        <Navigation/>
+        <NavigationContainer/>
       </header>
 
       <main>

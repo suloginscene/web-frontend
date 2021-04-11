@@ -7,4 +7,14 @@
   justify-content: space-between;
 
   background-color: lavender;
+
+  span {
+    color: dimgray;
+    transition: color 0.3s;
+  }
+
+  span:hover, span:focus {
+    color: black;
+    cursor: pointer;
+  }
 }
