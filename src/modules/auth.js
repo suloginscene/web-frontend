@@ -15,6 +15,7 @@ const [FORGET, FORGET_SUCCESS, FORGET_FAILURE] = createRequestActionTypes("auth/
 const [MY_INFO, MY_INFO_SUCCESS, MY_INFO_FAILURE] = createRequestActionTypes("auth/MY_INFO");
 const [CHANGE_PASSWORD, CHANGE_PASSWORD_SUCCESS, CHANGE_PASSWORD_FAILURE] = createRequestActionTypes("auth/CHANGE_PASSWORD");
 const [WITHDRAW, WITHDRAW_SUCCESS, WITHDRAW_FAILURE] = createRequestActionTypes("auth/WITHDRAW");
+const SET_TESTING_JWT = "auth/SET_TESTING_JWT";
 
 export const changeField = createAction(CHANGE_FIELD, ({form, key, value}) => ({form, key, value}));
 export const initializeForm = createAction(INITIALIZE_FORM, (form) => (form));
@@ -29,6 +30,7 @@ export const changePassword = createAction(CHANGE_PASSWORD, (changePasswordLink,
   changePasswordLink, jwt, newPassword
 }));
 export const withdraw = createAction(WITHDRAW, (withdrawLink, jwt) => ({withdrawLink, jwt}));
+export const setTestingJwt = createAction(SET_TESTING_JWT, (jwt) => ({jwt}));
 
 const authIndexSaga = createRequestSaga(AUTH_INDEX, authApi.index);
 const signupSaga = createRequestSaga(SIGNUP, authApi.signup);
@@ -182,6 +184,9 @@ const auth = handleActions(
     [WITHDRAW_FAILURE]: (state, {payload: errorResponse}) => ({
       ...state, errorResponse
     }),
+    [SET_TESTING_JWT]: (state, {payload: jwt}) => ({
+      ...state, jwt
+    })
   },
   initialState
 );

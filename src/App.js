@@ -16,13 +16,14 @@ import IncomeStatementPage from "./pages/accountant/IncomeStatementPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import ServiceInformation from "./components/common/ServiceInformation";
 import {useDispatch} from 'react-redux';
-import {authIndex} from './modules/auth';
-import {auth} from './properties/server';
+import {authIndex, setTestingJwt} from './modules/auth';
+import {auth, testJwt} from './properties/server';
 
 function App() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(authIndex(auth + '/api'));
+    dispatch(setTestingJwt(testJwt));
   }, [dispatch]);
 
   return (

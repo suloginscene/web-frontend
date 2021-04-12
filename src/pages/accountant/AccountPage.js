@@ -1,11 +1,14 @@
 import React from 'react';
+import {useSelector} from "react-redux";
+import {Redirect} from "react-router-dom";
 
-function AccountPage() {
-  return (
+function AccountPage({match}) {
+  const {jwt} = useSelector(({auth}) => ({jwt: auth.jwt}));
+  return jwt ?
     <>
-      AccountPage
+      AccountPage {match.params.id}
     </>
-  );
+    : <Redirect to={"/login"}/>;
 }
 
 export default AccountPage;
