@@ -1,0 +1,9 @@
+.page-template {
+  padding: 50px 30px;
+}
+
+@media (max-width: 768px) {
+  .page-template {
+    padding: 30px 20px;
+  }
+}

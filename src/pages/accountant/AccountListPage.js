@@ -1,14 +1,15 @@
 import React from 'react';
-import {Link, Redirect} from "react-router-dom";
+import {Redirect} from "react-router-dom";
 import {useSelector} from "react-redux";
+import PageTemplate from "../../components/common/PageTemplate";
+import AccountListContainer from "../../containers/accountant/AccountListContainer";
 
 function AccountListPage() {
   const {jwt} = useSelector(({member}) => ({jwt: member.jwt}));
   return jwt ?
-    <>
-      AccountListPage
-      <Link to={"/account/1"}>계정 1</Link>
-    </>
+    <PageTemplate>
+      <AccountListContainer/>
+    </PageTemplate>
     : <Redirect to={"/login"}/>;
 }
 
