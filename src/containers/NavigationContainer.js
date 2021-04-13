@@ -23,6 +23,7 @@ function NavigationContainer({history}) {
 
   return (
     <Navigation
+      jwt={jwt}
       onClickLogout={onClickLogout}
     />
   );

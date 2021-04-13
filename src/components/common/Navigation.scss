@@ -7,6 +7,54 @@
   justify-content: space-between;
 
   background-color: lavender;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+
+  .brand {
+    letter-spacing: 3px;
+  }
+
+  .menus {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .menu {
+      margin-left: 15px;
+
+      .dropdown {
+        position: absolute;
+        top: 0;
+        padding-top: 53px;
+        height: 0;
+        overflow: hidden;
+        z-index: 1;
+        font-size: 14px;
+        text-align: right;
+        transition: height 0.3s;
+
+        a {
+          display: block;
+          margin-bottom: 5px;
+        }
+      }
+
+      .report-dropdown {
+        right: 68px;
+      }
+
+      .report-dropdown:hover {
+        height: 75px;
+      }
+
+      .member-dropdown {
+        right: 17px;
+      }
+
+      .member-dropdown:hover {
+        height: 50px;
+      }
+    }
+  }
 
   span {
     color: dimgray;
@@ -17,4 +65,5 @@
     color: black;
     cursor: pointer;
   }
+
 }
