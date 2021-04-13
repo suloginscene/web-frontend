@@ -1,27 +1,27 @@
 import {createAction, handleActions} from 'redux-actions';
 import produce from 'immer';
 import {takeLatest} from 'redux-saga/effects';
-import createRequestSaga, {createRequestActionTypes} from '../lib/createRequestSaga';
-import * as authApi from '../lib/api/auth';
+import createRequestSaga, {createRequestActionTypes} from '../lib/api/createRequestSaga';
+import * as memberApi from '../lib/api/member';
 
-const SET_JWT = "auth/SET_JWT";
-const CHANGE_FIELD = "auth/CHANGE_FIELD";
-const INITIALIZE_FORM = "auth/INITIALIZE_FORM";
-const LOGOUT = "auth/LOGOUT";
-const [AUTH_INDEX, AUTH_INDEX_SUCCESS, AUTH_INDEX_FAILURE] = createRequestActionTypes("auth/AUTH_INDEX");
-const [SIGNUP, SIGNUP_SUCCESS, SIGNUP_FAILURE] = createRequestActionTypes("auth/SIGNUP");
-const [VERIFY, VERIFY_SUCCESS, VERIFY_FAILURE] = createRequestActionTypes("auth/VERIFY");
-const [LOGIN, LOGIN_SUCCESS, LOGIN_FAILURE] = createRequestActionTypes("auth/LOGIN");
-const [FORGET, FORGET_SUCCESS, FORGET_FAILURE] = createRequestActionTypes("auth/FORGET");
-const [MY_INFO, MY_INFO_SUCCESS, MY_INFO_FAILURE] = createRequestActionTypes("auth/MY_INFO");
-const [CHANGE_PASSWORD, CHANGE_PASSWORD_SUCCESS, CHANGE_PASSWORD_FAILURE] = createRequestActionTypes("auth/CHANGE_PASSWORD");
-const [WITHDRAW, WITHDRAW_SUCCESS, WITHDRAW_FAILURE] = createRequestActionTypes("auth/WITHDRAW");
+const SET_JWT = "member/SET_JWT";
+const CHANGE_FIELD = "member/CHANGE_FIELD";
+const INITIALIZE_FORM = "member/INITIALIZE_FORM";
+const LOGOUT = "member/LOGOUT";
+const [MEMBER_INDEX, MEMBER_INDEX_SUCCESS, MEMBER_INDEX_FAILURE] = createRequestActionTypes("member/MEMBER_INDEX");
+const [SIGNUP, SIGNUP_SUCCESS, SIGNUP_FAILURE] = createRequestActionTypes("member/SIGNUP");
+const [VERIFY, VERIFY_SUCCESS, VERIFY_FAILURE] = createRequestActionTypes("member/VERIFY");
+const [LOGIN, LOGIN_SUCCESS, LOGIN_FAILURE] = createRequestActionTypes("member/LOGIN");
+const [FORGET, FORGET_SUCCESS, FORGET_FAILURE] = createRequestActionTypes("member/FORGET");
+const [MY_INFO, MY_INFO_SUCCESS, MY_INFO_FAILURE] = createRequestActionTypes("member/MY_INFO");
+const [CHANGE_PASSWORD, CHANGE_PASSWORD_SUCCESS, CHANGE_PASSWORD_FAILURE] = createRequestActionTypes("member/CHANGE_PASSWORD");
+const [WITHDRAW, WITHDRAW_SUCCESS, WITHDRAW_FAILURE] = createRequestActionTypes("member/WITHDRAW");
 
 export const setJwt = createAction(SET_JWT, (jwt) => (jwt));
 export const changeField = createAction(CHANGE_FIELD, ({form, key, value}) => ({form, key, value}));
 export const initializeForm = createAction(INITIALIZE_FORM, (form) => (form));
 export const logout = createAction(LOGOUT);
-export const authIndex = createAction(AUTH_INDEX, (indexLink) => ({indexLink}));
+export const memberIndex = createAction(MEMBER_INDEX, (indexLink) => ({indexLink}));
 export const signup = createAction(SIGNUP, (signupLink, {username, password}) => ({signupLink, username, password}));
 export const verify = createAction(VERIFY, (verificationLink, {token}) => ({verificationLink, token}));
 export const login = createAction(LOGIN, (loginLink, {username, password}) => ({loginLink, username, password}));
@@ -32,17 +32,17 @@ export const changePassword = createAction(CHANGE_PASSWORD, (changePasswordLink,
 }));
 export const withdraw = createAction(WITHDRAW, (withdrawLink, jwt) => ({withdrawLink, jwt}));
 
-const authIndexSaga = createRequestSaga(AUTH_INDEX, authApi.index);
-const signupSaga = createRequestSaga(SIGNUP, authApi.signup);
-const verifySaga = createRequestSaga(VERIFY, authApi.verify);
-const loginSaga = createRequestSaga(LOGIN, authApi.login);
-const forgetSaga = createRequestSaga(FORGET, authApi.forget);
-const myInfoSaga = createRequestSaga(MY_INFO, authApi.myInfo);
-const changePasswordSaga = createRequestSaga(CHANGE_PASSWORD, authApi.changePassword);
-const withdrawSaga = createRequestSaga(WITHDRAW, authApi.withdraw);
+const memberIndexSaga = createRequestSaga(MEMBER_INDEX, memberApi.index);
+const signupSaga = createRequestSaga(SIGNUP, memberApi.signup);
+const verifySaga = createRequestSaga(VERIFY, memberApi.verify);
+const loginSaga = createRequestSaga(LOGIN, memberApi.login);
+const forgetSaga = createRequestSaga(FORGET, memberApi.forget);
+const myInfoSaga = createRequestSaga(MY_INFO, memberApi.myInfo);
+const changePasswordSaga = createRequestSaga(CHANGE_PASSWORD, memberApi.changePassword);
+const withdrawSaga = createRequestSaga(WITHDRAW, memberApi.withdraw);
 
-export function* authSaga() {
-  yield takeLatest(AUTH_INDEX, authIndexSaga);
+export function* memberSaga() {
+  yield takeLatest(MEMBER_INDEX, memberIndexSaga);
   yield takeLatest(SIGNUP, signupSaga);
   yield takeLatest(VERIFY, verifySaga);
   yield takeLatest(LOGIN, loginSaga);
@@ -90,7 +90,7 @@ const initialState = {
   errorResponse: null
 };
 
-const auth = handleActions(
+const member = handleActions(
   {
     [SET_JWT]: (state, {payload: jwt}) => ({
       ...state, jwt
@@ -113,7 +113,7 @@ const auth = handleActions(
       ...state,
       jwt: null
     }),
-    [AUTH_INDEX_SUCCESS]: (state, {payload: response}) => (
+    [MEMBER_INDEX_SUCCESS]: (state, {payload: response}) => (
       produce(state, draft => {
         draft.links.signup = response.data._links.signup.href;
         draft.links.login = response.data._links.issueJwt.href;
@@ -122,7 +122,7 @@ const auth = handleActions(
         draft.errorResponse = null;
       })
     ),
-    [AUTH_INDEX_FAILURE]: (state, {payload: errorResponse}) => ({
+    [MEMBER_INDEX_FAILURE]: (state, {payload: errorResponse}) => ({
       ...state, errorResponse
     }),
     [SIGNUP_SUCCESS]: (state, {payload: response}) => (
@@ -191,4 +191,4 @@ const auth = handleActions(
   initialState
 );
 
-export default auth;
+export default member;

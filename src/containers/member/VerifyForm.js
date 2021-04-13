@@ -1,18 +1,18 @@
 import React, {useEffect, useState} from 'react';
-import AuthForm from "../components/auth/AuthForm";
+import MemberForm from "../../components/member/MemberForm";
 import {useDispatch, useSelector} from "react-redux";
-import {changeField, initializeForm, verify} from "../modules/auth";
+import {changeField, initializeForm, verify} from "../../modules/member";
 import {withRouter} from 'react-router-dom';
-import {toErrorMessage} from "../lib/error";
+import toErrorMessage from "../../lib/error/toErrorMessage";
 
 function VerifyForm({history}) {
   const [errorMessage, setErrorMessage] = useState(null);
   const dispatch = useDispatch();
-  const {form, verificationLink, verified, errorResponse} = useSelector(({auth}) => ({
-    form: auth.verify,
-    verificationLink: auth.links.verify,
-    verified: auth.verified,
-    errorResponse: auth.errorResponse
+  const {form, verificationLink, verified, errorResponse} = useSelector(({member}) => ({
+    form: member.verify,
+    verificationLink: member.links.verify,
+    verified: member.verified,
+    errorResponse: member.errorResponse
   }));
 
   const onChange = (e) => {
@@ -47,7 +47,7 @@ function VerifyForm({history}) {
   }, [errorResponse]);
 
   return (
-    <AuthForm
+    <MemberForm
       type="verify"
       form={form}
       onChange={onChange}

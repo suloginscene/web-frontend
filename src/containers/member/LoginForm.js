@@ -1,18 +1,18 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {changeField, initializeForm, login} from "../modules/auth";
-import AuthForm from "../components/auth/AuthForm";
+import {changeField, initializeForm, login} from "../../modules/member";
+import MemberForm from "../../components/member/MemberForm";
 import {withRouter} from 'react-router-dom';
-import {toErrorMessage} from "../lib/error";
+import toErrorMessage from "../../lib/error/toErrorMessage";
 
 function LoginForm({history}) {
   const [errorMessage, setErrorMessage] = useState(null);
   const dispatch = useDispatch();
-  const {form, loginLink, jwt, errorResponse} = useSelector(({auth}) => ({
-      form: auth.login,
-      loginLink: auth.links.login,
-      jwt: auth.jwt,
-      errorResponse: auth.errorResponse
+  const {form, loginLink, jwt, errorResponse} = useSelector(({member}) => ({
+      form: member.login,
+      loginLink: member.links.login,
+      jwt: member.jwt,
+      errorResponse: member.errorResponse
     })
   );
 
@@ -45,7 +45,7 @@ function LoginForm({history}) {
   }, [errorResponse]);
 
   return (
-    <AuthForm
+    <MemberForm
       type="login"
       form={form}
       onChange={onChange}

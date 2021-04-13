@@ -1,5 +1,5 @@
 import React from 'react';
-import './AuthForm.scss';
+import './MemberForm.scss';
 import {Link} from "react-router-dom";
 
 const textMap = {
@@ -9,7 +9,7 @@ const textMap = {
   forget: '비밀번호 찾기'
 };
 
-function AuthForm({type, form, onChange, onSubmit, errorMessage}) {
+function MemberForm({type, form, onChange, onSubmit, errorMessage}) {
   const text = textMap[type];
 
   function selectInputs() {
@@ -122,7 +122,7 @@ function AuthForm({type, form, onChange, onSubmit, errorMessage}) {
   }
 
   return (
-    <div className={"auth-form"}>
+    <div className={"member-form"}>
       <h3>{text}</h3>
       <form onSubmit={onSubmit}>
         {selectInputs()}
@@ -136,4 +136,4 @@ function AuthForm({type, form, onChange, onSubmit, errorMessage}) {
   );
 }
 
-export default AuthForm;
+export default MemberForm;

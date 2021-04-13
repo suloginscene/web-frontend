@@ -1,12 +1,12 @@
 import React from 'react';
-import AuthTemplate from "../../components/auth/AuthTemplate";
-import VerifyForm from "../../containers/VerifyForm";
+import CentralTemplate from "../../components/common/CentralTemplate";
+import VerifyForm from "../../containers/member/VerifyForm";
 
 function VerifyPage() {
   return (
-    <AuthTemplate>
+    <CentralTemplate>
       <VerifyForm/>
-    </AuthTemplate>
+    </CentralTemplate>
   );
 }
 

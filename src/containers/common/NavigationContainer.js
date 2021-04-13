@@ -1,19 +1,14 @@
 import React, {useEffect} from 'react';
-import Navigation from "../components/common/Navigation";
+import Navigation from "../../components/common/Navigation";
 import {useDispatch, useSelector} from "react-redux";
-import {logout} from "../modules/auth";
+import {logout} from "../../modules/member";
 import {withRouter} from "react-router-dom";
 
 function NavigationContainer({history}) {
   const dispatch = useDispatch();
-  const {jwt} = useSelector(({auth}) => ({
-      jwt: auth.jwt
-    })
-  );
+  const {jwt} = useSelector(({member}) => ({jwt: member.jwt}));
 
-  function onClickLogout() {
-    dispatch(logout());
-  }
+  const onClickLogout = () => dispatch(logout());
 
   useEffect(() => {
     if (!jwt) {

@@ -1,6 +1,6 @@
 import React from 'react';
 import {BrowserRouter, Route, Switch} from "react-router-dom";
-import NavigationContainer from "./containers/NavigationContainer";
+import NavigationContainer from "./containers/common/NavigationContainer";
 import HomePage from "./pages/HomePage";
 import SignupPage from "./pages/member/SignupPage";
 import VerifyPage from "./pages/member/VerifyPage";

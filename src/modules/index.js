@@ -1,14 +1,14 @@
 import {combineReducers} from 'redux';
 import {all} from 'redux-saga/effects';
-import auth, {authSaga} from './auth';
+import member, {memberSaga} from './member';
 import loading from './loading';
 
 const rootReducer = combineReducers({
-  auth, loading
+  member, loading
 });
 
 export function* rootSaga() {
-  yield all([authSaga()]);
+  yield all([memberSaga()]);
 }
 
 export default rootReducer;

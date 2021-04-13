@@ -1,12 +1,12 @@
 import React from 'react';
-import AuthTemplate from "../../components/auth/AuthTemplate";
-import SignupForm from "../../containers/SignupForm";
+import CentralTemplate from "../../components/common/CentralTemplate";
+import SignupForm from "../../containers/member/SignupForm";
 
 function SignupPage() {
   return (
-    <AuthTemplate>
+    <CentralTemplate>
       <SignupForm/>
-    </AuthTemplate>
+    </CentralTemplate>
   );
 }
 

@@ -1,23 +1,23 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import MemberInfo from "../components/auth/MemberInfo";
-import {changeField, changePassword, initializeForm, myInfo, withdraw} from "../modules/auth";
+import MemberInfo from "../../components/member/MemberInfo";
+import {changeField, changePassword, initializeForm, myInfo, withdraw} from "../../modules/member";
 import {withRouter} from "react-router-dom";
-import {toErrorMessage} from "../lib/error";
+import toErrorMessage from "../../lib/error/toErrorMessage";
 
 function MemberInfoContainer({history}) {
   const dispatch = useDispatch();
   const {jwt, myInfoLink, email, changePasswordLink, form, passwordChanged, withdrawLink, withdrew, errorResponse}
-    = useSelector(({auth}) => ({
-      jwt: auth.jwt,
-      myInfoLink: auth.links.myInfo,
-      email: auth.email,
-      changePasswordLink: auth.links.changePassword,
-      form: auth.changePassword,
-      passwordChanged: auth.passwordChanged,
-      withdrawLink: auth.links.withdraw,
-      withdrew: auth.withdrew,
-      errorResponse: auth.errorResponse
+    = useSelector(({member}) => ({
+      jwt: member.jwt,
+      myInfoLink: member.links.myInfo,
+      email: member.email,
+      changePasswordLink: member.links.changePassword,
+      form: member.changePassword,
+      passwordChanged: member.passwordChanged,
+      withdrawLink: member.links.withdraw,
+      withdrew: member.withdrew,
+      errorResponse: member.errorResponse
     })
   );
 

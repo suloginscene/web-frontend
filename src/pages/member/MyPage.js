@@ -1,15 +1,15 @@
 import React from 'react';
-import AuthTemplate from "../../components/auth/AuthTemplate";
-import MemberInfoContainer from "../../containers/MemberInfoContainer";
+import CentralTemplate from "../../components/common/CentralTemplate";
+import MemberInfoContainer from "../../containers/member/MemberInfoContainer";
 import {useSelector} from "react-redux";
 import {Redirect} from "react-router-dom";
 
 function MyPage() {
-  const {jwt} = useSelector(({auth}) => ({jwt: auth.jwt}));
+  const {jwt} = useSelector(({member}) => ({jwt: member.jwt}));
   return jwt ?
-    <AuthTemplate>
+    <CentralTemplate>
       <MemberInfoContainer/>
-    </AuthTemplate>
+    </CentralTemplate>
     : <Redirect to={"/login"}/>;
 }
 

@@ -3,7 +3,7 @@ import {useSelector} from "react-redux";
 import {Redirect} from "react-router-dom";
 
 function AccountPage({match}) {
-  const {jwt} = useSelector(({auth}) => ({jwt: auth.jwt}));
+  const {jwt} = useSelector(({member}) => ({jwt: member.jwt}));
   return jwt ?
     <>
       AccountPage {match.params.id}

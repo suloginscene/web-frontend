@@ -1,18 +1,18 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {changeField, forget, initializeForm} from "../modules/auth";
-import AuthForm from "../components/auth/AuthForm";
+import {changeField, forget, initializeForm} from "../../modules/member";
+import MemberForm from "../../components/member/MemberForm";
 import {withRouter} from "react-router-dom";
-import {toErrorMessage} from "../lib/error";
+import toErrorMessage from "../../lib/error/toErrorMessage";
 
 function ForgetForm({history}) {
   const [errorMessage, setErrorMessage] = useState(null);
   const dispatch = useDispatch();
-  const {form, forgetLink, found, errorResponse} = useSelector(({auth}) => ({
-      form: auth.forget,
-      forgetLink: auth.links.forget,
-      found: auth.found,
-      errorResponse: auth.errorResponse
+  const {form, forgetLink, found, errorResponse} = useSelector(({member}) => ({
+      form: member.forget,
+      forgetLink: member.links.forget,
+      found: member.found,
+      errorResponse: member.errorResponse
     })
   );
 
@@ -44,7 +44,7 @@ function ForgetForm({history}) {
   }, [errorResponse]);
 
   return (
-    <AuthForm
+    <MemberForm
       type="forget"
       form={form}
       onChange={onChange}

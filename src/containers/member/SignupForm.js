@@ -1,18 +1,19 @@
 import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {changeField, initializeForm, signup} from "../modules/auth";
-import {isValidEmail, toErrorMessage} from "../lib/error";
-import AuthForm from "../components/auth/AuthForm";
+import {changeField, initializeForm, signup} from "../../modules/member";
+import toErrorMessage from "../../lib/error/toErrorMessage";
+import MemberForm from "../../components/member/MemberForm";
 import {withRouter} from 'react-router-dom';
+import isValidEmail from "../../lib/error/isValidEmail";
 
 function SignupForm({history}) {
   const [errorMessage, setErrorMessage] = useState(null);
   const dispatch = useDispatch();
-  const {form, signupLink, verificationLink, errorResponse} = useSelector(({auth}) => ({
-      form: auth.signup,
-      signupLink: auth.links.signup,
-      verificationLink: auth.links.verify,
-      errorResponse: auth.errorResponse
+  const {form, signupLink, verificationLink, errorResponse} = useSelector(({member}) => ({
+      form: member.signup,
+      signupLink: member.links.signup,
+      verificationLink: member.links.verify,
+      errorResponse: member.errorResponse
     })
   );
 
@@ -60,7 +61,7 @@ function SignupForm({history}) {
   }, [errorResponse]);
 
   return (
-    <AuthForm
+    <MemberForm
       type="signup"
       form={form}
       onChange={onChange}

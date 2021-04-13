@@ -3,7 +3,7 @@ import {Link, Redirect} from "react-router-dom";
 import {useSelector} from "react-redux";
 
 function AccountListPage() {
-  const {jwt} = useSelector(({auth}) => ({jwt: auth.jwt}));
+  const {jwt} = useSelector(({member}) => ({jwt: member.jwt}));
   return jwt ?
     <>
       AccountListPage

@@ -1,12 +1,12 @@
 import React from 'react';
-import AuthTemplate from "../../components/auth/AuthTemplate";
-import ForgetForm from "../../containers/ForgetForm";
+import CentralTemplate from "../../components/common/CentralTemplate";
+import ForgetForm from "../../containers/member/ForgetForm";
 
 function ForgetPage() {
   return (
-    <AuthTemplate>
+    <CentralTemplate>
       <ForgetForm/>
-    </AuthTemplate>
+    </CentralTemplate>
   );
 }
 
