@@ -1,30 +1,82 @@
 .account-list {
-  display: flex;
-  justify-content: center;
+  h3 {
+    margin-bottom: 25px;
+  }
 
-  table {
-    border-collapse: collapse;
-    min-width: 75%;
+  .list {
+    margin-bottom: 75px;
 
-    tr {
-      border-bottom: 1px solid mediumpurple;
+    table {
+      width: 100%;
+      margin: 0 auto 50px;
+      border-collapse: collapse;
 
-      th {
-        padding: 10px;
-        font-size: 18px;
-        font-weight: normal;
-      }
+      tr {
+        border-bottom: 1px solid mediumpurple;
 
-      td {
-        padding: 10px;
+        th {
+          width: 25%;
+          min-width: 50px;
+          padding: 10px;
+          font-size: 18px;
+          font-weight: normal;
+        }
 
-        .account-item {
-          display: inline;
-          margin-right: 15px;
-          font-size: 16px;
+        td {
+          padding: 10px 10px 0;
+
+          .account-item {
+            display: inline-block;
+            margin: 0 15px 10px 0;
+            font-size: 16px;
+          }
         }
       }
     }
+  }
+
+  .register {
+    form {
+      width: 270px;
+      margin: auto;
+
+      .radio-area {
+        margin-bottom: 30px;
+        text-align: center;
+
+        input {
+          display: none;
+        }
+
+        label {
+          display: inline-block;
+          width: 24%;
+          padding: 5px 0;
+          border: 1px solid white;
+          color: dimgray;
+          transition: background-color 0.1s;
+        }
+
+        label:hover {
+          background-color: lavender;
+          cursor: pointer;
+        }
+
+        input:checked + label {
+          color: black;
+          background-color: lavender;
+        }
+      }
+
+      .input-area {
+        margin-bottom: 30px;
+      }
+
+      button {
+        width: 100%;
+      }
+    }
+
   }
 
 }

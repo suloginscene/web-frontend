@@ -35,24 +35,58 @@ function AccountList({accounts}) {
 
   return (
     <div className={"account-list"}>
-      <table>
-        <tr>
-          <th>자산</th>
-          <td>{assets}</td>
-        </tr>
-        <tr>
-          <th>부채</th>
-          <td>{liabilities}</td>
-        </tr>
-        <tr>
-          <th>수입</th>
-          <td>{revenues}</td>
-        </tr>
-        <tr>
-          <th>지출</th>
-          <td>{expenses}</td>
-        </tr>
-      </table>
+
+      <div className={"list"}>
+        <h3>계정 목록</h3>
+        <table>
+          <tr>
+            <th>자산</th>
+            <td>{assets}</td>
+          </tr>
+          <tr>
+            <th>부채</th>
+            <td>{liabilities}</td>
+          </tr>
+          <tr>
+            <th>수입</th>
+            <td>{revenues}</td>
+          </tr>
+          <tr>
+            <th>지출</th>
+            <td>{expenses}</td>
+          </tr>
+        </table>
+      </div>
+
+      <div className={"register"}>
+        <h3>계정 등록</h3>
+        <form>
+          <div className={"radio-area"}>
+            <input name={"type"} value={"ASSET"} type={"radio"} id={"asset"}/>
+            <label htmlFor={"asset"}>자산</label>
+            <input name={"type"} value={"LIABILITY"} type={"radio"} id={"liability"}/>
+            <label htmlFor={"liability"}>부채</label>
+            <input name={"type"} value={"REVENUE"} type={"radio"} id={"revenue"}/>
+            <label htmlFor={"revenue"}>수입</label>
+            <input name={"type"} value={"EXPENSE"} type={"radio"} id={"expense"}/>
+            <label htmlFor={"expense"}>지출</label>
+          </div>
+          <div className={"input-area"}>
+            <input
+              name={"name"}
+              type={"text"}
+              placeholder={"이름"}
+            />
+            <input
+              name={"money"}
+              type={"text"}
+              placeholder={"잔액 혹은 예산"}
+            />
+          </div>
+          <button>계정 등록</button>
+        </form>
+      </div>
+
     </div>
   );
 }

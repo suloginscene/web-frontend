@@ -24,7 +24,7 @@ function AccountListContainer() {
   }, {
     "id": 8,
     "name": "REVENUE",
-    "type": "Asset",
+    "type": "Revenue",
     "_links": {
       "self": {
         "href": "http://localhost:8080/api/accounts/8"
