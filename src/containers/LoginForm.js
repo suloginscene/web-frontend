@@ -34,6 +34,7 @@ function LoginForm({history}) {
   useEffect(() => {
     if (jwt) {
       history.push('/');
+      localStorage.setItem('jwt', jwt);
     }
   }, [jwt, history]);
 

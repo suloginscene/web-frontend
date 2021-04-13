@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {BrowserRouter, Route, Switch} from "react-router-dom";
 import NavigationContainer from "./containers/NavigationContainer";
 import HomePage from "./pages/HomePage";
@@ -15,17 +15,8 @@ import BalanceSheetPage from "./pages/accountant/BalanceSheetPage";
 import IncomeStatementPage from "./pages/accountant/IncomeStatementPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import ServiceInformation from "./components/common/ServiceInformation";
-import {useDispatch} from 'react-redux';
-import {authIndex, setTestingJwt} from './modules/auth';
-import {auth, testJwt} from './properties/server';
 
 function App() {
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(authIndex(auth + '/api'));
-    dispatch(setTestingJwt(testJwt));
-  }, [dispatch]);
-
   return (
     <BrowserRouter>
 

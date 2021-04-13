@@ -4,6 +4,7 @@ import {takeLatest} from 'redux-saga/effects';
 import createRequestSaga, {createRequestActionTypes} from '../lib/createRequestSaga';
 import * as authApi from '../lib/api/auth';
 
+const SET_JWT = "auth/SET_JWT";
 const CHANGE_FIELD = "auth/CHANGE_FIELD";
 const INITIALIZE_FORM = "auth/INITIALIZE_FORM";
 const LOGOUT = "auth/LOGOUT";
@@ -15,8 +16,8 @@ const [FORGET, FORGET_SUCCESS, FORGET_FAILURE] = createRequestActionTypes("auth/
 const [MY_INFO, MY_INFO_SUCCESS, MY_INFO_FAILURE] = createRequestActionTypes("auth/MY_INFO");
 const [CHANGE_PASSWORD, CHANGE_PASSWORD_SUCCESS, CHANGE_PASSWORD_FAILURE] = createRequestActionTypes("auth/CHANGE_PASSWORD");
 const [WITHDRAW, WITHDRAW_SUCCESS, WITHDRAW_FAILURE] = createRequestActionTypes("auth/WITHDRAW");
-const SET_TESTING_JWT = "auth/SET_TESTING_JWT";
 
+export const setJwt = createAction(SET_JWT, (jwt) => (jwt));
 export const changeField = createAction(CHANGE_FIELD, ({form, key, value}) => ({form, key, value}));
 export const initializeForm = createAction(INITIALIZE_FORM, (form) => (form));
 export const logout = createAction(LOGOUT);
@@ -30,7 +31,6 @@ export const changePassword = createAction(CHANGE_PASSWORD, (changePasswordLink,
   changePasswordLink, jwt, newPassword
 }));
 export const withdraw = createAction(WITHDRAW, (withdrawLink, jwt) => ({withdrawLink, jwt}));
-export const setTestingJwt = createAction(SET_TESTING_JWT, (jwt) => ({jwt}));
 
 const authIndexSaga = createRequestSaga(AUTH_INDEX, authApi.index);
 const signupSaga = createRequestSaga(SIGNUP, authApi.signup);
@@ -92,6 +92,9 @@ const initialState = {
 
 const auth = handleActions(
   {
+    [SET_JWT]: (state, {payload: jwt}) => ({
+      ...state, jwt
+    }),
     [CHANGE_FIELD]: (state, {payload: {form, key, value}}) => (
       produce(state, draft => {
         draft[form][key] = value;
@@ -183,9 +186,6 @@ const auth = handleActions(
     }),
     [WITHDRAW_FAILURE]: (state, {payload: errorResponse}) => ({
       ...state, errorResponse
-    }),
-    [SET_TESTING_JWT]: (state, {payload: jwt}) => ({
-      ...state, jwt
     })
   },
   initialState

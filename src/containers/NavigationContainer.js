@@ -18,6 +18,7 @@ function NavigationContainer({history}) {
   useEffect(() => {
     if (!jwt) {
       history.push('/');
+      localStorage.removeItem('jwt');
     }
   }, [jwt, history]);
 
