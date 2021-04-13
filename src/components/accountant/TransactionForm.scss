@@ -1,0 +1,71 @@
+.transaction-form {
+  form {
+    .radio-area {
+      margin-bottom: 50px;
+      text-align: center;
+
+      input {
+        display: none;
+      }
+
+      label {
+        display: inline-block;
+        width: 32%;
+        padding: 5px 0;
+        border: 1px solid white;
+        color: dimgray;
+        transition: background-color 0.1s;
+      }
+
+      label:hover {
+        background-color: lavender;
+        cursor: pointer;
+      }
+
+      input:checked + label {
+        color: black;
+        background-color: lavender;
+      }
+    }
+
+    .select-area {
+      margin-bottom: 25px;
+
+      select {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        border: none;
+        background-color: lavender;
+        margin-bottom: 10px;
+        font-size: 16px;
+
+        .default {
+          color: dimgray;
+        }
+      }
+    }
+
+    .input-area {
+      margin-bottom: 50px;
+
+      input {
+        margin-bottom: 2px;
+      }
+    }
+
+    button {
+      width: 100%;
+      border-radius: 100px;
+      padding: 13px;
+      color: dimgray;
+      background-color: lavender;
+      transition: background-color 0.3s, color 0.1s;
+    }
+
+    button:hover {
+      color: white;
+      background-color: mediumpurple;
+    }
+  }
+}
