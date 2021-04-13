@@ -1,0 +1,97 @@
+import React from 'react';
+import './Account.scss';
+
+const accountNameMap = {
+  Asset: '자산',
+  Liability: '부채',
+  Revenue: '수입',
+  Expense: '지출'
+};
+
+const moneyNameMap = {
+  Asset: '잔액',
+  Liability: '잔액',
+  Revenue: '예산',
+  Expense: '예산'
+};
+
+const transactionSignMap = {
+  INCREASE: '+',
+  DECREASE: '-',
+  OCCUR: ''
+};
+
+function TransactionItem({type, amount, description, createdAt}) {
+  return (
+    <tr>
+      <td className={"date"}>{createdAt.substring(5, 10)}</td>
+      <td className={"amount"}>{transactionSignMap[type]} {amount} 원</td>
+      <td className={"description"}>{description}</td>
+    </tr>
+  );
+}
+
+function Account({account}) {
+  const typeName = accountNameMap[account.type];
+  const moneyName = moneyNameMap[account.type];
+  const transactions = account.singleTransactions.map((transaction, index) => (
+      <TransactionItem
+        key={index}
+        type={transaction.type}
+        amount={transaction.amount}
+        description={transaction.description}
+        createdAt={transaction.createdAt}
+      />
+    )
+  );
+  return (
+    <div className={"account"}>
+
+      <div className={"info"}>
+        <div><h3>{account.name}</h3><span>{typeName}</span></div>
+        <div className={"money"}>{moneyName}: {account.moneyAmount} 원</div>
+      </div>
+
+      <div className={"configure"}>
+        <div className={"row"}>
+          <h4>이름 변경</h4>
+          <form>
+            <input
+              name={"newName"}
+              type={"text"}
+              placeholder={"새 이름"}
+            />
+            <button>변경</button>
+          </form>
+        </div>
+        {(moneyName === '예산') ?
+          <div className={"row"}>
+            <h4>예산 변경</h4>
+            <form>
+              <input
+                name={"newBudget"}
+                type={"text"}
+                placeholder={"새 예산"}
+              />
+              <button>변경</button>
+            </form>
+          </div>
+          : <></>}
+        <div className={"row"}>
+          <h4>계정 삭제</h4>
+          <button>삭제</button>
+        </div>
+      </div>
+
+      <div className={"transactions"}>
+        <h3>거래 기록</h3><span>총 {transactions.length} 건</span>
+        <table>
+          <tbody>{transactions}</tbody>
+        </table>
+      </div>
+
+    </div>
+  );
+}
+
+export default Account;

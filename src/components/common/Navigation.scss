@@ -24,7 +24,7 @@
       .dropdown {
         position: absolute;
         top: 0;
-        padding-top: 53px;
+        padding-top: 51px;
         height: 0;
         overflow: hidden;
         z-index: 1;
@@ -32,9 +32,9 @@
         text-align: right;
         transition: height 0.3s;
 
-        a {
+        a, span {
           display: block;
-          margin-bottom: 5px;
+          padding: 5px;
         }
       }
 
@@ -43,7 +43,7 @@
       }
 
       .report-dropdown:hover {
-        height: 75px;
+        height: 90px;
       }
 
       .member-dropdown {
@@ -51,7 +51,7 @@
       }
 
       .member-dropdown:hover {
-        height: 50px;
+        height: 65px;
       }
     }
   }

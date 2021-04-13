@@ -39,22 +39,24 @@ function AccountList({accounts}) {
       <div className={"list"}>
         <h3>계정 목록</h3>
         <table>
-          <tr>
-            <th>자산</th>
-            <td>{assets}</td>
-          </tr>
-          <tr>
-            <th>부채</th>
-            <td>{liabilities}</td>
-          </tr>
-          <tr>
-            <th>수입</th>
-            <td>{revenues}</td>
-          </tr>
-          <tr>
-            <th>지출</th>
-            <td>{expenses}</td>
-          </tr>
+          <tbody>
+            <tr>
+              <th>자산</th>
+              <td>{assets}</td>
+            </tr>
+            <tr>
+              <th>부채</th>
+              <td>{liabilities}</td>
+            </tr>
+            <tr>
+              <th>수입</th>
+              <td>{revenues}</td>
+            </tr>
+            <tr>
+              <th>지출</th>
+              <td>{expenses}</td>
+            </tr>
+          </tbody>
         </table>
       </div>
 
