@@ -92,8 +92,12 @@ body {
 
   // text -----------------------------------------------------------------------------------
 
-  h1, h2, h3, h4 {
+  h1, h2, h3, h4, h5, h6 {
     margin: 0;
+  }
+
+  h4, h5, h6 {
+    display: inline-block;
   }
 
   h1 {
@@ -114,7 +118,16 @@ body {
   h4 {
     font-size: 19px;
     font-weight: normal;
-    display: inline-block;
+  }
+
+  h5 {
+    font-size: 17px;
+    font-weight: bold;
+  }
+
+  h6 {
+    font-size: 16px;
+    font-weight: bold;
   }
 
   small {
@@ -132,9 +145,12 @@ body {
     thead {
       tr {
         th {
-          padding: 7px 10px;
+          white-space: nowrap;
+          max-width: 1px;
+          overflow: hidden;
           background-color: lavender;
           font-weight: normal;
+          padding: 7px 0;
         }
       }
     }
@@ -144,8 +160,10 @@ body {
         border-bottom: 1px solid mediumpurple;
 
         td {
-          padding: 5px 10px;
           white-space: nowrap;
+          max-width: 1px;
+          overflow: hidden;
+          padding: 5px 10px;
         }
       }
     }
@@ -157,4 +175,3 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
   monospace;
 }
-

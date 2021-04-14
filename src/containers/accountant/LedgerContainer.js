@@ -19,7 +19,7 @@ function LedgerContainer() {
       "createdAt": "2021-04-13 21:41:33"
     }, {
       "type": "SELL",
-      "amount": 1000000001,
+      "amount": 987654321,
       "debit": "현대 신용",
       "credit": "국민 저축 예금 통장",
       "description": "설명",

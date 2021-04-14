@@ -1,0 +1,52 @@
+.balance-sheet {
+  h3 {
+    margin-bottom: 25px;
+  }
+
+  .net {
+    padding: 10px 0;
+    text-align: center;
+    font-size: 18px;
+    color: white;
+    background-color: mediumpurple;
+  }
+
+  .detail {
+    display: flex;
+
+    table {
+      tbody {
+        tr {
+          .balance {
+            text-align: right;
+          }
+        }
+      }
+    }
+
+    .vertical-line {
+      border-right: 1px solid mediumpurple;
+    }
+  }
+}
+
+
+@media (max-width: 768px) {
+  .balance-sheet {
+    .net {
+      font-size: 16px;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .balance-sheet {
+    .detail {
+      display: block;
+
+      .vertical-line {
+        display: none;
+      }
+    }
+  }
+}
