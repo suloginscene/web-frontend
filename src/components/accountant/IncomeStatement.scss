@@ -1,0 +1,119 @@
+.income-statement {
+  form {
+    width: 276px;
+    margin: 0 auto 50px;
+    border: 1px solid mediumpurple;
+    text-align: center;
+
+    .date-area {
+      margin-bottom: 10px;
+
+      label {
+        width: calc(100% - 2px);
+
+        input[type="date"] {
+          width: auto;
+          margin-left: 10px;
+        }
+      }
+    }
+
+    button {
+      width: 100%;
+      height: 40px;
+    }
+  }
+
+  .data {
+    .heading {
+      padding-bottom: 15px;
+
+      h3 {
+        display: inline-block;
+        margin-right: 10px;
+      }
+
+      span {
+        font-weight: lighter;
+        white-space: nowrap;
+      }
+    }
+
+    .profit {
+      padding: 10px 0;
+      text-align: center;
+      font-size: 18px;
+      color: white;
+      background-color: mediumpurple;
+    }
+
+    .detail {
+      display: flex;
+
+      table {
+        tbody {
+          tr {
+            .occurred, .monthly-budget {
+              text-align: right;
+            }
+          }
+        }
+      }
+
+      .vertical-line {
+        border-right: 1px solid mediumpurple;
+      }
+    }
+  }
+}
+
+
+@media (max-width: 1024px) {
+  .income-statement {
+    .data {
+      .detail {
+        table {
+          thead {
+            tr {
+              .monthly-budget {
+                display: none;
+              }
+            }
+          }
+
+          tbody {
+            tr {
+              .monthly-budget {
+                display: none;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .income-statement {
+    .data {
+      .profit {
+        font-size: 16px;
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .income-statement {
+    .data {
+      .detail {
+        display: block;
+
+        .vertical-line {
+          display: none;
+        }
+      }
+    }
+  }
+}
