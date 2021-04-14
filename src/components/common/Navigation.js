@@ -10,7 +10,7 @@ function Navigation({jwt, onClickLogout}) {
           <Link to={"/transaction"}>거래</Link>
         </div>
 
-        <div className={"menu"}>
+        <div className={"menu front"}>
           <Link to={"/account-list"}>계정</Link>
         </div>
 

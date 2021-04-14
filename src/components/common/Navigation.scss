@@ -27,7 +27,6 @@
         padding-top: 51px;
         height: 0;
         overflow: hidden;
-        z-index: 1;
         font-size: 14px;
         text-align: right;
         transition: height 0.3s;
@@ -39,6 +38,7 @@
       }
 
       .report-dropdown {
+        z-index: 2;
         right: 68px;
       }
 
@@ -47,12 +47,17 @@
       }
 
       .member-dropdown {
+        z-index: 1;
         right: 17px;
       }
 
       .member-dropdown:hover {
         height: 65px;
       }
+    }
+
+    .front {
+      z-index: 3;
     }
   }
 
@@ -65,5 +70,4 @@
     color: black;
     cursor: pointer;
   }
-
 }

@@ -1,0 +1,87 @@
+.ledger {
+  h3 {
+    display: inline-block;
+    margin-right: 10px;
+    padding-bottom: 25px;
+  }
+
+  .transactions {
+    table {
+      tbody {
+        tr {
+          .date {
+            width: 60px;
+            text-align: center;
+          }
+
+          .transaction-name {
+            width: 60px;
+            text-align: center;
+          }
+
+          .account-name {
+            width: 120px;
+            max-width: 120px;
+            overflow: hidden;
+            text-align: center;
+          }
+
+          .amount {
+            text-align: right;
+            width: 120px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .ledger {
+    .transactions {
+      table {
+        thead {
+          tr {
+            th {
+              padding: 7px 3px;
+            }
+
+            .description {
+              display: none;
+            }
+          }
+        }
+
+        tbody {
+          tr {
+            td {
+              padding: 5px 3px;
+            }
+
+            .date {
+              width: 42px;
+            }
+
+            .transaction-name {
+              width: 36px;
+            }
+
+            .account-name {
+              width: 60px;
+              max-width: 60px;
+            }
+
+            .amount {
+              width: 100px;
+              max-width: 100px;
+            }
+
+            .description {
+              display: none;
+            }
+          }
+        }
+      }
+    }
+  }
+}

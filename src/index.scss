@@ -54,7 +54,6 @@ body {
     background-color: lightgray;
   }
 
-
   button {
     border: none;
     border-radius: 1px;
@@ -69,6 +68,25 @@ body {
   button:hover, button:focus {
     background-color: black;
     cursor: pointer;
+  }
+
+  label {
+    display: inline-block;
+    padding: 5px 0;
+    border: 1px solid white;
+    font-size: 16px;
+    color: dimgray;
+    transition: background-color 0.1s;
+  }
+
+  label:hover {
+    background-color: lavender;
+    cursor: pointer;
+  }
+
+  input:checked + label {
+    color: black;
+    background-color: lavender;
   }
 
 
@@ -94,7 +112,7 @@ body {
   }
 
   h4 {
-    font-size: 20px;
+    font-size: 19px;
     font-weight: normal;
     display: inline-block;
   }
@@ -104,9 +122,39 @@ body {
     font-weight: lighter;
   }
 
+
+  // table ----------------------------------------------------------------------------------
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+
+    thead {
+      tr {
+        th {
+          padding: 7px 10px;
+          background-color: lavender;
+          font-weight: normal;
+        }
+      }
+    }
+
+    tbody {
+      tr {
+        border-bottom: 1px solid mediumpurple;
+
+        td {
+          padding: 5px 10px;
+          white-space: nowrap;
+        }
+      }
+    }
+  }
+
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
   monospace;
 }
+

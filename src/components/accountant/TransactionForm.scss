@@ -9,22 +9,7 @@
       }
 
       label {
-        display: inline-block;
         width: 32%;
-        padding: 5px 0;
-        border: 1px solid white;
-        color: dimgray;
-        transition: background-color 0.1s;
-      }
-
-      label:hover {
-        background-color: lavender;
-        cursor: pointer;
-      }
-
-      input:checked + label {
-        color: black;
-        background-color: lavender;
       }
     }
 

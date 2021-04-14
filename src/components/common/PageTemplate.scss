@@ -1,13 +1,14 @@
 .page-template {
-  width: 75%;
-  padding-top: 25px;
   margin: auto;
+
+  width: 75%;
+  padding-top: 50px;
 }
 
 @media (max-width: 768px) {
   .page-template {
     width: 90%;
-    padding-top: 15px;
-    margin: auto;
+    padding-top: 25px;
+    font-size: 14px;
   }
 }
