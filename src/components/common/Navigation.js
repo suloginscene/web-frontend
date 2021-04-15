@@ -23,7 +23,7 @@ function Navigation({jwt, onClickLogout}) {
           <div className={"dropdown report-dropdown"}>
             <Link to={"/ledger"}>복식장부</Link>
             <Link to={"/balance-sheet"}>재무상태표</Link>
-            <Link to={"/income-statement"}>손익계산서</Link>
+            <Link to={"/income-statement-form"}>손익계산서</Link>
           </div>
         </div>
 

@@ -13,6 +13,7 @@ import AccountPage from "./pages/accountant/AccountPage";
 import TransactionPage from "./pages/accountant/TransactionPage";
 import LedgerPage from "./pages/accountant/LedgerPage";
 import BalanceSheetPage from "./pages/accountant/BalanceSheetPage";
+import IncomeStatementFormPage from "./pages/accountant/IncomeStatementFormPage";
 import IncomeStatementPage from "./pages/accountant/IncomeStatementPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import ServiceInformation from "./components/common/ServiceInformation";
@@ -42,6 +43,7 @@ function App() {
 
           <Route component={LedgerPage} path={"/ledger"} exact/>
           <Route component={BalanceSheetPage} path={"/balance-sheet"} exact/>
+          <Route component={IncomeStatementFormPage} path={"/income-statement-form"} exact/>
           <Route component={IncomeStatementPage} path={"/income-statement"} exact/>
 
           <Route component={NotFoundPage}/>

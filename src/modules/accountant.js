@@ -40,6 +40,7 @@ const initialState = {
     money: ''
   },
   posted: null,
+  incomeStatement: null,
   errorResponse: null
 }
 

@@ -1,0 +1,36 @@
+.income-statement-form {
+  text-align: center;
+
+  h3 {
+    margin: 0 0 25px;
+  }
+
+  form {
+    .date-area {
+      margin-bottom: 25px;
+
+      label {
+        width: 100%;
+
+        input[type="date"] {
+          width: auto;
+          margin-left: 10px;
+        }
+      }
+    }
+
+    button {
+      width: 100%;
+      border-radius: 100px;
+      padding: 13px;
+      color: dimgray;
+      background-color: lavender;
+      transition: background-color 0.3s, color 0.1s;
+    }
+
+    button:hover {
+      color: white;
+      background-color: mediumpurple;
+    }
+  }
+}

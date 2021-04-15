@@ -6,11 +6,15 @@ import IncomeStatementContainer from "../../containers/accountant/IncomeStatemen
 
 function IncomeStatementPage() {
   const {jwt} = useSelector(({member}) => ({jwt: member.jwt}));
-  return jwt ?
+  const {incomeStatement} = useSelector(({accountant}) => ({incomeStatement: accountant.incomeStatement}));
+
+  if (!jwt) return <Redirect to={"/login"}/>;
+  if (!incomeStatement) return <Redirect to={"/income-statement-form"}/>;
+  return (
     <PageTemplate>
       <IncomeStatementContainer/>
     </PageTemplate>
-    : <Redirect to={"/login"}/>;
+  );
 }
 
 export default IncomeStatementPage;
