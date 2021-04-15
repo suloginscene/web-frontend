@@ -17,3 +17,6 @@ export const changeName = ({changeNameLink, jwt, newName}) =>
 
 export const changeBudget = ({changeBudgetLink, jwt, newBudget}) =>
   client.put(changeBudgetLink, {newBudget}, {headers: {'X-AUTH-TOKEN': jwt}});
+
+export const deleteAccount = ({deleteAccountLink, jwt}) =>
+  client.delete(deleteAccountLink, {headers: {'X-AUTH-TOKEN': jwt}});

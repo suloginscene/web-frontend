@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import Account from "../../components/accountant/Account";
 import {useDispatch, useSelector} from "react-redux";
-import {changeBudget, changeField, changeName, getAccount} from "../../modules/accountant";
+import {changeBudget, changeField, changeName, deleteAccount, getAccount} from "../../modules/accountant";
 import toErrorMessage from "../../lib/error/toErrorMessage";
 import Loading from "../../components/common/Loading";
 import {withRouter} from "react-router-dom";
@@ -9,11 +9,12 @@ import {withRouter} from "react-router-dom";
 function AccountContainer({id, history}) {
   const dispatch = useDispatch();
   const {jwt} = useSelector(({member}) => ({jwt: member.jwt}));
-  const {accounts, account, form, changed, errorResponse} = useSelector(({accountant}) => ({
+  const {accounts, account, form, changed, deleted, errorResponse} = useSelector(({accountant}) => ({
     accounts: accountant.accounts,
     account: accountant.account,
     form: accountant.modifyForm,
     changed: accountant.changed,
+    deleted: accountant.deleted,
     errorResponse: accountant.errorResponse
   }));
 
@@ -50,6 +51,12 @@ function AccountContainer({id, history}) {
     dispatch(changeBudget(account._links.changeBudget.href, jwt, {newBudget}));
   };
 
+  const onClickDelete = () => {
+    if (window.confirm("정말로 삭제하시겠습니까?")) {
+      dispatch(deleteAccount(account._links.deleteAccount.href, jwt));
+    }
+  };
+
   useEffect(() => {
     const simpleAccount = accounts.filter(account => account.id === Number(id))[0];
     dispatch(getAccount(simpleAccount._links.self.href, jwt));
@@ -60,6 +67,12 @@ function AccountContainer({id, history}) {
       history.push('/account-list');
     }
   }, [changed, history]);
+
+  useEffect(() => {
+    if (deleted) {
+      history.push('/account-list');
+    }
+  }, [deleted, history]);
 
   useEffect(() => {
     if (errorResponse) {
@@ -74,6 +87,7 @@ function AccountContainer({id, history}) {
       onChange={onChange}
       onSubmitName={onSubmitName}
       onSubmitBudget={onSubmitBudget}
+      onClickDelete={onClickDelete}
     />
   ) : <Loading/>;
 }

@@ -33,7 +33,7 @@ function MemberInfo({email, form, onChange, onSubmit, onClickWithdraw}) {
 
       <div className={"withdraw"}>
         <h3>회원 탈퇴</h3>
-        <button onClick={onClickWithdraw}>탈퇴하기< /button>
+        <button onClick={onClickWithdraw}>탈퇴하기</button>
       </div>
 
     </div>

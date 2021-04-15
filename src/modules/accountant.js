@@ -12,6 +12,7 @@ const [GET_ACCOUNTS, GET_ACCOUNTS_SUCCESS, GET_ACCOUNTS_FAILURE] = createRequest
 const [GET_ACCOUNT, GET_ACCOUNT_SUCCESS, GET_ACCOUNT_FAILURE] = createRequestActionTypes("accountant/GET_ACCOUNT");
 const [CHANGE_NAME, CHANGE_NAME_SUCCESS, CHANGE_NAME_FAILURE] = createRequestActionTypes("accountant/CHANGE_NAME");
 const [CHANGE_BUDGET, CHANGE_BUDGET_SUCCESS, CHANGE_BUDGET_FAILURE] = createRequestActionTypes("accountant/CHANGE_BUDGET");
+const [DELETE_ACCOUNT, DELETE_ACCOUNT_SUCCESS, DELETE_ACCOUNT_FAILURE] = createRequestActionTypes("accountant/DELETE_ACCOUNT");
 
 export const changeField = createAction(CHANGE_FIELD, ({form, key, value}) => ({form, key, value}));
 export const initializeForm = createAction(INITIALIZE_FORM, (form) => (form));
@@ -27,6 +28,7 @@ export const changeName = createAction(CHANGE_NAME, (changeNameLink, jwt, {newNa
 export const changeBudget = createAction(CHANGE_BUDGET, (changeBudgetLink, jwt, {newBudget}) => ({
   changeBudgetLink, jwt, newBudget
 }));
+export const deleteAccount = createAction(DELETE_ACCOUNT, (deleteAccountLink, jwt) => ({deleteAccountLink, jwt}));
 
 const accountantIndexSaga = createRequestSaga(ACCOUNTANT_INDEX, accountantApi.index);
 const postAccountSaga = createRequestSaga(POST_ACCOUNT, accountantApi.postAccount);
@@ -34,6 +36,7 @@ const getAccountsSaga = createRequestSaga(GET_ACCOUNTS, accountantApi.getAccount
 const getAccountSaga = createRequestSaga(GET_ACCOUNT, accountantApi.getAccount);
 const changeNameSaga = createRequestSaga(CHANGE_NAME, accountantApi.changeName);
 const changeBudgetSaga = createRequestSaga(CHANGE_BUDGET, accountantApi.changeBudget);
+const deleteAccountSaga = createRequestSaga(DELETE_ACCOUNT, accountantApi.deleteAccount);
 
 export function* accountantSaga() {
   yield takeLatest(ACCOUNTANT_INDEX, accountantIndexSaga);
@@ -42,6 +45,7 @@ export function* accountantSaga() {
   yield takeLatest(GET_ACCOUNT, getAccountSaga);
   yield takeLatest(CHANGE_NAME, changeNameSaga);
   yield takeLatest(CHANGE_BUDGET, changeBudgetSaga);
+  yield takeLatest(DELETE_ACCOUNT, deleteAccountSaga);
 }
 
 const initialState = {
@@ -67,6 +71,7 @@ const initialState = {
   accounts: null,
   account: null,
   changed: null,
+  deleted: null,
   incomeStatement: null,
   errorResponse: null
 }
@@ -81,7 +86,8 @@ const accountant = handleActions({
       ...state,
       [form]: initialState[form],
       posted: null,
-      changed: null
+      changed: null,
+      deleted: null
     }),
     [ACCOUNTANT_INDEX_SUCCESS]: (state, {payload: response}) => (
       produce(state, draft => {
@@ -136,6 +142,14 @@ const accountant = handleActions({
       errorResponse: null
     }),
     [CHANGE_BUDGET_FAILURE]: (state, {payload: errorResponse}) => ({
+      ...state, errorResponse
+    }),
+    [DELETE_ACCOUNT_SUCCESS]: (state) => ({
+      ...state,
+      deleted: true,
+      errorResponse: null
+    }),
+    [DELETE_ACCOUNT_FAILURE]: (state, {payload: errorResponse}) => ({
       ...state, errorResponse
     })
   }, initialState
