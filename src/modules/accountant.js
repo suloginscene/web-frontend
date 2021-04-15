@@ -8,6 +8,7 @@ const CHANGE_FIELD = "accountant/CHANGE_FIELD";
 const INITIALIZE_FORM = "accountant/INITIALIZE_FORM";
 const [ACCOUNTANT_INDEX, ACCOUNTANT_INDEX_SUCCESS, ACCOUNTANT_INDEX_FAILURE] = createRequestActionTypes("accountant/ACCOUNTANT_INDEX");
 const [POST_ACCOUNT, POST_ACCOUNT_SUCCESS, POST_ACCOUNT_FAILURE] = createRequestActionTypes("accountant/POST_ACCOUNT");
+const [GET_ACCOUNTS, GET_ACCOUNTS_SUCCESS, GET_ACCOUNTS_FAILURE] = createRequestActionTypes("accountant/GET_ACCOUNTS");
 
 export const changeField = createAction(CHANGE_FIELD, ({form, key, value}) => ({form, key, value}));
 export const initializeForm = createAction(INITIALIZE_FORM, (form) => (form));
@@ -15,13 +16,16 @@ export const accountantIndex = createAction(ACCOUNTANT_INDEX, (indexLink) => ({i
 export const postAccount = createAction(POST_ACCOUNT, (postAccountLink, jwt, {type, name, money}) => ({
   postAccountLink, jwt, type, name, money
 }));
+export const getAccounts = createAction(GET_ACCOUNTS, (getAccountsLink, jwt) => ({getAccountsLink, jwt}));
 
 const accountantIndexSaga = createRequestSaga(ACCOUNTANT_INDEX, accountantApi.index);
 const postAccountSaga = createRequestSaga(POST_ACCOUNT, accountantApi.postAccount);
+const getAccountsSaga = createRequestSaga(GET_ACCOUNTS, accountantApi.getAccounts);
 
 export function* accountantSaga() {
   yield takeLatest(ACCOUNTANT_INDEX, accountantIndexSaga);
   yield takeLatest(POST_ACCOUNT, postAccountSaga);
+  yield takeLatest(GET_ACCOUNTS, getAccountsSaga);
 }
 
 const initialState = {
@@ -40,6 +44,7 @@ const initialState = {
     money: ''
   },
   posted: null,
+  accounts: null,
   incomeStatement: null,
   errorResponse: null
 }
@@ -76,6 +81,14 @@ const accountant = handleActions({
       errorResponse: null
     }),
     [POST_ACCOUNT_FAILURE]: (state, {payload: errorResponse}) => ({
+      ...state, errorResponse
+    }),
+    [GET_ACCOUNTS_SUCCESS]: (state, {payload: response}) => ({
+      ...state,
+      accounts: response.data.accounts,
+      errorResponse: null
+    }),
+    [GET_ACCOUNTS_FAILURE]: (state, {payload: errorResponse}) => ({
       ...state, errorResponse
     })
   }, initialState

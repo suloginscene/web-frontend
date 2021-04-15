@@ -1,50 +1,33 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import AccountList from "../../components/accountant/AccountList";
+import {useDispatch, useSelector} from "react-redux";
+import {getAccounts} from "../../modules/accountant";
+import toErrorMessage from "../../lib/error/toErrorMessage";
 
 function AccountListContainer() {
-  const accounts = [{
-    "id": 6,
-    "name": "ASSET",
-    "type": "Asset",
-    "_links": {
-      "self": {
-        "href": "http://localhost:8080/api/accounts/6"
-      }
-    }
-  }, {
-    "id": 7,
-    "name": "LIABILITY",
-    "type": "Liability",
-    "_links": {
-      "self": {
-        "href": "http://localhost:8080/api/accounts/7"
-      }
-    }
-  }, {
-    "id": 8,
-    "name": "REVENUE",
-    "type": "Revenue",
-    "_links": {
-      "self": {
-        "href": "http://localhost:8080/api/accounts/8"
-      }
-    }
-  }, {
-    "id": 9,
-    "name": "EXPENSE",
-    "type": "Expense",
-    "_links": {
-      "self": {
-        "href": "http://localhost:8080/api/accounts/9"
-      }
-    }
-  }];
+  const dispatch = useDispatch();
+  const {jwt} = useSelector(({member}) => ({jwt: member.jwt}));
+  const {getAccountsLink, accounts, errorResponse} = useSelector(({accountant}) => ({
+    getAccountsLink: accountant.links.getAccounts,
+    accounts: accountant.accounts,
+    errorResponse: accountant.errorResponse
+  }));
 
-  return (
+  useEffect(() => {
+    dispatch(getAccounts(getAccountsLink, jwt));
+  }, [dispatch, getAccountsLink, jwt]);
+
+  useEffect(() => {
+    if (errorResponse) {
+      alert(toErrorMessage(errorResponse));
+    }
+  }, [errorResponse]);
+
+  return accounts ? (
     <AccountList
       accounts={accounts}
     />
-  );
+  ) : <></>;
 }
 
 export default AccountListContainer;

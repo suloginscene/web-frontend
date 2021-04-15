@@ -3,8 +3,9 @@ import AccountForm from "../../components/accountant/AccountForm";
 import {useDispatch, useSelector} from "react-redux";
 import {changeField, initializeForm, postAccount} from "../../modules/accountant";
 import toErrorMessage from "../../lib/error/toErrorMessage";
+import {withRouter} from "react-router-dom";
 
-function AccountFormContainer() {
+function AccountFormContainer({history}) {
   const [errorMessage, setErrorMessage] = useState(null);
   const dispatch = useDispatch();
   const {jwt} = useSelector(({member}) => ({jwt: member.jwt}));
@@ -45,10 +46,9 @@ function AccountFormContainer() {
 
   useEffect(() => {
     if (posted) {
-      // TODO
-      console.log('success');
+      history.push('/account-list');
     }
-  }, [posted]);
+  }, [posted, history]);
 
   useEffect(() => {
     if (errorResponse) {
@@ -66,4 +66,4 @@ function AccountFormContainer() {
   );
 }
 
-export default AccountFormContainer;
+export default withRouter(AccountFormContainer);

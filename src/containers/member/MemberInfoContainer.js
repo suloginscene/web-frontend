@@ -48,10 +48,8 @@ function MemberInfoContainer({history}) {
 
   useEffect(() => {
     dispatch(initializeForm('changePassword'));
-    if (jwt) {
-      dispatch(myInfo(myInfoLink, jwt));
-    }
-  }, [dispatch, jwt, myInfoLink]);
+    dispatch(myInfo(myInfoLink, jwt));
+  }, [dispatch, myInfoLink, jwt]);
 
   useEffect(() => {
     if (passwordChanged) {
