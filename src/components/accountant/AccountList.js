@@ -10,7 +10,7 @@ function AccountItem({id, name}) {
   );
 }
 
-function AccountList({accounts}) {
+function AccountList({accounts, form, onChange, onSubmit, errorMessage}) {
   const [assets, liabilities, revenues, expenses] = [[], [], [], []];
 
   accounts.forEach(account => {
@@ -62,15 +62,15 @@ function AccountList({accounts}) {
 
       <div className={"register"}>
         <h3>계정 등록</h3>
-        <form>
+        <form onSubmit={onSubmit}>
           <div className={"radio-area"}>
-            <input name={"type"} value={"ASSET"} type={"radio"} id={"asset"}/>
+            <input name={"type"} value={"ASSET"} type={"radio"} id={"asset"} onChange={onChange}/>
             <label htmlFor={"asset"}>자산</label>
-            <input name={"type"} value={"LIABILITY"} type={"radio"} id={"liability"}/>
+            <input name={"type"} value={"LIABILITY"} type={"radio"} id={"liability"} onChange={onChange}/>
             <label htmlFor={"liability"}>부채</label>
-            <input name={"type"} value={"REVENUE"} type={"radio"} id={"revenue"}/>
+            <input name={"type"} value={"REVENUE"} type={"radio"} id={"revenue"} onChange={onChange}/>
             <label htmlFor={"revenue"}>수입</label>
-            <input name={"type"} value={"EXPENSE"} type={"radio"} id={"expense"}/>
+            <input name={"type"} value={"EXPENSE"} type={"radio"} id={"expense"} onChange={onChange}/>
             <label htmlFor={"expense"}>지출</label>
           </div>
           <div className={"input-area"}>
@@ -78,13 +78,18 @@ function AccountList({accounts}) {
               name={"name"}
               type={"text"}
               placeholder={"이름"}
+              onChange={onChange}
+              value={form.name}
             />
             <input
               name={"money"}
               type={"text"}
               placeholder={"잔액 혹은 예산"}
+              onChange={onChange}
+              value={form.money}
             />
           </div>
+          {errorMessage ? <div className={"error"}>{errorMessage}</div> : <></>}
           <button>계정 등록</button>
         </form>
       </div>

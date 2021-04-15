@@ -9,7 +9,7 @@ import createSagaMiddleware from 'redux-saga';
 import rootReducer, {rootSaga} from "./modules";
 import {memberIndex, setJwt} from "./modules/member";
 import {accountantIndex} from "./modules/accountant";
-import {accountantServer, memberServer, profile, testJwt} from './properties';
+import {accountantServer, memberServer} from './properties';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(sagaMiddleware)));
@@ -19,8 +19,8 @@ const loadIndex = () => {
   store.dispatch(accountantIndex(accountantServer + '/api'));
 };
 const loadUser = () => {
-  if (profile === 'test') store.dispatch(setJwt(testJwt));
-  else if (localStorage.getItem('jwt')) store.dispatch(setJwt(localStorage.getItem('jwt')));
+  const jwt = localStorage.getItem('jwt');
+  if (jwt) store.dispatch(setJwt(jwt));
 };
 
 sagaMiddleware.run(rootSaga);
