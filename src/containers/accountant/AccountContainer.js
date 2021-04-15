@@ -3,6 +3,7 @@ import Account from "../../components/accountant/Account";
 import {useDispatch, useSelector} from "react-redux";
 import {getAccount} from "../../modules/accountant";
 import toErrorMessage from "../../lib/error/toErrorMessage";
+import Loading from "../../components/common/Loading";
 
 function AccountContainer({id}) {
   const dispatch = useDispatch();
@@ -29,7 +30,7 @@ function AccountContainer({id}) {
     <Account
       account={account}
     />
-  ) : <></>;
+  ) : <Loading/>;
 }
 
 export default AccountContainer;
