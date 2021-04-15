@@ -8,13 +8,15 @@ import {Provider} from "react-redux";
 import createSagaMiddleware from 'redux-saga';
 import rootReducer, {rootSaga} from "./modules";
 import {memberIndex, setJwt} from "./modules/member";
-import {memberServer, profile, testJwt} from './properties';
+import {accountantIndex} from "./modules/accountant";
+import {accountantServer, memberServer, profile, testJwt} from './properties';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(sagaMiddleware)));
 
 const loadIndex = () => {
   store.dispatch(memberIndex(memberServer + '/api'));
+  store.dispatch(accountantIndex(accountantServer + '/api'));
 };
 const loadUser = () => {
   if (profile === 'test') store.dispatch(setJwt(testJwt));
