@@ -31,7 +31,7 @@ function TransactionItem({type, amount, description, createdAt}) {
   );
 }
 
-function Account({account}) {
+function Account({account, form, onChange, onSubmitName, onSubmitBudget}) {
   const typeName = accountNameMap[account.type];
   const moneyName = moneyNameMap[account.type];
   const transactions = account.singleTransactions.map((transaction, index) => (
@@ -55,25 +55,29 @@ function Account({account}) {
       <div className={"configure"}>
         <div className={"row"}>
           <h4>이름 변경</h4>
-          <form>
+          <form onSubmit={onSubmitName}>
             <input
               name={"newName"}
               type={"text"}
               placeholder={"새 이름"}
+              onChange={onChange}
+              value={form.newName}
             />
-            <button>변경</button>
+            <button type={"submit"}>변경</button>
           </form>
         </div>
         {(moneyName === '예산') ?
           <div className={"row"}>
             <h4>예산 변경</h4>
-            <form>
+            <form onSubmit={onSubmitBudget}>
               <input
                 name={"newBudget"}
                 type={"text"}
                 placeholder={"새 예산"}
+                onChange={onChange}
+                value={form.newBudget}
               />
-              <button>변경</button>
+              <button type={"submit"}>변경</button>
             </form>
           </div>
           : <></>}

@@ -10,6 +10,8 @@ const [ACCOUNTANT_INDEX, ACCOUNTANT_INDEX_SUCCESS, ACCOUNTANT_INDEX_FAILURE] = c
 const [POST_ACCOUNT, POST_ACCOUNT_SUCCESS, POST_ACCOUNT_FAILURE] = createRequestActionTypes("accountant/POST_ACCOUNT");
 const [GET_ACCOUNTS, GET_ACCOUNTS_SUCCESS, GET_ACCOUNTS_FAILURE] = createRequestActionTypes("accountant/GET_ACCOUNTS");
 const [GET_ACCOUNT, GET_ACCOUNT_SUCCESS, GET_ACCOUNT_FAILURE] = createRequestActionTypes("accountant/GET_ACCOUNT");
+const [CHANGE_NAME, CHANGE_NAME_SUCCESS, CHANGE_NAME_FAILURE] = createRequestActionTypes("accountant/CHANGE_NAME");
+const [CHANGE_BUDGET, CHANGE_BUDGET_SUCCESS, CHANGE_BUDGET_FAILURE] = createRequestActionTypes("accountant/CHANGE_BUDGET");
 
 export const changeField = createAction(CHANGE_FIELD, ({form, key, value}) => ({form, key, value}));
 export const initializeForm = createAction(INITIALIZE_FORM, (form) => (form));
@@ -19,17 +21,27 @@ export const postAccount = createAction(POST_ACCOUNT, (postAccountLink, jwt, {ty
 }));
 export const getAccounts = createAction(GET_ACCOUNTS, (getAccountsLink, jwt) => ({getAccountsLink, jwt}));
 export const getAccount = createAction(GET_ACCOUNT, (getAccountLink, jwt) => ({getAccountLink, jwt}));
+export const changeName = createAction(CHANGE_NAME, (changeNameLink, jwt, {newName}) => ({
+  changeNameLink, jwt, newName
+}));
+export const changeBudget = createAction(CHANGE_BUDGET, (changeBudgetLink, jwt, {newBudget}) => ({
+  changeBudgetLink, jwt, newBudget
+}));
 
 const accountantIndexSaga = createRequestSaga(ACCOUNTANT_INDEX, accountantApi.index);
 const postAccountSaga = createRequestSaga(POST_ACCOUNT, accountantApi.postAccount);
 const getAccountsSaga = createRequestSaga(GET_ACCOUNTS, accountantApi.getAccounts);
 const getAccountSaga = createRequestSaga(GET_ACCOUNT, accountantApi.getAccount);
+const changeNameSaga = createRequestSaga(CHANGE_NAME, accountantApi.changeName);
+const changeBudgetSaga = createRequestSaga(CHANGE_BUDGET, accountantApi.changeBudget);
 
 export function* accountantSaga() {
   yield takeLatest(ACCOUNTANT_INDEX, accountantIndexSaga);
   yield takeLatest(POST_ACCOUNT, postAccountSaga);
   yield takeLatest(GET_ACCOUNTS, getAccountsSaga);
   yield takeLatest(GET_ACCOUNT, getAccountSaga);
+  yield takeLatest(CHANGE_NAME, changeNameSaga);
+  yield takeLatest(CHANGE_BUDGET, changeBudgetSaga);
 }
 
 const initialState = {
@@ -47,9 +59,14 @@ const initialState = {
     name: '',
     money: ''
   },
+  modifyForm: {
+    newName: '',
+    newBudget: ''
+  },
   posted: null,
   accounts: null,
   account: null,
+  changed: null,
   incomeStatement: null,
   errorResponse: null
 }
@@ -63,7 +80,8 @@ const accountant = handleActions({
     [INITIALIZE_FORM]: (state, {payload: form}) => ({
       ...state,
       [form]: initialState[form],
-      posted: null
+      posted: null,
+      changed: null
     }),
     [ACCOUNTANT_INDEX_SUCCESS]: (state, {payload: response}) => (
       produce(state, draft => {
@@ -102,6 +120,22 @@ const accountant = handleActions({
       errorResponse: null
     }),
     [GET_ACCOUNT_FAILURE]: (state, {payload: errorResponse}) => ({
+      ...state, errorResponse
+    }),
+    [CHANGE_NAME_SUCCESS]: (state) => ({
+      ...state,
+      changed: true,
+      errorResponse: null
+    }),
+    [CHANGE_NAME_FAILURE]: (state, {payload: errorResponse}) => ({
+      ...state, errorResponse
+    }),
+    [CHANGE_BUDGET_SUCCESS]: (state) => ({
+      ...state,
+      changed: true,
+      errorResponse: null
+    }),
+    [CHANGE_BUDGET_FAILURE]: (state, {payload: errorResponse}) => ({
       ...state, errorResponse
     })
   }, initialState

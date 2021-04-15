@@ -11,3 +11,9 @@ export const getAccounts = ({getAccountsLink, jwt}) =>
 
 export const getAccount = ({getAccountLink, jwt}) =>
   client.get(getAccountLink, {headers: {'X-AUTH-TOKEN': jwt}});
+
+export const changeName = ({changeNameLink, jwt, newName}) =>
+  client.put(changeNameLink, {newName}, {headers: {'X-AUTH-TOKEN': jwt}});
+
+export const changeBudget = ({changeBudgetLink, jwt, newBudget}) =>
+  client.put(changeBudgetLink, {newBudget}, {headers: {'X-AUTH-TOKEN': jwt}});

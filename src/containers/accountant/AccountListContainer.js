@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import AccountList from "../../components/accountant/AccountList";
 import {useDispatch, useSelector} from "react-redux";
-import {getAccounts} from "../../modules/accountant";
+import {getAccounts, initializeForm} from "../../modules/accountant";
 import toErrorMessage from "../../lib/error/toErrorMessage";
 import Loading from "../../components/common/Loading";
 
@@ -16,6 +16,7 @@ function AccountListContainer() {
 
   useEffect(() => {
     dispatch(getAccounts(getAccountsLink, jwt));
+    dispatch(initializeForm('modifyForm'));
   }, [dispatch, getAccountsLink, jwt]);
 
   useEffect(() => {

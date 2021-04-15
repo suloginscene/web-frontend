@@ -13,8 +13,8 @@ function Navigation({jwt, onClickLogout}) {
         <div className={"menu"}>
           <span>계정</span>
           <div className={"dropdown account-dropdown"}>
-            <Link to={"/account-form"}>등록</Link>
             <Link to={"/account-list"}>목록</Link>
+            <Link to={"/account-form"}>등록</Link>
           </div>
         </div>
 
