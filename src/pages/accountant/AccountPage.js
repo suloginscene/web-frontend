@@ -6,11 +6,15 @@ import PageTemplate from "../../components/common/PageTemplate";
 
 function AccountPage({match}) {
   const {jwt} = useSelector(({member}) => ({jwt: member.jwt}));
-  return jwt ?
+  const {accounts} = useSelector(({accountant}) => ({accounts: accountant.accounts}));
+
+  if (!jwt) return <Redirect to={"/login"}/>;
+  if (!accounts) return <Redirect to={"/account-list"}/>
+  return (
     <PageTemplate>
       <AccountContainer id={match.params.id}/>
     </PageTemplate>
-    : <Redirect to={"/login"}/>;
+  );
 }
 
 export default AccountPage;

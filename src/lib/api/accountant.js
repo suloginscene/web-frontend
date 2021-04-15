@@ -8,3 +8,6 @@ export const postAccount = ({postAccountLink, jwt, type, name, money}) =>
 
 export const getAccounts = ({getAccountsLink, jwt}) =>
   client.get(getAccountsLink, {headers: {'X-AUTH-TOKEN': jwt}});
+
+export const getAccount = ({getAccountLink, jwt}) =>
+  client.get(getAccountLink, {headers: {'X-AUTH-TOKEN': jwt}});

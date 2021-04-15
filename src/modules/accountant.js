@@ -9,6 +9,7 @@ const INITIALIZE_FORM = "accountant/INITIALIZE_FORM";
 const [ACCOUNTANT_INDEX, ACCOUNTANT_INDEX_SUCCESS, ACCOUNTANT_INDEX_FAILURE] = createRequestActionTypes("accountant/ACCOUNTANT_INDEX");
 const [POST_ACCOUNT, POST_ACCOUNT_SUCCESS, POST_ACCOUNT_FAILURE] = createRequestActionTypes("accountant/POST_ACCOUNT");
 const [GET_ACCOUNTS, GET_ACCOUNTS_SUCCESS, GET_ACCOUNTS_FAILURE] = createRequestActionTypes("accountant/GET_ACCOUNTS");
+const [GET_ACCOUNT, GET_ACCOUNT_SUCCESS, GET_ACCOUNT_FAILURE] = createRequestActionTypes("accountant/GET_ACCOUNT");
 
 export const changeField = createAction(CHANGE_FIELD, ({form, key, value}) => ({form, key, value}));
 export const initializeForm = createAction(INITIALIZE_FORM, (form) => (form));
@@ -17,15 +18,18 @@ export const postAccount = createAction(POST_ACCOUNT, (postAccountLink, jwt, {ty
   postAccountLink, jwt, type, name, money
 }));
 export const getAccounts = createAction(GET_ACCOUNTS, (getAccountsLink, jwt) => ({getAccountsLink, jwt}));
+export const getAccount = createAction(GET_ACCOUNT, (getAccountLink, jwt) => ({getAccountLink, jwt}));
 
 const accountantIndexSaga = createRequestSaga(ACCOUNTANT_INDEX, accountantApi.index);
 const postAccountSaga = createRequestSaga(POST_ACCOUNT, accountantApi.postAccount);
 const getAccountsSaga = createRequestSaga(GET_ACCOUNTS, accountantApi.getAccounts);
+const getAccountSaga = createRequestSaga(GET_ACCOUNT, accountantApi.getAccount);
 
 export function* accountantSaga() {
   yield takeLatest(ACCOUNTANT_INDEX, accountantIndexSaga);
   yield takeLatest(POST_ACCOUNT, postAccountSaga);
   yield takeLatest(GET_ACCOUNTS, getAccountsSaga);
+  yield takeLatest(GET_ACCOUNT, getAccountSaga);
 }
 
 const initialState = {
@@ -38,13 +42,14 @@ const initialState = {
     getIncomeStatement: null,
     clear: null
   },
-  account: {
+  accountForm: {
     type: '',
     name: '',
     money: ''
   },
   posted: null,
   accounts: null,
+  account: null,
   incomeStatement: null,
   errorResponse: null
 }
@@ -89,6 +94,14 @@ const accountant = handleActions({
       errorResponse: null
     }),
     [GET_ACCOUNTS_FAILURE]: (state, {payload: errorResponse}) => ({
+      ...state, errorResponse
+    }),
+    [GET_ACCOUNT_SUCCESS]: (state, {payload: response}) => ({
+      ...state,
+      account: response.data,
+      errorResponse: null
+    }),
+    [GET_ACCOUNT_FAILURE]: (state, {payload: errorResponse}) => ({
       ...state, errorResponse
     })
   }, initialState

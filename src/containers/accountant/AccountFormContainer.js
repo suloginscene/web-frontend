@@ -10,7 +10,7 @@ function AccountFormContainer({history}) {
   const dispatch = useDispatch();
   const {jwt} = useSelector(({member}) => ({jwt: member.jwt}));
   const {form, postAccountLink, posted, errorResponse} = useSelector(({accountant}) => ({
-      form: accountant.account,
+      form: accountant.accountForm,
       postAccountLink: accountant.links.postAccount,
       posted: accountant.posted,
       errorResponse: accountant.errorResponse
@@ -19,7 +19,7 @@ function AccountFormContainer({history}) {
 
   const onChange = (e) => {
     const {name, value} = e.target;
-    dispatch(changeField({form: 'account', key: name, value: value}));
+    dispatch(changeField({form: 'accountForm', key: name, value: value}));
   };
 
   const onSubmit = (e) => {
@@ -41,7 +41,7 @@ function AccountFormContainer({history}) {
   };
 
   useEffect(() => {
-    dispatch(initializeForm('account'));
+    dispatch(initializeForm('accountForm'));
   }, [dispatch]);
 
   useEffect(() => {
