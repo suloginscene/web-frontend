@@ -7,6 +7,7 @@ import VerifyPage from "./pages/member/VerifyPage";
 import LoginPage from "./pages/member/LoginPage";
 import MyPage from "./pages/member/MyPage";
 import ForgetPage from "./pages/member/ForgetPage";
+import AccountFormPage from "./pages/accountant/AccountFormPage";
 import AccountListPage from "./pages/accountant/AccountListPage";
 import AccountPage from "./pages/accountant/AccountPage";
 import TransactionPage from "./pages/accountant/TransactionPage";
@@ -34,6 +35,7 @@ function App() {
           <Route component={MyPage} path={"/my-page"} exact/>
           <Route component={ForgetPage} path={"/forget"} exact/>
 
+          <Route component={AccountFormPage} path={"/account-form"} exact/>
           <Route component={AccountListPage} path={"/account-list"} exact/>
           <Route component={AccountPage} path={"/account/:id"}/>
           <Route component={TransactionPage} path={"/transaction"} exact/>

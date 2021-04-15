@@ -37,13 +37,22 @@
         }
       }
 
+      .account-dropdown {
+        z-index: 3;
+        right: 125px;
+      }
+
+      .account-dropdown:hover {
+        height: 65px;
+      }
+
       .report-dropdown {
         z-index: 2;
         right: 68px;
       }
 
       .report-dropdown:hover {
-        height: 90px;
+        height: 93px;
       }
 
       .member-dropdown {
@@ -54,10 +63,6 @@
       .member-dropdown:hover {
         height: 65px;
       }
-    }
-
-    .front {
-      z-index: 3;
     }
   }
 

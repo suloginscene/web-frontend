@@ -1,13 +1,25 @@
-.member-form {
+.account-form {
   text-align: center;
 
   h3 {
-    margin: 0 0 40px;
+    margin: 0 0 25px;
   }
 
   form {
-    .error {
-      padding-top: 25px;
+    .radio-area {
+      margin-bottom: 15px;
+
+      input {
+        display: none;
+      }
+
+      label {
+        width: 24%;
+      }
+    }
+
+    .input-area {
+      margin-bottom: 15px;
     }
 
     button {
@@ -24,11 +36,5 @@
       color: white;
       background-color: mediumpurple;
     }
-  }
-
-  .links {
-    margin: 40px 0 0;
-    display: flex;
-    justify-content: space-between;
   }
 }

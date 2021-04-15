@@ -3,61 +3,23 @@
     margin-bottom: 25px;
   }
 
-  .list {
-    margin-bottom: 75px;
-
-    table {
-      tr {
-        th {
-          width: 25%;
-          padding: 10px 0;
-          font-size: 18px;
-          font-weight: normal;
-        }
-
-        td {
-          padding: 10px 10px 0;
-
-          .account-item {
-            display: inline-block;
-            margin: 0 15px 8px 0;
-            font-size: 16px;
-          }
-        }
-      }
-    }
-  }
-
-  .register {
-    form {
-      width: 270px;
-      margin: auto;
-      text-align: center;
-
-      .radio-area {
-        margin-bottom: 30px;
-        text-align: center;
-
-        input {
-          display: none;
-        }
-
-        label {
-          width: 24%;
-        }
+  table {
+    tr {
+      th {
+        width: 25%;
+        padding: 10px 0;
+        font-size: 18px;
+        font-weight: normal;
       }
 
-      .input-area {
-        margin-bottom: 15px;
-      }
+      td {
+        padding: 10px 10px 0;
 
-      .error {
-        color: crimson;
-      }
-
-      button {
-        margin-top: 15px;
-        width: 100%;
+        .account-item {
+          display: inline-block;
+          margin: 0 15px 8px 0;
+          font-size: 16px;
+        }
       }
     }
   }
