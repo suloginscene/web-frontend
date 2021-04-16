@@ -13,6 +13,7 @@ const [GET_ACCOUNT, GET_ACCOUNT_SUCCESS, GET_ACCOUNT_FAILURE] = createRequestAct
 const [CHANGE_NAME, CHANGE_NAME_SUCCESS, CHANGE_NAME_FAILURE] = createRequestActionTypes("accountant/CHANGE_NAME");
 const [CHANGE_BUDGET, CHANGE_BUDGET_SUCCESS, CHANGE_BUDGET_FAILURE] = createRequestActionTypes("accountant/CHANGE_BUDGET");
 const [DELETE_ACCOUNT, DELETE_ACCOUNT_SUCCESS, DELETE_ACCOUNT_FAILURE] = createRequestActionTypes("accountant/DELETE_ACCOUNT");
+const [GET_LEDGER, GET_LEDGER_SUCCESS, GET_LEDGER_FAILURE] = createRequestActionTypes("accountant/GET_LEDGER");
 
 export const changeField = createAction(CHANGE_FIELD, ({form, key, value}) => ({form, key, value}));
 export const initializeForm = createAction(INITIALIZE_FORM, (form) => (form));
@@ -29,6 +30,7 @@ export const changeBudget = createAction(CHANGE_BUDGET, (changeBudgetLink, jwt, 
   changeBudgetLink, jwt, newBudget
 }));
 export const deleteAccount = createAction(DELETE_ACCOUNT, (deleteAccountLink, jwt) => ({deleteAccountLink, jwt}));
+export const getLedger = createAction(GET_LEDGER, (getLedgerLink, jwt) => ({getLedgerLink, jwt}));
 
 const accountantIndexSaga = createRequestSaga(ACCOUNTANT_INDEX, accountantApi.index);
 const postAccountSaga = createRequestSaga(POST_ACCOUNT, accountantApi.postAccount);
@@ -37,6 +39,7 @@ const getAccountSaga = createRequestSaga(GET_ACCOUNT, accountantApi.getAccount);
 const changeNameSaga = createRequestSaga(CHANGE_NAME, accountantApi.changeName);
 const changeBudgetSaga = createRequestSaga(CHANGE_BUDGET, accountantApi.changeBudget);
 const deleteAccountSaga = createRequestSaga(DELETE_ACCOUNT, accountantApi.deleteAccount);
+const getLedgerSaga = createRequestSaga(GET_LEDGER, accountantApi.getLedger);
 
 export function* accountantSaga() {
   yield takeLatest(ACCOUNTANT_INDEX, accountantIndexSaga);
@@ -46,6 +49,7 @@ export function* accountantSaga() {
   yield takeLatest(CHANGE_NAME, changeNameSaga);
   yield takeLatest(CHANGE_BUDGET, changeBudgetSaga);
   yield takeLatest(DELETE_ACCOUNT, deleteAccountSaga);
+  yield takeLatest(GET_LEDGER, getLedgerSaga);
 }
 
 const initialState = {
@@ -72,6 +76,7 @@ const initialState = {
   account: null,
   changed: null,
   deleted: null,
+  ledger: null,
   incomeStatement: null,
   errorResponse: null
 }
@@ -150,6 +155,14 @@ const accountant = handleActions({
       errorResponse: null
     }),
     [DELETE_ACCOUNT_FAILURE]: (state, {payload: errorResponse}) => ({
+      ...state, errorResponse
+    }),
+    [GET_LEDGER_SUCCESS]: (state, {payload: response}) => ({
+      ...state,
+      ledger: response.data,
+      errorResponse: null
+    }),
+    [GET_LEDGER_FAILURE]: (state, {payload: errorResponse}) => ({
       ...state, errorResponse
     })
   }, initialState

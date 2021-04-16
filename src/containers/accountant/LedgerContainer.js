@@ -1,37 +1,35 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Ledger from "../../components/accountant/Ledger";
+import {useDispatch, useSelector} from "react-redux";
+import {getLedger} from "../../modules/accountant";
+import toErrorMessage from "../../lib/error/toErrorMessage";
+import Loading from "../../components/common/Loading";
 
 function LedgerContainer() {
-  const ledger = {
-    "doubleTransactions": [{
-      "type": "SELL",
-      "amount": 1,
-      "debit": "ASSET",
-      "credit": "REVENUE",
-      "description": "설명",
-      "createdAt": "2021-04-13 21:41:33"
-    }, {
-      "type": "PURCHASE_BY_CASH",
-      "amount": 1,
-      "debit": "ASSET",
-      "credit": "REVENUE",
-      "description": "설명",
-      "createdAt": "2021-04-13 21:41:33"
-    }, {
-      "type": "SELL",
-      "amount": 987654321,
-      "debit": "현대 신용",
-      "credit": "국민 저축 예금 통장",
-      "description": "설명",
-      "createdAt": "2021-04-13 21:41:33"
-    }]
-  };
+  const dispatch = useDispatch();
+  const {jwt} = useSelector(({member}) => ({jwt: member.jwt}));
+  const {getLedgerLink, ledger, errorResponse} = useSelector(({accountant}) => ({
+    getLedgerLink: accountant.links.getLedger,
+    ledger: accountant.ledger,
+    errorResponse: accountant.errorResponse
+  }));
 
-  return (
+  useEffect(() => {
+    dispatch(getLedger(getLedgerLink, jwt));
+  }, [dispatch, getLedgerLink, jwt]);
+
+  useEffect(() => {
+    if (errorResponse) {
+      alert(toErrorMessage(errorResponse));
+    }
+  }, [errorResponse]);
+
+
+  return ledger ? (
     <Ledger
       ledger={ledger}
     />
-  );
+  ) : <Loading/>;
 }
 
 export default LedgerContainer;

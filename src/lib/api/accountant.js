@@ -20,3 +20,6 @@ export const changeBudget = ({changeBudgetLink, jwt, newBudget}) =>
 
 export const deleteAccount = ({deleteAccountLink, jwt}) =>
   client.delete(deleteAccountLink, {headers: {'X-AUTH-TOKEN': jwt}});
+
+export const getLedger = ({getLedgerLink, jwt}) =>
+  client.get(getLedgerLink, {headers: {'X-AUTH-TOKEN': jwt}});
