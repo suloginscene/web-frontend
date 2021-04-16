@@ -24,7 +24,6 @@ function LedgerContainer() {
     }
   }, [errorResponse]);
 
-
   return ledger ? (
     <Ledger
       ledger={ledger}
