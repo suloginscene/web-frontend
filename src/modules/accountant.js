@@ -6,6 +6,7 @@ import produce from "immer";
 
 const CHANGE_FIELD = "accountant/CHANGE_FIELD";
 const INITIALIZE_FORM = "accountant/INITIALIZE_FORM";
+const INITIALIZE_INCOME_STATEMENT = "accountant/INITIALIZE_INCOME_STATEMENT";
 const [ACCOUNTANT_INDEX, ACCOUNTANT_INDEX_SUCCESS, ACCOUNTANT_INDEX_FAILURE] = createRequestActionTypes("accountant/ACCOUNTANT_INDEX");
 const [POST_ACCOUNT, POST_ACCOUNT_SUCCESS, POST_ACCOUNT_FAILURE] = createRequestActionTypes("accountant/POST_ACCOUNT");
 const [GET_ACCOUNTS, GET_ACCOUNTS_SUCCESS, GET_ACCOUNTS_FAILURE] = createRequestActionTypes("accountant/GET_ACCOUNTS");
@@ -15,9 +16,11 @@ const [CHANGE_BUDGET, CHANGE_BUDGET_SUCCESS, CHANGE_BUDGET_FAILURE] = createRequ
 const [DELETE_ACCOUNT, DELETE_ACCOUNT_SUCCESS, DELETE_ACCOUNT_FAILURE] = createRequestActionTypes("accountant/DELETE_ACCOUNT");
 const [GET_LEDGER, GET_LEDGER_SUCCESS, GET_LEDGER_FAILURE] = createRequestActionTypes("accountant/GET_LEDGER");
 const [GET_BALANCE_SHEET, GET_BALANCE_SHEET_SUCCESS, GET_BALANCE_SHEET_FAILURE] = createRequestActionTypes("accountant/GET_BALANCE_SHEET");
+const [GET_INCOME_STATEMENT, GET_INCOME_STATEMENT_SUCCESS, GET_INCOME_STATEMENT_FAILURE] = createRequestActionTypes("accountant/GET_INCOME_STATEMENT");
 
 export const changeField = createAction(CHANGE_FIELD, ({form, key, value}) => ({form, key, value}));
 export const initializeForm = createAction(INITIALIZE_FORM, (form) => (form));
+export const initializeIncomeStatement = createAction(INITIALIZE_INCOME_STATEMENT, () => ({}));
 export const accountantIndex = createAction(ACCOUNTANT_INDEX, (indexLink) => ({indexLink}));
 export const postAccount = createAction(POST_ACCOUNT, (postAccountLink, jwt, {type, name, money}) => ({
   postAccountLink, jwt, type, name, money
@@ -35,6 +38,9 @@ export const getLedger = createAction(GET_LEDGER, (getLedgerLink, jwt) => ({getL
 export const getBalanceSheet = createAction(GET_BALANCE_SHEET, (getBalanceSheetLink, jwt) => ({
   getBalanceSheetLink, jwt
 }));
+export const getIncomeStatement = createAction(GET_INCOME_STATEMENT, (getIncomeStatementLink, jwt, {begin, end}) => ({
+  getIncomeStatementLink, jwt, begin, end
+}));
 
 const accountantIndexSaga = createRequestSaga(ACCOUNTANT_INDEX, accountantApi.index);
 const postAccountSaga = createRequestSaga(POST_ACCOUNT, accountantApi.postAccount);
@@ -45,6 +51,7 @@ const changeBudgetSaga = createRequestSaga(CHANGE_BUDGET, accountantApi.changeBu
 const deleteAccountSaga = createRequestSaga(DELETE_ACCOUNT, accountantApi.deleteAccount);
 const getLedgerSaga = createRequestSaga(GET_LEDGER, accountantApi.getLedger);
 const getBalanceSheetSaga = createRequestSaga(GET_BALANCE_SHEET, accountantApi.getBalanceSheet);
+const getIncomeStatementSaga = createRequestSaga(GET_INCOME_STATEMENT, accountantApi.getIncomeStatement);
 
 export function* accountantSaga() {
   yield takeLatest(ACCOUNTANT_INDEX, accountantIndexSaga);
@@ -56,6 +63,7 @@ export function* accountantSaga() {
   yield takeLatest(DELETE_ACCOUNT, deleteAccountSaga);
   yield takeLatest(GET_LEDGER, getLedgerSaga);
   yield takeLatest(GET_BALANCE_SHEET, getBalanceSheetSaga);
+  yield takeLatest(GET_INCOME_STATEMENT, getIncomeStatementSaga);
 }
 
 const initialState = {
@@ -100,6 +108,10 @@ const accountant = handleActions({
       posted: null,
       changed: null,
       deleted: null
+    }),
+    [INITIALIZE_INCOME_STATEMENT]: (state) => ({
+      ...state,
+      incomeStatement: null
     }),
     [ACCOUNTANT_INDEX_SUCCESS]: (state, {payload: response}) => (
       produce(state, draft => {
@@ -178,6 +190,14 @@ const accountant = handleActions({
       errorResponse: null
     }),
     [GET_BALANCE_SHEET_FAILURE]: (state, {payload: errorResponse}) => ({
+      ...state, errorResponse
+    }),
+    [GET_INCOME_STATEMENT_SUCCESS]: (state, {payload: response}) => ({
+      ...state,
+      incomeStatement: response.data,
+      errorResponse: null
+    }),
+    [GET_INCOME_STATEMENT_FAILURE]: (state, {payload: errorResponse}) => ({
       ...state, errorResponse
     })
   }, initialState
