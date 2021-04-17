@@ -17,6 +17,7 @@ const [DELETE_ACCOUNT, DELETE_ACCOUNT_SUCCESS, DELETE_ACCOUNT_FAILURE] = createR
 const [GET_LEDGER, GET_LEDGER_SUCCESS, GET_LEDGER_FAILURE] = createRequestActionTypes("accountant/GET_LEDGER");
 const [GET_BALANCE_SHEET, GET_BALANCE_SHEET_SUCCESS, GET_BALANCE_SHEET_FAILURE] = createRequestActionTypes("accountant/GET_BALANCE_SHEET");
 const [GET_INCOME_STATEMENT, GET_INCOME_STATEMENT_SUCCESS, GET_INCOME_STATEMENT_FAILURE] = createRequestActionTypes("accountant/GET_INCOME_STATEMENT");
+const [EXECUTE_TRANSACTION, EXECUTE_TRANSACTION_SUCCESS, EXECUTE_TRANSACTION_FAILURE] = createRequestActionTypes("accountant/EXECUTE_TRANSACTION");
 
 export const changeField = createAction(CHANGE_FIELD, ({form, key, value}) => ({form, key, value}));
 export const initializeForm = createAction(INITIALIZE_FORM, (form) => (form));
@@ -41,6 +42,10 @@ export const getBalanceSheet = createAction(GET_BALANCE_SHEET, (getBalanceSheetL
 export const getIncomeStatement = createAction(GET_INCOME_STATEMENT, (getIncomeStatementLink, jwt, {begin, end}) => ({
   getIncomeStatementLink, jwt, begin, end
 }));
+export const executeTransaction = createAction(EXECUTE_TRANSACTION,
+  (executeTransactionLink, jwt, {type, sourceId, destinationId, amount, description}) => (
+    {executeTransactionLink, jwt, type, sourceId, destinationId, amount, description})
+);
 
 const accountantIndexSaga = createRequestSaga(ACCOUNTANT_INDEX, accountantApi.index);
 const postAccountSaga = createRequestSaga(POST_ACCOUNT, accountantApi.postAccount);
@@ -52,6 +57,7 @@ const deleteAccountSaga = createRequestSaga(DELETE_ACCOUNT, accountantApi.delete
 const getLedgerSaga = createRequestSaga(GET_LEDGER, accountantApi.getLedger);
 const getBalanceSheetSaga = createRequestSaga(GET_BALANCE_SHEET, accountantApi.getBalanceSheet);
 const getIncomeStatementSaga = createRequestSaga(GET_INCOME_STATEMENT, accountantApi.getIncomeStatement);
+const executeTransactionSaga = createRequestSaga(EXECUTE_TRANSACTION, accountantApi.executeTransaction);
 
 export function* accountantSaga() {
   yield takeLatest(ACCOUNTANT_INDEX, accountantIndexSaga);
@@ -64,6 +70,7 @@ export function* accountantSaga() {
   yield takeLatest(GET_LEDGER, getLedgerSaga);
   yield takeLatest(GET_BALANCE_SHEET, getBalanceSheetSaga);
   yield takeLatest(GET_INCOME_STATEMENT, getIncomeStatementSaga);
+  yield takeLatest(EXECUTE_TRANSACTION, executeTransactionSaga);
 }
 
 const initialState = {
@@ -85,6 +92,13 @@ const initialState = {
     newName: '',
     newBudget: ''
   },
+  transactionForm: {
+    type: '',
+    sourceId: '',
+    destinationId: '',
+    amount: '',
+    description: ''
+  },
   posted: null,
   accounts: null,
   account: null,
@@ -93,6 +107,7 @@ const initialState = {
   ledger: null,
   balanceSheet: null,
   incomeStatement: null,
+  executed: null,
   errorResponse: null
 }
 
@@ -107,7 +122,8 @@ const accountant = handleActions({
       [form]: initialState[form],
       posted: null,
       changed: null,
-      deleted: null
+      deleted: null,
+      executed: null
     }),
     [INITIALIZE_INCOME_STATEMENT]: (state) => ({
       ...state,
@@ -198,6 +214,14 @@ const accountant = handleActions({
       errorResponse: null
     }),
     [GET_INCOME_STATEMENT_FAILURE]: (state, {payload: errorResponse}) => ({
+      ...state, errorResponse
+    }),
+    [EXECUTE_TRANSACTION_SUCCESS]: (state) => ({
+      ...state,
+      executed: true,
+      errorResponse: null
+    }),
+    [EXECUTE_TRANSACTION_FAILURE]: (state, {payload: errorResponse}) => ({
       ...state, errorResponse
     })
   }, initialState

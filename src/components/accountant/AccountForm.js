@@ -16,13 +16,13 @@ function AccountForm({form, onChange, onSubmit, errorMessage}) {
       <h3>계정 등록</h3>
       <form onSubmit={onSubmit}>
         <div className={"radio-area"}>
-          <input name={"type"} value={"ASSET"} type={"radio"} id={"asset"} onChange={onChange}/>
+          <input name={"type"} type={"radio"} value={"ASSET"} id={"asset"} onChange={onChange}/>
           <label htmlFor={"asset"}>자산</label>
-          <input name={"type"} value={"LIABILITY"} type={"radio"} id={"liability"} onChange={onChange}/>
+          <input name={"type"} type={"radio"} value={"LIABILITY"} id={"liability"} onChange={onChange}/>
           <label htmlFor={"liability"}>부채</label>
-          <input name={"type"} value={"REVENUE"} type={"radio"} id={"revenue"} onChange={onChange}/>
+          <input name={"type"} type={"radio"} value={"REVENUE"} id={"revenue"} onChange={onChange}/>
           <label htmlFor={"revenue"}>수입</label>
-          <input name={"type"} value={"EXPENSE"} type={"radio"} id={"expense"} onChange={onChange}/>
+          <input name={"type"} type={"radio"} value={"EXPENSE"} id={"expense"} onChange={onChange}/>
           <label htmlFor={"expense"}>지출</label>
         </div>
         <div className={"input-area"}>

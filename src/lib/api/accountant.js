@@ -29,3 +29,7 @@ export const getBalanceSheet = ({getBalanceSheetLink, jwt}) =>
 
 export const getIncomeStatement = ({getIncomeStatementLink, jwt, begin, end}) =>
   client.get(getIncomeStatementLink + `?beginDate=${begin}&inclusiveEndDate=${end}`, {headers: {'X-AUTH-TOKEN': jwt}});
+
+export const executeTransaction = ({executeTransactionLink, jwt, type, sourceId, destinationId, amount, description}) =>
+  client.post(
+    executeTransactionLink, {type, sourceId, destinationId, amount, description}, {headers: {'X-AUTH-TOKEN': jwt}});

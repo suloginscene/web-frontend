@@ -1,5 +1,7 @@
 .transaction-form {
   form {
+    text-align: center;
+
     .radio-area {
       margin-bottom: 50px;
       text-align: center;
@@ -32,7 +34,7 @@
     }
 
     .input-area {
-      margin-bottom: 50px;
+      margin-bottom: 25px;
 
       input {
         margin-bottom: 2px;
@@ -40,6 +42,7 @@
     }
 
     button {
+      margin-top: 25px;
       width: 100%;
       border-radius: 100px;
       padding: 13px;

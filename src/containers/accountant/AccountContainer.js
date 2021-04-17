@@ -23,6 +23,7 @@ function AccountContainer({id, history}) {
     dispatch(changeField({form: 'modifyForm', key: name, value: value}));
   };
 
+  // TODO 경고 메시지
   const onSubmitName = (e) => {
     e.preventDefault();
     const {newName} = form;
