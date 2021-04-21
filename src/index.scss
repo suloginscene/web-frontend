@@ -178,3 +178,37 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
   monospace;
 }
+
+@media (max-width: 768px) {
+  body {
+    font-size: 15px;
+
+    h1 {
+      font-size: 24px;
+    }
+
+    h2 {
+      font-size: 22px;
+    }
+
+    h3 {
+      font-size: 20px;
+    }
+
+    h4 {
+      font-size: 17px;
+    }
+
+    h5 {
+      font-size: 16px;
+    }
+
+    h6 {
+      font-size: 15px;
+    }
+
+    small {
+      font-size: 15px;
+    }
+  }
+}

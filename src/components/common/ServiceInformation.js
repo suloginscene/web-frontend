@@ -4,7 +4,7 @@ import './ServiceInformation.scss';
 function ServiceInformation() {
   return (
     <div className={"service-information"}>
-      ServiceInformation
+      ⓒ 2021. suloginscene@gmail.com.
     </div>
   );
 }

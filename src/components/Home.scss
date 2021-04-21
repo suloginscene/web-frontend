@@ -1,0 +1,50 @@
+.home {
+
+  h1 {
+    font-weight: normal;
+    letter-spacing: 3px;
+  }
+
+  h2 {
+    font-weight: normal;
+    margin-bottom: 15px;
+  }
+
+  p {
+    line-height: 25px;
+  }
+
+  hr {
+    margin: 25px 0;
+  }
+
+  h3 {
+    margin-left: 8px;
+  }
+
+  h3 + * {
+    margin: 0 0 25px 8px;
+  }
+
+  table {
+    tbody {
+      th {
+        font-weight: normal;
+        text-align: center;
+        width: 20%;
+        min-width: 65px;
+      }
+    }
+  }
+
+  .transaction-description-table {
+    tbody {
+      tr {
+        th + td {
+          text-align: center;
+          width: 160px;
+        }
+      }
+    }
+  }
+}

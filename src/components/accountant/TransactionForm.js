@@ -51,9 +51,9 @@ function TransactionForm({accounts, form, onChange, onSubmit, errorMessage}) {
           <input name={"type"} type={"radio"} value={"SELL"} id={"sell"} onChange={onChange}/>
           <label htmlFor={"sell"}>판매</label>
           <input name={"type"} type={"radio"} value={"PURCHASE_BY_CASH"} id={"cash"} onChange={onChange}/>
-          <label htmlFor={"cash"}>현금 구매</label>
+          <label htmlFor={"cash"}>현금구매</label>
           <input name={"type"} type={"radio"} value={"PURCHASE_BY_CREDIT"} id={"credit"} onChange={onChange}/>
-          <label htmlFor={"credit"}>신용 구매</label>
+          <label htmlFor={"credit"}>신용구매</label>
           <input name={"type"} type={"radio"} value={"BORROW"} id={"borrow"} onChange={onChange}/>
           <label htmlFor={"borrow"}>대출</label>
           <input name={"type"} type={"radio"} value={"REPAY"} id={"repay"} onChange={onChange}/>
