@@ -1,70 +1,57 @@
-# Getting Started with Create React App
+## Web Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+SPA / 개인 / 2021. 4. / [웹사이트](https://scene.gq)  
+자바스크립트, 리액트, 리덕스 / ec2, nginx, https
 
-## Available Scripts
+개인 서비스의 웹 프론트엔드입니다.  
+현재는 **복식부기 가계부**만을 제공하고 있습니다. 스케쥴러 등의 생활 관리 기능 등을 추가할 계획입니다.
 
-In the project directory, you can run:
+서비스 내용에 관해서는 [웹사이트](https://scene.gq) 메인화면을 참고해 주세요.
 
-### `yarn start`
+---
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### 기술 선택
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- 웹  
+  서비스 특성 상 모바일로 사용하는 경우가 많으리라 생각해 플러터와 코틀린도 잠시 살펴보았습니다. 하지만 회계 보고서를 제대로 읽기 위해서는 결국 웹도 필요하리라 판단하여, 디버깅이 익숙한 웹을 먼저 개발하기로
+  결정했습니다.
 
-### `yarn test`
+- 리액트  
+  과거 호기심에 앵귤러와 리액트를 찾아보다가 서버사이드렌더링 지원 측면에서 리액트가 낫다는 정보를 보았기에 어느 정도 선호가 있던 상태였습니다. (이 프로젝트에서는 SSR을 사용하지 않았습니다.) 추후 모바일 앱을
+  개발하는 단계에서는 학습 목적 때문에 코틀린이 우선 순위에 있지만, 크로스 플랫폼을 위해 리액트 네이티브도 배제하지는 않고 있습니다.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- 리덕스  
+  백엔드 분야에 관심이 더 많기에 처음에는 프론트엔드를 최대한 단순하게 만들고자 사용을 고려하지 않았습니다. 그러나 Context API 만으로 상태를 관리하기 버거워 리덕스를 찾아보니, flux 개념을 익혀두면
+  언젠가 백엔드 개발자로서도 도움이 될 것 같아 기꺼이 도입했습니다.
 
-### `yarn build`
+- 자바스크립트  
+  개인적으로 이 프로젝트의 가장 큰 보람은 약타입 언어에의 두려움을 극복한 것입니다. 강타입 언어를 선호하므로 타입스크립트로 시작했으나, 상대적으로 부족한 자료 때문에 JS로 다시 시작하였고, 익숙해지자 동적
+  타이핑 선호자들이 말하는 '자유'를 조금이나마 느꼈습니다.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### 개발
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- 패턴  
+  라우터로 페이지를 찾습니다. 일부 페이지는 jwt가 존재하지 않는 경우 로그인페이지로 리다이렉트하고, 정상적인 경우 컨테이너를 렌더링합니다. 컨테이너는 상태를 관리하고 컴포넌트에게 프로퍼티를 전달합니다.
+  컴포넌트는 scss를 가지며 보이는 영역을 담당합니다.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- 통신  
+  회원서버 및 회계서버와 통신합니다. 프론트엔드는 오직 두 서버의 주소만 알고 있으며, hateoas를 지향하는 API 응답을 통해 요청을 보낼 링크를 얻습니다. 비동기 요청은 리덕스 사가를 통해 관리되며, 전역
+  상태로 저장된 응답은 useEffect에 의해 컨테이너에 전달됩니다. 필요한 경우 history를 통해 페이지를 이동합니다.
 
-### `yarn eject`
+- 인증  
+  JWT와 리프레시 토큰을 사용합니다. index.js에서 로컬 스토리지의 리프레시 토큰을 리덕스에 로드하며, app.js의 라우터 밖에서 리프레시 토큰으로 JWT를 요청합니다.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+- 기타  
+  테스트를 작성하지 못한 점이 아쉽습니다. 프론트엔드에서는 무엇을 테스트해야 하는지 아직 감이 잘 오지 않습니다. 현재 적지 않은 코드 중복이 있는데, 테스트가 없다보니 불안감에 리팩토링이 쉽지 않습니다. 관련
+  참고자료를 찾아볼 계획입니다.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### 운영
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+- 배포  
+  nginx의 root가 git 저장소의 build를 바라보도록 설정하였습니다. 처음에는 git pull 이후 yarn으로 빌드할 생각이었으나, 저사양의 ec2 인스턴스를 사용하고 있어 yarn build가
+  정상적으로 동작하지 않았습니다. 따라서 git에 build 디렉토리를 포함시키기로 결정하게 되었고, git hook의 pre-commit을 활용해 항상 최신 빌드를 커밋하도록 하였습니다.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- 보안  
+  https를 위해 certbot을 활용해 letsencrypt 인증서를 nginx에 적용하였습니다. API 서버측에도 https를 적용해 mixed content 오류를 해결하였고, 서버에서는 현재 프론트엔드의
+  origin만을 허용하도록 설정하여 cors 오류를 최소한의 개방으로 해결하였습니다.
+  
