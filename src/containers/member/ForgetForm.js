@@ -4,8 +4,10 @@ import {changeField, forget, initializeForm} from "../../modules/member";
 import MemberForm from "../../components/member/MemberForm";
 import {withRouter} from "react-router-dom";
 import toErrorMessage from "../../lib/error/toErrorMessage";
+import Loading from "../../components/common/Loading";
 
 function ForgetForm({history}) {
+  const [loading, setLoading] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
   const dispatch = useDispatch();
   const {form, forgetLink, found, errorResponse} = useSelector(({member}) => ({
@@ -25,6 +27,7 @@ function ForgetForm({history}) {
     e.preventDefault();
     const {username} = form;
     dispatch(forget(forgetLink, {username}));
+    setLoading(true);
   };
 
   useEffect(() => {
@@ -43,7 +46,7 @@ function ForgetForm({history}) {
     }
   }, [errorResponse]);
 
-  return (
+  return loading ? <Loading/> : (
     <MemberForm
       type="forget"
       form={form}

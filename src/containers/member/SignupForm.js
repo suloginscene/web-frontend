@@ -5,8 +5,10 @@ import toErrorMessage from "../../lib/error/toErrorMessage";
 import MemberForm from "../../components/member/MemberForm";
 import {withRouter} from 'react-router-dom';
 import isValidEmail from "../../lib/error/isValidEmail";
+import Loading from "../../components/common/Loading";
 
 function SignupForm({history}) {
+  const [loading, setLoading] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
   const dispatch = useDispatch();
   const {form, signupLink, verificationLink, errorResponse} = useSelector(({member}) => ({
@@ -42,6 +44,7 @@ function SignupForm({history}) {
       return;
     }
     dispatch(signup(signupLink, {username, password}));
+    setLoading(true);
   };
 
   useEffect(() => {
@@ -60,7 +63,7 @@ function SignupForm({history}) {
     }
   }, [errorResponse]);
 
-  return (
+  return loading ? <Loading/> : (
     <MemberForm
       type="signup"
       form={form}
