@@ -7,7 +7,7 @@ import {composeWithDevTools} from "redux-devtools-extension";
 import {Provider} from "react-redux";
 import createSagaMiddleware from 'redux-saga';
 import rootReducer, {rootSaga} from "./modules";
-import {memberIndex, setJwt} from "./modules/member";
+import {memberIndex, setRefreshToken} from "./modules/member";
 import {accountantIndex} from "./modules/accountant";
 import {accountantServer, memberServer} from './properties';
 
@@ -18,14 +18,15 @@ const loadIndex = () => {
   store.dispatch(memberIndex(memberServer + '/api'));
   store.dispatch(accountantIndex(accountantServer + '/api'));
 };
-const loadUser = () => {
-  const jwt = localStorage.getItem('jwt');
-  if (jwt) store.dispatch(setJwt(jwt));
+
+const loadRefreshToken = () => {
+  const refreshToken = localStorage.getItem('refreshToken');
+  if (refreshToken) store.dispatch(setRefreshToken(refreshToken));
 };
 
 sagaMiddleware.run(rootSaga);
 loadIndex();
-loadUser();
+loadRefreshToken();
 
 ReactDOM.render(
   <React.StrictMode>

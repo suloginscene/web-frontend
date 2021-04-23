@@ -8,10 +8,11 @@ import toErrorMessage from "../../lib/error/toErrorMessage";
 function LoginForm({history}) {
   const [errorMessage, setErrorMessage] = useState(null);
   const dispatch = useDispatch();
-  const {form, loginLink, jwt, errorResponse} = useSelector(({member}) => ({
+  const {form, loginLink, jwt, refreshToken, errorResponse} = useSelector(({member}) => ({
       form: member.login,
       loginLink: member.links.login,
       jwt: member.jwt,
+      refreshToken: member.refreshToken,
       errorResponse: member.errorResponse
     })
   );
@@ -32,11 +33,11 @@ function LoginForm({history}) {
   }, [dispatch]);
 
   useEffect(() => {
-    if (jwt) {
+    if (jwt && refreshToken) {
       history.push('/');
-      localStorage.setItem('jwt', jwt);
+      localStorage.setItem('refreshToken', refreshToken);
     }
-  }, [jwt, history]);
+  }, [jwt, refreshToken, history]);
 
   useEffect(() => {
     if (errorResponse) {

@@ -1,21 +1,40 @@
 import React, {useEffect} from 'react';
 import Navigation from "../../components/common/Navigation";
 import {useDispatch, useSelector} from "react-redux";
-import {logout} from "../../modules/member";
+import {logout, renew} from "../../modules/member";
 import {withRouter} from "react-router-dom";
+import toErrorMessage from "../../lib/error/toErrorMessage";
 
 function NavigationContainer({history}) {
   const dispatch = useDispatch();
-  const {jwt} = useSelector(({member}) => ({jwt: member.jwt}));
-
-  const onClickLogout = () => dispatch(logout());
+  const {jwt, refreshToken, renewLink, errorResponse} = useSelector(({member}) => ({
+      jwt: member.jwt,
+      refreshToken: member.refreshToken,
+      renewLink: member.links.renew,
+      errorResponse: member.errorResponse
+    })
+  );
 
   useEffect(() => {
-    if (!jwt) {
-      history.push('/');
-      localStorage.removeItem('jwt');
+    if (renewLink && refreshToken) {
+      dispatch(renew(renewLink, refreshToken));
     }
-  }, [jwt, history]);
+  }, [dispatch, refreshToken, renewLink]);
+
+  useEffect(() => {
+    if (errorResponse) {
+      alert(toErrorMessage(errorResponse));
+    }
+  }, [errorResponse]);
+
+  useEffect(() => {
+    if (!jwt && !refreshToken) {
+      history.push('/');
+      localStorage.removeItem('refreshToken');
+    }
+  }, [jwt, refreshToken, history]);
+
+  const onClickLogout = () => dispatch(logout());
 
   return (
     <Navigation
