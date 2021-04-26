@@ -76,3 +76,19 @@
     cursor: pointer;
   }
 }
+
+@media (max-width: 768px) {
+  .navigation {
+    .menus {
+      .menu {
+        .account-dropdown {
+          right: 122px;
+        }
+
+        .report-dropdown {
+          right: 62px;
+        }
+      }
+    }
+  }
+}
