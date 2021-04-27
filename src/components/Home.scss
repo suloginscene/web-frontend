@@ -32,7 +32,7 @@
         font-weight: normal;
         text-align: center;
         width: 20%;
-        min-width: 65px;
+        min-width: 42px;
       }
     }
   }
@@ -40,9 +40,13 @@
   .transaction-description-table {
     tbody {
       tr {
+        th {
+          width: 10%;
+        }
+
         th + td {
           text-align: center;
-          width: 160px;
+          width: 146px;
         }
       }
     }
