@@ -3,15 +3,13 @@ import Navigation from "../../components/common/Navigation";
 import {useDispatch, useSelector} from "react-redux";
 import {logout, renew} from "../../modules/member";
 import {withRouter} from "react-router-dom";
-import toErrorMessage from "../../lib/error/toErrorMessage";
 
 function NavigationContainer({history}) {
   const dispatch = useDispatch();
-  const {jwt, refreshToken, renewLink, errorResponse} = useSelector(({member}) => ({
+  const {jwt, refreshToken, renewLink} = useSelector(({member}) => ({
       jwt: member.jwt,
       refreshToken: member.refreshToken,
       renewLink: member.links.renew,
-      errorResponse: member.errorResponse
     })
   );
 
@@ -20,12 +18,6 @@ function NavigationContainer({history}) {
       dispatch(renew(renewLink, refreshToken));
     }
   }, [dispatch, refreshToken, renewLink]);
-
-  useEffect(() => {
-    if (errorResponse) {
-      alert(toErrorMessage(errorResponse));
-    }
-  }, [errorResponse]);
 
   useEffect(() => {
     if (!jwt && !refreshToken) {
