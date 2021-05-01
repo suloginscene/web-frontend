@@ -35,7 +35,7 @@ function Ledger({ledger}) {
         createdAt={transaction.createdAt}
       />
     )
-  );
+  ).reverse();
 
   return (
     <div className={"ledger"}>

@@ -43,7 +43,7 @@ function Account({account, form, onChange, onSubmitName, onSubmitBudget, onClick
         createdAt={transaction.createdAt}
       />
     )
-  );
+  ).reverse();
   const isDeletable = (typeName === '수입' || typeName === '지출') || (account.moneyAmount === 0);
 
   return (
