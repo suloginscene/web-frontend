@@ -25,7 +25,7 @@ function TransactionItem({type, amount, description, createdAt}) {
   return (
     <tr>
       <td className={"date"}>{createdAt.substring(5, 10)}</td>
-      <td className={"amount"}>{transactionSignMap[type]} {amount} 원</td>
+      <td className={"amount"}>{transactionSignMap[type]} {amount.toLocaleString()} 원</td>
       <td className={"description"}>{description}</td>
     </tr>
   );
@@ -51,7 +51,7 @@ function Account({account, form, onChange, onSubmitName, onSubmitBudget, onClick
 
       <div className={"info"}>
         <div><h3>{account.name}</h3><span>{typeName}</span></div>
-        <div className={"money"}>{moneyName}: {account.moneyAmount} 원</div>
+        <div className={"money"}>{moneyName}: {account.moneyAmount.toLocaleString()} 원</div>
       </div>
 
       <div className={"configure"}>

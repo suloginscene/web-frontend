@@ -5,7 +5,7 @@ function AccountItem({account}) {
   return (
     <tr>
       <td>{account.name}</td>
-      <td className={"balance"}>{account.balance} 원</td>
+      <td className={"balance"}>{account.balance.toLocaleString()} 원</td>
     </tr>
   );
 }
@@ -20,14 +20,14 @@ function BalanceSheet({balanceSheet}) {
     <div className={"balance-sheet"}>
       <h3>재무상태표</h3>
       <div className={"net"}>
-        순 자산 &nbsp; {balanceSheet.total.net} 원
+        순 자산 &nbsp; {balanceSheet.total.net.toLocaleString()} 원
       </div>
       <div className={"detail"}>
         <table>
           <thead>
             <tr>
               <th>자산</th>
-              <th>{balanceSheet.total.assetSum} 원</th>
+              <th>{balanceSheet.total.assetSum.toLocaleString()} 원</th>
             </tr>
           </thead>
           <tbody>
@@ -39,7 +39,7 @@ function BalanceSheet({balanceSheet}) {
           <thead>
             <tr>
               <th>부채</th>
-              <th>{balanceSheet.total.liabilitySum} 원</th>
+              <th>{balanceSheet.total.liabilitySum.toLocaleString()} 원</th>
             </tr>
           </thead>
           <tbody>

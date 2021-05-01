@@ -19,11 +19,13 @@ function AccountContainer({id, history}) {
   }));
 
   const onChange = (e) => {
-    const {name, value} = e.target;
+    let {name, value} = e.target;
+    if (name === 'newBudget') {
+      value = Number(value.split(',').join('')).toLocaleString('ko-KR');
+    }
     dispatch(changeField({form: 'modifyForm', key: name, value: value}));
   };
 
-  // TODO 경고 메시지
   const onSubmitName = (e) => {
     e.preventDefault();
     const {newName} = form;
@@ -35,12 +37,15 @@ function AccountContainer({id, history}) {
       alert("계정 이름은 8자 이하여야 합니다.");
       return;
     }
-    dispatch(changeName(account._links.changeName.href, jwt, {newName}));
+    if (window.confirm("장부에 기록된 이름은 변하지 않습니다. 계속 진행하시겠습니까?")) {
+      dispatch(changeName(account._links.changeName.href, jwt, {newName}));
+    }
   };
 
   const onSubmitBudget = (e) => {
     e.preventDefault();
-    const {newBudget} = form;
+    let {newBudget} = form;
+    newBudget = newBudget.split(',').join('');
     if (newBudget === '') {
       alert("새 예산을 입력해 주세요.");
       return;
@@ -53,7 +58,7 @@ function AccountContainer({id, history}) {
   };
 
   const onClickDelete = () => {
-    if (window.confirm("정말로 삭제하시겠습니까?")) {
+    if (window.confirm("삭제 시 재무상태표 및 손익계산서에서 조회되지 않습니다. 정말로 삭제하시겠습니까?")) {
       dispatch(deleteAccount(account._links.deleteAccount.href, jwt));
     }
   };

@@ -18,13 +18,17 @@ function AccountFormContainer({history}) {
   );
 
   const onChange = (e) => {
-    const {name, value} = e.target;
+    let {name, value} = e.target;
+    if (name === 'money') {
+      value = Number(value.split(',').join('')).toLocaleString('ko-KR');
+    }
     dispatch(changeField({form: 'accountForm', key: name, value: value}));
   };
 
   const onSubmit = (e) => {
     e.preventDefault();
-    const {type, name, money} = form;
+    let {type, name, money} = form;
+    money = money.split(',').join('');
     if ([type, name, money].includes('')) {
       setErrorMessage("빈 칸을 모두 입력해 주세요.");
       return;

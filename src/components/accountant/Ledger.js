@@ -17,7 +17,7 @@ function TransactionItem({type, amount, debit, credit, description, createdAt}) 
       <td className={"transaction-name"}>{transactionNameMap[type]}</td>
       <td className={"account-name"}>{credit}</td>
       <td className={"account-name"}>{debit}</td>
-      <td className={"amount"}>{amount} 원</td>
+      <td className={"amount"}>{amount.toLocaleString()} 원</td>
       <td className={"description"}>{description}</td>
     </tr>
   );

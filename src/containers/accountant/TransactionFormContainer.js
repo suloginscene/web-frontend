@@ -21,13 +21,17 @@ function TransactionFormContainer({history}) {
   }));
 
   const onChange = (e) => {
-    const {name, value} = e.target;
+    let {name, value} = e.target;
+    if (name === 'amount') {
+      value = Number(value.split(',').join('')).toLocaleString('ko-KR');
+    }
     dispatch(changeField({form: 'transactionForm', key: name, value: value}));
   };
 
   const onSubmit = (e) => {
     e.preventDefault();
-    const {type, sourceId, destinationId, amount, description} = form;
+    let {type, sourceId, destinationId, amount, description} = form;
+    amount = amount.split(',').join('');
     if ([type, sourceId, destinationId, amount, description].includes('')) {
       setErrorMessage("빈 칸을 모두 입력해 주세요.");
       return;
