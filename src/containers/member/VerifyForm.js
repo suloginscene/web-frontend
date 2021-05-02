@@ -5,15 +5,18 @@ import {changeField, initializeForm, verify} from "../../modules/member";
 import {withRouter} from 'react-router-dom';
 import toErrorMessage from "../../lib/error/toErrorMessage";
 
+
 function VerifyForm({history}) {
-  const [errorMessage, setErrorMessage] = useState(null);
   const dispatch = useDispatch();
+
   const {form, verificationLink, verified, errorResponse} = useSelector(({member}) => ({
     form: member.verify,
     verificationLink: member.links.verify,
     verified: member.verified,
     errorResponse: member.errorResponse
   }));
+  const [errorMessage, setErrorMessage] = useState(null);
+
 
   const onChange = (e) => {
     const {name, value} = e.target;
@@ -31,10 +34,6 @@ function VerifyForm({history}) {
   };
 
   useEffect(() => {
-    dispatch(initializeForm('verify'));
-  }, [dispatch]);
-
-  useEffect(() => {
     if (verified) {
       history.push('/login');
     }
@@ -46,6 +45,14 @@ function VerifyForm({history}) {
     }
   }, [errorResponse]);
 
+
+  useEffect(() => {
+    return () => {
+      dispatch(initializeForm('verify'));
+    }
+  }, [dispatch]);
+
+
   return (
     <MemberForm
       type="verify"
@@ -56,5 +63,6 @@ function VerifyForm({history}) {
     />
   );
 }
+
 
 export default withRouter(VerifyForm);

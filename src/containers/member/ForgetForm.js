@@ -6,17 +6,19 @@ import {withRouter} from "react-router-dom";
 import toErrorMessage from "../../lib/error/toErrorMessage";
 import Loading from "../../components/common/Loading";
 
+
 function ForgetForm({history}) {
+  const dispatch = useDispatch();
+
+  const {form, forgetLink, found, errorResponse} = useSelector(({member}) => ({
+    form: member.forget,
+    forgetLink: member.links.forget,
+    found: member.found,
+    errorResponse: member.errorResponse
+  }));
   const [loading, setLoading] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
-  const dispatch = useDispatch();
-  const {form, forgetLink, found, errorResponse} = useSelector(({member}) => ({
-      form: member.forget,
-      forgetLink: member.links.forget,
-      found: member.found,
-      errorResponse: member.errorResponse
-    })
-  );
+
 
   const onChange = (e) => {
     const {name, value} = e.target;
@@ -31,10 +33,6 @@ function ForgetForm({history}) {
   };
 
   useEffect(() => {
-    dispatch(initializeForm('forget'));
-  }, [dispatch]);
-
-  useEffect(() => {
     if (found) {
       history.push('/login');
     }
@@ -46,6 +44,14 @@ function ForgetForm({history}) {
     }
   }, [errorResponse]);
 
+
+  useEffect(() => {
+    return () => {
+      dispatch(initializeForm('forget'));
+    }
+  }, [dispatch]);
+
+
   return loading ? <Loading/> : (
     <MemberForm
       type="forget"
@@ -56,5 +62,6 @@ function ForgetForm({history}) {
     />
   );
 }
+
 
 export default withRouter(ForgetForm);

@@ -1,12 +1,14 @@
 import React, {useEffect} from 'react';
 import AccountList from "../../components/accountant/AccountList";
 import {useDispatch, useSelector} from "react-redux";
-import {getAccounts, initializeForm} from "../../modules/accountant";
+import {getAccounts} from "../../modules/accountant";
 import toErrorMessage from "../../lib/error/toErrorMessage";
 import Loading from "../../components/common/Loading";
 
+
 function AccountListContainer() {
   const dispatch = useDispatch();
+
   const {jwt} = useSelector(({member}) => ({jwt: member.jwt}));
   const {getAccountsLink, accounts, errorResponse} = useSelector(({accountant}) => ({
     getAccountsLink: accountant.links.getAccounts,
@@ -14,9 +16,9 @@ function AccountListContainer() {
     errorResponse: accountant.errorResponse
   }));
 
+
   useEffect(() => {
     dispatch(getAccounts(getAccountsLink, jwt));
-    dispatch(initializeForm('modifyForm'));
   }, [dispatch, getAccountsLink, jwt]);
 
   useEffect(() => {
@@ -25,11 +27,13 @@ function AccountListContainer() {
     }
   }, [errorResponse]);
 
+
   return accounts ? (
     <AccountList
       accounts={accounts}
     />
   ) : <Loading/>;
 }
+
 
 export default AccountListContainer;

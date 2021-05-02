@@ -5,17 +5,19 @@ import MemberForm from "../../components/member/MemberForm";
 import {withRouter} from 'react-router-dom';
 import toErrorMessage from "../../lib/error/toErrorMessage";
 
+
 function LoginForm({history}) {
-  const [errorMessage, setErrorMessage] = useState(null);
   const dispatch = useDispatch();
+
   const {form, loginLink, jwt, refreshToken, errorResponse} = useSelector(({member}) => ({
-      form: member.login,
-      loginLink: member.links.login,
-      jwt: member.jwt,
-      refreshToken: member.refreshToken,
-      errorResponse: member.errorResponse
-    })
-  );
+    form: member.login,
+    loginLink: member.links.login,
+    jwt: member.jwt,
+    refreshToken: member.refreshToken,
+    errorResponse: member.errorResponse
+  }));
+  const [errorMessage, setErrorMessage] = useState(null);
+
 
   const onChange = (e) => {
     const {name, value} = e.target;
@@ -27,10 +29,6 @@ function LoginForm({history}) {
     const {username, password} = form;
     dispatch(login(loginLink, {username, password}));
   };
-
-  useEffect(() => {
-    dispatch(initializeForm('login'));
-  }, [dispatch]);
 
   useEffect(() => {
     if (jwt && refreshToken) {
@@ -45,6 +43,14 @@ function LoginForm({history}) {
     }
   }, [errorResponse]);
 
+
+  useEffect(() => {
+    return () => {
+      dispatch(initializeForm('login'));
+    }
+  }, [dispatch]);
+
+
   return (
     <MemberForm
       type="login"
@@ -55,5 +61,6 @@ function LoginForm({history}) {
     />
   );
 }
+
 
 export default withRouter(LoginForm);

@@ -1,9 +1,23 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import IncomeStatement from "../../components/accountant/IncomeStatement";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {initializeIncomeStatement} from "../../modules/accountant";
+
 
 function IncomeStatementContainer() {
-  const {incomeStatement} = useSelector(({accountant}) => ({incomeStatement: accountant.incomeStatement}));
+  const dispatch = useDispatch();
+
+  const {incomeStatement} = useSelector(({accountant}) => ({
+    incomeStatement: accountant.incomeStatement
+  }));
+
+
+  useEffect(() => {
+    return () => {
+      dispatch(initializeIncomeStatement());
+    }
+  }, [dispatch]);
+
 
   return (
     <IncomeStatement
@@ -11,5 +25,6 @@ function IncomeStatementContainer() {
     />
   );
 }
+
 
 export default IncomeStatementContainer;

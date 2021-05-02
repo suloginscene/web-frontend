@@ -1,20 +1,22 @@
 import React, {useEffect, useState} from 'react';
 import IncomeStatementForm from "../../components/accountant/IncomeStatementForm";
 import {useDispatch, useSelector} from "react-redux";
-import {getIncomeStatement, initializeIncomeStatement} from "../../modules/accountant";
+import {getIncomeStatement} from "../../modules/accountant";
 import toErrorMessage from "../../lib/error/toErrorMessage";
 import {withRouter} from "react-router-dom";
 
+
 function IncomeStatementFormContainer({history}) {
-  const [errorMessage, setErrorMessage] = useState(null);
   const dispatch = useDispatch();
+
   const {jwt} = useSelector(({member}) => ({jwt: member.jwt}));
   const {getIncomeStatementLink, incomeStatement, errorResponse} = useSelector(({accountant}) => ({
-      getIncomeStatementLink: accountant.links.getIncomeStatement,
-      incomeStatement: accountant.incomeStatement,
-      errorResponse: accountant.errorResponse
-    })
-  );
+    getIncomeStatementLink: accountant.links.getIncomeStatement,
+    incomeStatement: accountant.incomeStatement,
+    errorResponse: accountant.errorResponse
+  }));
+  const [errorMessage, setErrorMessage] = useState(null);
+
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -27,10 +29,6 @@ function IncomeStatementFormContainer({history}) {
     }
     dispatch(getIncomeStatement(getIncomeStatementLink, jwt, {begin, end}));
   };
-
-  useEffect(() => {
-    dispatch(initializeIncomeStatement());
-  }, [dispatch]);
 
   useEffect(() => {
     if (incomeStatement) {
@@ -52,5 +50,6 @@ function IncomeStatementFormContainer({history}) {
     />
   );
 }
+
 
 export default withRouter(IncomeStatementFormContainer);

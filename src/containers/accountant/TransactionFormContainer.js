@@ -6,9 +6,10 @@ import toErrorMessage from "../../lib/error/toErrorMessage";
 import Loading from "../../components/common/Loading";
 import {withRouter} from "react-router-dom";
 
+
 function TransactionFormContainer({history}) {
-  const [errorMessage, setErrorMessage] = useState(null);
   const dispatch = useDispatch();
+
   const {jwt} = useSelector(({member}) => ({jwt: member.jwt}));
   const {getAccountsLink, accounts, form, executeTransactionLink, executed, errorResponse}
     = useSelector(({accountant}) => ({
@@ -19,6 +20,13 @@ function TransactionFormContainer({history}) {
     executed: accountant.executed,
     errorResponse: accountant.errorResponse
   }));
+  const [errorMessage, setErrorMessage] = useState(null);
+
+
+  useEffect(() => {
+    dispatch(getAccounts(getAccountsLink, jwt));
+  }, [dispatch, getAccountsLink, jwt]);
+
 
   const onChange = (e) => {
     let {name, value} = e.target;
@@ -44,29 +52,24 @@ function TransactionFormContainer({history}) {
   };
 
   useEffect(() => {
-    dispatch(getAccounts(getAccountsLink, jwt));
-    dispatch(initializeForm('transactionForm'));
-  }, [dispatch, getAccountsLink, jwt]);
-
-  useEffect(() => {
     if (executed) {
       history.push('/ledger');
     }
   }, [executed, history]);
-
-  // TODO 클린업 조건 확인
-  // TODO 다른 컴포넌트에 클린업 적용
-  useEffect(() => {
-    return () => {
-      dispatch(initializeForm('transactionForm'));
-    }
-  }, [dispatch]);
 
   useEffect(() => {
     if (errorResponse) {
       setErrorMessage(toErrorMessage(errorResponse))
     }
   }, [errorResponse]);
+
+
+  useEffect(() => {
+    return () => {
+      dispatch(initializeForm('transactionForm'));
+    }
+  }, [dispatch]);
+
 
   return accounts ? (
     <TransactionForm
@@ -78,5 +81,6 @@ function TransactionFormContainer({history}) {
     />
   ) : <Loading/>;
 }
+
 
 export default withRouter(TransactionFormContainer);

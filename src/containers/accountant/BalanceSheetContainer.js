@@ -5,14 +5,17 @@ import {getBalanceSheet} from "../../modules/accountant";
 import toErrorMessage from "../../lib/error/toErrorMessage";
 import Loading from "../../components/common/Loading";
 
+
 function BalanceSheetContainer() {
   const dispatch = useDispatch();
+
   const {jwt} = useSelector(({member}) => ({jwt: member.jwt}));
   const {getBalanceSheetLink, balanceSheet, errorResponse} = useSelector(({accountant}) => ({
     getBalanceSheetLink: accountant.links.getBalanceSheet,
     balanceSheet: accountant.balanceSheet,
     errorResponse: accountant.errorResponse
   }));
+
 
   useEffect(() => {
     dispatch(getBalanceSheet(getBalanceSheetLink, jwt));
@@ -24,11 +27,13 @@ function BalanceSheetContainer() {
     }
   }, [errorResponse]);
 
+
   return balanceSheet ? (
       <BalanceSheet
         balanceSheet={balanceSheet}
       />
   ) : <Loading/>;
 }
+
 
 export default BalanceSheetContainer;

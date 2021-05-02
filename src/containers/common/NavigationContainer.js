@@ -4,20 +4,26 @@ import {useDispatch, useSelector} from "react-redux";
 import {logout, renew} from "../../modules/member";
 import {withRouter} from "react-router-dom";
 
+
 function NavigationContainer({history}) {
   const dispatch = useDispatch();
+
   const {jwt, refreshToken, renewLink} = useSelector(({member}) => ({
-      jwt: member.jwt,
-      refreshToken: member.refreshToken,
-      renewLink: member.links.renew,
-    })
-  );
+    jwt: member.jwt,
+    refreshToken: member.refreshToken,
+    renewLink: member.links.renew,
+  }));
+
 
   useEffect(() => {
     if (renewLink && refreshToken) {
       dispatch(renew(renewLink, refreshToken));
     }
   }, [dispatch, refreshToken, renewLink]);
+
+
+  const onClickLogout = () => dispatch(logout());
+
 
   useEffect(() => {
     if (!jwt && !refreshToken) {
@@ -26,7 +32,6 @@ function NavigationContainer({history}) {
     }
   }, [jwt, refreshToken, history]);
 
-  const onClickLogout = () => dispatch(logout());
 
   return (
     <Navigation
@@ -35,5 +40,6 @@ function NavigationContainer({history}) {
     />
   );
 }
+
 
 export default withRouter(NavigationContainer);

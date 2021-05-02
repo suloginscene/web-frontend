@@ -5,21 +5,28 @@ import {changeField, changePassword, initializeForm, myInfo, withdraw} from "../
 import {withRouter} from "react-router-dom";
 import toErrorMessage from "../../lib/error/toErrorMessage";
 
+
 function MemberInfoContainer({history}) {
   const dispatch = useDispatch();
+
   const {jwt, myInfoLink, email, changePasswordLink, form, passwordChanged, withdrawLink, withdrew, errorResponse}
     = useSelector(({member}) => ({
-      jwt: member.jwt,
-      myInfoLink: member.links.myInfo,
-      email: member.email,
-      changePasswordLink: member.links.changePassword,
-      form: member.changePassword,
-      passwordChanged: member.passwordChanged,
-      withdrawLink: member.links.withdraw,
-      withdrew: member.withdrew,
-      errorResponse: member.errorResponse
-    })
-  );
+    jwt: member.jwt,
+    myInfoLink: member.links.myInfo,
+    email: member.email,
+    changePasswordLink: member.links.changePassword,
+    form: member.changePassword,
+    passwordChanged: member.passwordChanged,
+    withdrawLink: member.links.withdraw,
+    withdrew: member.withdrew,
+    errorResponse: member.errorResponse
+  }));
+
+
+  useEffect(() => {
+    dispatch(myInfo(myInfoLink, jwt));
+  }, [dispatch, myInfoLink, jwt]);
+
 
   const onChange = (e) => {
     const {name, value} = e.target;
@@ -40,36 +47,40 @@ function MemberInfoContainer({history}) {
     dispatch(changePassword(changePasswordLink, jwt, {newPassword}));
   };
 
-  const onClickWithdraw = () => {
-    if (window.confirm("정말로 탈퇴하시겠습니까?")) {
-      dispatch(withdraw(withdrawLink, jwt));
-    }
-  };
-
-  useEffect(() => {
-    dispatch(initializeForm('changePassword'));
-    dispatch(myInfo(myInfoLink, jwt));
-  }, [dispatch, myInfoLink, jwt]);
-
   useEffect(() => {
     if (passwordChanged) {
-      alert("비밀번호가 변경되었습니다.");
       history.push('/login');
     }
   }, [passwordChanged, history]);
 
+
+  const onClickWithdraw = () => {
+    if (window.confirm("정말로 탈퇴하시겠습니까?")) {
+      dispatch(withdraw(withdrawLink, jwt));
+      // TODO clear accountant
+    }
+  };
+
   useEffect(() => {
     if (withdrew) {
-      // TODO clear accountant
       history.push('/');
     }
   }, [withdrew, history]);
+
 
   useEffect(() => {
     if (errorResponse) {
       alert(toErrorMessage(errorResponse));
     }
   }, [errorResponse]);
+
+
+  useEffect(() => {
+    return () => {
+      dispatch(initializeForm('changePassword'));
+    }
+  }, [dispatch]);
+
 
   return (
     <MemberInfo
@@ -81,5 +92,6 @@ function MemberInfoContainer({history}) {
     />
   );
 }
+
 
 export default withRouter(MemberInfoContainer);

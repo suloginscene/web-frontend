@@ -7,17 +7,19 @@ import {withRouter} from 'react-router-dom';
 import isValidEmail from "../../lib/error/isValidEmail";
 import Loading from "../../components/common/Loading";
 
+
 function SignupForm({history}) {
+  const dispatch = useDispatch();
+
+  const {form, signupLink, verificationLink, errorResponse} = useSelector(({member}) => ({
+    form: member.signup,
+    signupLink: member.links.signup,
+    verificationLink: member.links.verify,
+    errorResponse: member.errorResponse
+  }));
   const [loading, setLoading] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
-  const dispatch = useDispatch();
-  const {form, signupLink, verificationLink, errorResponse} = useSelector(({member}) => ({
-      form: member.signup,
-      signupLink: member.links.signup,
-      verificationLink: member.links.verify,
-      errorResponse: member.errorResponse
-    })
-  );
+
 
   const onChange = (e) => {
     const {name, value} = e.target;
@@ -48,10 +50,6 @@ function SignupForm({history}) {
   };
 
   useEffect(() => {
-    dispatch(initializeForm('signup'));
-  }, [dispatch]);
-
-  useEffect(() => {
     if (verificationLink) {
       history.push('/verify');
     }
@@ -63,6 +61,14 @@ function SignupForm({history}) {
     }
   }, [errorResponse]);
 
+
+  useEffect(() => {
+    return () => {
+      dispatch(initializeForm('signup'));
+    }
+  }, [dispatch]);
+
+
   return loading ? <Loading/> : (
     <MemberForm
       type="signup"
@@ -73,5 +79,6 @@ function SignupForm({history}) {
     />
   );
 }
+
 
 export default withRouter(SignupForm);

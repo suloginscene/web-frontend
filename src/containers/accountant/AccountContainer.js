@@ -1,13 +1,22 @@
 import React, {useEffect} from 'react';
 import Account from "../../components/accountant/Account";
 import {useDispatch, useSelector} from "react-redux";
-import {changeBudget, changeField, changeName, deleteAccount, getAccount} from "../../modules/accountant";
+import {
+  changeBudget,
+  changeField,
+  changeName,
+  deleteAccount,
+  getAccount,
+  initializeForm
+} from "../../modules/accountant";
 import toErrorMessage from "../../lib/error/toErrorMessage";
 import Loading from "../../components/common/Loading";
 import {withRouter} from "react-router-dom";
 
+
 function AccountContainer({id, history}) {
   const dispatch = useDispatch();
+
   const {jwt} = useSelector(({member}) => ({jwt: member.jwt}));
   const {accounts, account, form, changed, deleted, errorResponse} = useSelector(({accountant}) => ({
     accounts: accountant.accounts,
@@ -18,6 +27,13 @@ function AccountContainer({id, history}) {
     errorResponse: accountant.errorResponse
   }));
 
+
+  useEffect(() => {
+    const simpleAccount = accounts.filter(account => account.id === Number(id))[0];
+    dispatch(getAccount(simpleAccount._links.self.href, jwt));
+  }, [dispatch, accounts, id, jwt]);
+
+
   const onChange = (e) => {
     let {name, value} = e.target;
     if (name === 'newBudget') {
@@ -25,6 +41,7 @@ function AccountContainer({id, history}) {
     }
     dispatch(changeField({form: 'modifyForm', key: name, value: value}));
   };
+
 
   const onSubmitName = (e) => {
     e.preventDefault();
@@ -57,6 +74,13 @@ function AccountContainer({id, history}) {
     dispatch(changeBudget(account._links.changeBudget.href, jwt, {newBudget}));
   };
 
+  useEffect(() => {
+    if (changed) {
+      history.push('/account-list');
+    }
+  }, [changed, history]);
+
+
   const onClickDelete = () => {
     if (window.confirm("삭제 시 재무상태표 및 손익계산서에서 조회되지 않습니다. 정말로 삭제하시겠습니까?")) {
       dispatch(deleteAccount(account._links.deleteAccount.href, jwt));
@@ -64,27 +88,25 @@ function AccountContainer({id, history}) {
   };
 
   useEffect(() => {
-    const simpleAccount = accounts.filter(account => account.id === Number(id))[0];
-    dispatch(getAccount(simpleAccount._links.self.href, jwt));
-  }, [dispatch, accounts, id, jwt]);
-
-  useEffect(() => {
-    if (changed) {
-      history.push('/account-list');
-    }
-  }, [changed, history]);
-
-  useEffect(() => {
     if (deleted) {
       history.push('/account-list');
     }
   }, [deleted, history]);
+
 
   useEffect(() => {
     if (errorResponse) {
       alert(toErrorMessage(errorResponse));
     }
   }, [errorResponse]);
+
+
+  useEffect(() => {
+    return () => {
+      dispatch(initializeForm('modifyForm'));
+    }
+  }, [dispatch]);
+
 
   return account ? (
     <Account
@@ -97,5 +119,6 @@ function AccountContainer({id, history}) {
     />
   ) : <Loading/>;
 }
+
 
 export default withRouter(AccountContainer);

@@ -5,17 +5,19 @@ import {changeField, initializeForm, postAccount} from "../../modules/accountant
 import toErrorMessage from "../../lib/error/toErrorMessage";
 import {withRouter} from "react-router-dom";
 
+
 function AccountFormContainer({history}) {
-  const [errorMessage, setErrorMessage] = useState(null);
   const dispatch = useDispatch();
+
   const {jwt} = useSelector(({member}) => ({jwt: member.jwt}));
   const {form, postAccountLink, posted, errorResponse} = useSelector(({accountant}) => ({
-      form: accountant.accountForm,
-      postAccountLink: accountant.links.postAccount,
-      posted: accountant.posted,
-      errorResponse: accountant.errorResponse
-    })
-  );
+    form: accountant.accountForm,
+    postAccountLink: accountant.links.postAccount,
+    posted: accountant.posted,
+    errorResponse: accountant.errorResponse
+  }));
+  const [errorMessage, setErrorMessage] = useState(null);
+
 
   const onChange = (e) => {
     let {name, value} = e.target;
@@ -45,10 +47,6 @@ function AccountFormContainer({history}) {
   };
 
   useEffect(() => {
-    dispatch(initializeForm('accountForm'));
-  }, [dispatch]);
-
-  useEffect(() => {
     if (posted) {
       history.push('/account-list');
     }
@@ -60,6 +58,14 @@ function AccountFormContainer({history}) {
     }
   }, [errorResponse]);
 
+
+  useEffect(() => {
+    return () => {
+      dispatch(initializeForm('accountForm'));
+    }
+  }, [dispatch]);
+
+
   return (
     <AccountForm
       form={form}
@@ -69,5 +75,6 @@ function AccountFormContainer({history}) {
     />
   );
 }
+
 
 export default withRouter(AccountFormContainer);
