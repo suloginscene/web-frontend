@@ -1,6 +1,6 @@
 ## Web Frontend
 
-SPA / 개인 / 2021. 4. / [웹사이트](https://scene.gq)  
+SPA / 개인 / 2021. 4. / [웹사이트](https://scene-cho.com)  
 자바스크립트, 리액트, 리덕스 / ec2, nginx, https
 
 개인 서비스의 웹 프론트엔드입니다.  
@@ -8,7 +8,7 @@ SPA / 개인 / 2021. 4. / [웹사이트](https://scene.gq)
 [회원서버](https://github.com/suloginscene/member-server) 와  [회계서버](https://github.com/suloginscene/accounting-server) 를
 사용합니다.
 
-서비스 내용에 관해서는 [웹사이트](https://scene.gq) 메인화면을 참고해 주세요.
+서비스 내용에 관해서는 [웹사이트](https://scene-cho.com) 메인화면을 참고해 주세요.
 
 ---
 
