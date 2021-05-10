@@ -4,7 +4,7 @@ export default function toErrorMessage(errorResponse) {
     case 400:
       return toBadRequestMessage(errorResponse);
     case 401:
-      return '로그인이 필요합니다.';
+      return '로그인 연장을 위해 페이지를 새로고침 해주세요.';
     case 403:
       return '권한이 없습니다.';
     case 404:
