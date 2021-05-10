@@ -31,7 +31,9 @@ function TransactionFormContainer({history}) {
   const onChange = (e) => {
     let {name, value} = e.target;
     if (name === 'amount') {
-      value = Number(value.split(',').join('')).toLocaleString('ko-KR');
+      value = value.split(',').join('');
+      if (isNaN(value)) return;
+      value = Number(value).toLocaleString('ko-KR');
     }
     dispatch(changeField({form: 'transactionForm', key: name, value: value}));
   };
@@ -42,10 +44,6 @@ function TransactionFormContainer({history}) {
     amount = amount.split(',').join('');
     if ([type, sourceId, destinationId, amount, description].includes('')) {
       setErrorMessage("빈 칸을 모두 입력해 주세요.");
-      return;
-    }
-    if (isNaN(amount)) {
-      setErrorMessage("금액은 숫자여야 합니다.");
       return;
     }
     dispatch(executeTransaction(executeTransactionLink, jwt, {type, sourceId, destinationId, amount, description}));

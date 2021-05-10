@@ -22,7 +22,11 @@ function AccountFormContainer({history}) {
   const onChange = (e) => {
     let {name, value} = e.target;
     if (name === 'money') {
-      value = Number(value.split(',').join('')).toLocaleString('ko-KR');
+      value = value.split(',').join('');
+      if (isNaN(value)) return;
+      value = Number(value).toLocaleString('ko-KR');
+    } else if (name === 'name') {
+      if (value.length > 8) return;
     }
     dispatch(changeField({form: 'accountForm', key: name, value: value}));
   };
@@ -33,14 +37,6 @@ function AccountFormContainer({history}) {
     money = money.split(',').join('');
     if ([type, name, money].includes('')) {
       setErrorMessage("빈 칸을 모두 입력해 주세요.");
-      return;
-    }
-    if (name.length > 8) {
-      setErrorMessage("계정 이름은 8자 이하여야 합니다.");
-      return;
-    }
-    if (isNaN(money)) {
-      setErrorMessage("금액은 숫자여야 합니다.");
       return;
     }
     dispatch(postAccount(postAccountLink, jwt, {type, name, money}));
