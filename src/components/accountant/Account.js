@@ -44,7 +44,6 @@ function Account({account, form, onChange, onSubmitName, onSubmitBudget, onClick
       />
     )
   ).reverse();
-  const isDeletable = (typeName === '수입' || typeName === '지출') || (account.moneyAmount === 0);
 
   return (
     <div className={"account"}>
@@ -85,15 +84,7 @@ function Account({account, form, onChange, onSubmitName, onSubmitBudget, onClick
           : <></>}
         <div className={"row"}>
           <h4>계정 삭제</h4>
-          {isDeletable ?
-            <button onClick={onClickDelete}>삭제</button>
-            : (
-              <div className={"not-deletable"}>
-                <span>잔액이 존재합니다.</span>
-                <button>삭제</button>
-              </div>
-            )
-          }
+          <button onClick={onClickDelete}>삭제</button>
         </div>
       </div>
 

@@ -39,25 +39,6 @@
           margin-right: 15px;
         }
       }
-
-      .not-deletable {
-        span {
-          display: inline-block;
-          width: 135px;
-          padding: 3px 10px;
-          margin-right: 15px;
-          color: dimgray;
-          font-size: 17px;
-        }
-
-        button {
-          background-color: darkgray;
-        }
-
-        button:hover {
-          cursor: default;
-        }
-      }
     }
   }
 
