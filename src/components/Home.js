@@ -47,19 +47,19 @@ function Home() {
           <tbody>
             <tr>
               <th>자산</th>
-              <td>현금, 저축 계좌, 빌려준 돈, 전세금 등 <small>* 주식 및 부동산도 포함되나 금액 변동에 주의</small></td>
+              <td className={"explanation"}>현금, 저축 계좌, 빌려준 돈, 전세금 등 <small>* 주식 및 부동산도 포함되나 금액 변동에 주의</small></td>
             </tr>
             <tr>
               <th>부채</th>
-              <td>신용카드, 대출 계좌, 빌린 돈 등</td>
+              <td className={"explanation"}>신용카드, 대출 계좌, 빌린 돈 등</td>
             </tr>
             <tr>
               <th>수입</th>
-              <td>근로소득, 사업소득, 금융소득 등</td>
+              <td className={"explanation"}>근로소득, 사업소득, 금융소득 등</td>
             </tr>
             <tr>
               <th>지출</th>
-              <td>식비, 교통/통신비, 생활비, 경조사 등</td>
+              <td className={"explanation"}>식비, 교통/통신비, 생활비, 경조사 등</td>
             </tr>
           </tbody>
         </table>
@@ -88,32 +88,32 @@ function Home() {
             <tr>
               <th>판매</th>
               <td>수입 발생 -> 자산 증가</td>
-              <td>모든 소득 <small>* 신용 판매는 빌려준 돈에 해당하는 자산 계정 사용</small></td>
+              <td className={"explanation"}>모든 소득 <small>* 신용 판매는 빌려준 돈에 해당하는 자산 계정 사용</small></td>
             </tr>
             <tr>
               <th>현금</th>
               <td>자산 감소 -> 지출 발생</td>
-              <td>현금, 체크카드 등의 단순 소비</td>
+              <td className={"explanation"}>현금, 체크카드 등의 단순 소비</td>
             </tr>
             <tr>
               <th>신용</th>
               <td>부채 증가 -> 지출 발생</td>
-              <td>신용카드, 외상 등의 단순 소비</td>
+              <td className={"explanation"}>신용카드, 외상 등의 단순 소비</td>
             </tr>
             <tr>
               <th>대출</th>
               <td>부채 증가 -> 자산 증가</td>
-              <td>자금 자체의 대출</td>
+              <td className={"explanation"}>자금 자체의 대출</td>
             </tr>
             <tr>
               <th>상환</th>
               <td>자산 감소 -> 부채 감소</td>
-              <td>신용카드 정산 및 대출금 상환</td>
+              <td className={"explanation"}>신용카드 정산 및 대출금 상환</td>
             </tr>
             <tr>
               <th>이동</th>
               <td>자산 감소 -> 자산 증가</td>
-              <td>내 자산계정 간 이체 및 자산성 구매 <small>* 부동산 구매 등</small></td>
+              <td className={"explanation"}>내 자산계정 간 이체 및 자산성 구매 <small>* 부동산 구매 등</small></td>
             </tr>
           </tbody>
         </table>

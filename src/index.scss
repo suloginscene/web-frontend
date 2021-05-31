@@ -149,7 +149,6 @@ body {
       tr {
         th {
           white-space: nowrap;
-          max-width: 1px;
           overflow: hidden;
           background-color: lavender;
           font-weight: normal;
@@ -164,7 +163,6 @@ body {
 
         td {
           white-space: nowrap;
-          max-width: 1px;
           overflow: auto;
           padding: 5px 10px;
         }
