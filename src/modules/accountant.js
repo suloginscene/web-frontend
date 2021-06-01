@@ -8,6 +8,7 @@ const CHANGE_FIELD = "accountant/CHANGE_FIELD";
 const INITIALIZE_FORM = "accountant/INITIALIZE_FORM";
 const INITIALIZE_INCOME_STATEMENT = "accountant/INITIALIZE_INCOME_STATEMENT";
 const [ACCOUNTANT_INDEX, ACCOUNTANT_INDEX_SUCCESS, ACCOUNTANT_INDEX_FAILURE] = createRequestActionTypes("accountant/ACCOUNTANT_INDEX");
+const [CLEAR, CLEAR_SUCCESS, CLEAR_FAILURE] = createRequestActionTypes("accountant/CLEAR");
 const [POST_ACCOUNT, POST_ACCOUNT_SUCCESS, POST_ACCOUNT_FAILURE] = createRequestActionTypes("accountant/POST_ACCOUNT");
 const [GET_ACCOUNTS, GET_ACCOUNTS_SUCCESS, GET_ACCOUNTS_FAILURE] = createRequestActionTypes("accountant/GET_ACCOUNTS");
 const [GET_ACCOUNT, GET_ACCOUNT_SUCCESS, GET_ACCOUNT_FAILURE] = createRequestActionTypes("accountant/GET_ACCOUNT");
@@ -23,6 +24,7 @@ export const changeField = createAction(CHANGE_FIELD, ({form, key, value}) => ({
 export const initializeForm = createAction(INITIALIZE_FORM, (form) => (form));
 export const initializeIncomeStatement = createAction(INITIALIZE_INCOME_STATEMENT, () => ({}));
 export const accountantIndex = createAction(ACCOUNTANT_INDEX, (indexLink) => ({indexLink}));
+export const clear = createAction(CLEAR, (clearLink, jwt) => ({clearLink, jwt}));
 export const postAccount = createAction(POST_ACCOUNT, (postAccountLink, jwt, {type, name, money}) => ({
   postAccountLink, jwt, type, name, money
 }));
@@ -48,6 +50,7 @@ export const executeTransaction = createAction(EXECUTE_TRANSACTION,
 );
 
 const accountantIndexSaga = createRequestSaga(ACCOUNTANT_INDEX, accountantApi.index);
+const clearSaga = createRequestSaga(CLEAR, accountantApi.clear);
 const postAccountSaga = createRequestSaga(POST_ACCOUNT, accountantApi.postAccount);
 const getAccountsSaga = createRequestSaga(GET_ACCOUNTS, accountantApi.getAccounts);
 const getAccountSaga = createRequestSaga(GET_ACCOUNT, accountantApi.getAccount);
@@ -61,6 +64,7 @@ const executeTransactionSaga = createRequestSaga(EXECUTE_TRANSACTION, accountant
 
 export function* accountantSaga() {
   yield takeLatest(ACCOUNTANT_INDEX, accountantIndexSaga);
+  yield takeLatest(CLEAR, clearSaga);
   yield takeLatest(POST_ACCOUNT, postAccountSaga);
   yield takeLatest(GET_ACCOUNTS, getAccountsSaga);
   yield takeLatest(GET_ACCOUNT, getAccountSaga);
@@ -142,6 +146,13 @@ const accountant = handleActions({
       })
     ),
     [ACCOUNTANT_INDEX_FAILURE]: (state, {payload: errorResponse}) => ({
+      ...state, errorResponse
+    }),
+    [CLEAR_SUCCESS]: (state) => ({
+      ...state,
+      errorResponse: null
+    }),
+    [CLEAR_FAILURE]: (state, {payload: errorResponse}) => ({
       ...state, errorResponse
     }),
     [POST_ACCOUNT_SUCCESS]: (state) => ({

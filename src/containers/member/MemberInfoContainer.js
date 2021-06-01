@@ -2,6 +2,7 @@ import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import MemberInfo from "../../components/member/MemberInfo";
 import {changeField, changePassword, initializeForm, myInfo, withdraw} from "../../modules/member";
+import {clear} from "../../modules/accountant";
 import {withRouter} from "react-router-dom";
 import toErrorMessage from "../../lib/error/toErrorMessage";
 
@@ -20,6 +21,9 @@ function MemberInfoContainer({history}) {
     withdrawLink: member.links.withdraw,
     withdrew: member.withdrew,
     errorResponse: member.errorResponse
+  }));
+  const {clearLink} = useSelector(({accountant}) => ({
+    clearLink: accountant.links.clear
   }));
 
 
@@ -57,7 +61,7 @@ function MemberInfoContainer({history}) {
   const onClickWithdraw = () => {
     if (window.confirm("정말로 탈퇴하시겠습니까?")) {
       dispatch(withdraw(withdrawLink, jwt));
-      // TODO clear accountant
+      dispatch(clear(clearLink, jwt));
     }
   };
 
