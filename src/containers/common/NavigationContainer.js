@@ -19,6 +19,7 @@ function NavigationContainer({history}) {
   useEffect(() => {
     if (renewLink && refreshToken) {
       dispatch(renew(renewLink, refreshToken));
+      setInterval(() => dispatch(renew(renewLink, refreshToken)), 29 * 60 * 1000);
     }
   }, [dispatch, refreshToken, renewLink]);
 
